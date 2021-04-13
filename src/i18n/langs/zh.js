@@ -27,7 +27,7 @@ const cn = {
         new: '新',
         newnotification: '有新的通知',
         messagetemplate: '{Transaction Timestamp} 顧客於{Transaction Date}在 {Shop name}使用電子禮券 {N} 張，交易參考碼：{Reference No.}',
-        transactiondetails: 'Transaction Details',
+        transactiondetails: '交易詳情',
         transactionreferencenumber: 'Transaction Reference Number                             {Reference No.}',
         minimum: 'Minimum Spending Requirement     HK$ {N}',
         total: 'Total e-Voucher(s) Amount                 HK$ {N}',
