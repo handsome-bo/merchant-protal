@@ -62,8 +62,8 @@ const cn = {
 
     profile:{
         title:"修改帳戶資料",
-        merchantorshopname:"{Merchant Name} or {Shop Name}",
-        emailaddress:"{Email Address}",
+        merchantorshopname:"{MerchantName} or {ShopName}",
+        emailaddress:"{EmailAddress}",
         firstname:"名（必填）",
         lastname:"姓（必填）",
         salutation:"稱呼",
@@ -89,7 +89,7 @@ const cn = {
     registration:{
         title:"註冊",
         sendverificationcode:"請輸入已發送到電郵的驗證碼。",
-        prefillemail:"(Pre-fill email)",
+        prefillemail:"(Pre-fillemail)",
         verificationcode:"驗證碼",
         reverificationcode:"重新發送驗證碼",
         verify:"驗證",

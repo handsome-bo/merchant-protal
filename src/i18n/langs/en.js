@@ -28,7 +28,7 @@ const en = {
     notification: {
         new: 'NEW',
         newnotification: 'New Notification',
-        messagetemplate: '{Transaction Timestamp} Customer used {N} e-Voucher(s) at {Shop name}, transaction reference number: {Reference No.}',
+        messagetemplate: '{TransactionTimestamp} Customer used {N} e-Voucher(s) at {Shop name}, transaction reference number: {Reference No.}',
         transactiondetails: 'Transaction Details',
         transactionreferencenumber: 'Transaction Reference Number                             {Reference No.}',
         minimum: 'Minimum Spending Requirement     HK$ {N}',
@@ -72,8 +72,8 @@ const en = {
 
     profile:{
         title:"Edit User Profile",
-        merchantorshopname:"{Merchant Name} or {Shop Name}",
-        emailaddress:"{Email Address}",
+        merchantorshopname:"{MerchantName} or {ShopName}",
+        emailaddress:"{EmailAddress}",
         firstname:"First Name (Mandatory)",
         lastname:"Last Name (Mandatory)",
         salutation:"Salutation",
@@ -88,7 +88,7 @@ const en = {
     registration:{
         title:"Registration",
         sendverificationcode:"A verification code has been sent to your email. Please enter the verification code. ",
-        prefillemail:"(Pre-fill email)",
+        prefillemail:"(Pre-fillemail)",
         verificationcode:"Verification Code",
         reverificationcode:"Send New Verification Code",
         verify:"Verify",
