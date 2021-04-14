@@ -1,13 +1,13 @@
 <template>
   <div>
-    <div class="title-top">商舖二維碼</div>
+    <div class="title-top">{{$t("qrcodeandtemplatesize.shopqrcode")}}</div>
     <div class="sub-title">用作收取電子禮券</div>
 
     <div class="wrapper">
       <div class="outer-box">
         <div class="box">
           <div class="title-group flex space-between">
-            <div class="title middle-center">商舖</div>
+            <div class="title middle-center">{{$t("qrcodeandtemplatesize.selectshop")}}</div>
             <div class="add middle-center" @click="showFilter">
               <i class="el-icon-plus"></i>
             </div>
@@ -29,8 +29,8 @@
       </div>
     </div>
     <div class="btn-group">
-      <el-button type="danger" class="btn-orange">儲存二維碼</el-button>
-      <el-button type="danger" class="btn-red">列印二維碼</el-button>
+      <el-button type="danger" class="btn-orange">{{$t("qrcodeandtemplatesize.saveqrcode")}}</el-button>
+      <el-button type="danger" class="btn-red">{{$t("qrcodeandtemplatesize.printqrcode")}}</el-button>
     </div>
     <el-dialog
       :visible.sync="showDialog"
