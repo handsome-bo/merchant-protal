@@ -4,10 +4,13 @@
     <el-row>
       <div class="filters flex">
         <div class="mg-right-20">
-          <ShopFilterCompnent />
+          <ShopFilterCompnent ref="shopcomponent" />
         </div>
         <div>
-          <DateFilterCompnent />
+          <DateFilterCompnent
+            @search="search($event)"
+            @download="download($event)"
+          />
         </div>
       </div>
     </el-row>
@@ -30,13 +33,15 @@
           v-bind:class="{ dark: index % 2 == 1 }"
         >
           <div @click="handleClick(item)">
-            <el-col :span="3"> {{ item.ShopName }} </el-col>
-            <el-col :span="3"> {{ item.Location }} </el-col>
-            <el-col :span="4"> {{ item.ShopNumber }}</el-col>
-            <el-col :span="4"> {{ item.VoucherName }}</el-col>
-            <el-col :span="4"> {{ item.TradeNumber }}</el-col>
-            <el-col :span="3"> {{ item.CreateDate }}</el-col>
-            <el-col :span="3"> HK ${{ item.Amount }}</el-col>
+            <el-col :span="3"> {{ item.StoreNameTC }} </el-col>
+            <el-col :span="3"> {{ item.ShopNo }} </el-col>
+            <el-col :span="4"> {{ item.StoreCode }}</el-col>
+            <el-col :span="4"> {{ item.EVoucherNameTC }}</el-col>
+            <el-col :span="4"> {{ item.ReferenceNo }}</el-col>
+            <el-col :span="3"> {{ item.BurnDate | formatHour }}</el-col>
+            <el-col :span="3">
+              HK ${{ item.TotalVoucherAmount | MoneyFormat }}</el-col
+            >
           </div>
         </el-row>
         <div class="content-bottom flex alig-center space-between">
@@ -56,6 +61,7 @@
 </template>
 
 <script>
+import qs from "qs";
 import ShopFilterCompnent from "../../components/shop-filter";
 import DateFilterCompnent from "../../components/date-filter";
 export default {
@@ -67,35 +73,12 @@ export default {
   data() {
     return {
       selectShop: "",
-      tableData: [
-        {
-          ShopName: "7-11便利店",
-          Location: "九龍城",
-          ShopNumber: "1112",
-          VoucherName: "杂货商铺",
-          TradeNumber: "TG9878653",
-          CreateDate: "2020-01-09",
-          Amount: 2000.0,
-        },
-        {
-          ShopName: "7-11便利店",
-          Location: "九龍城",
-          ShopNumber: "1123",
-          VoucherName: "杂货商铺",
-          TradeNumber: "TG9878653",
-          CreateDate: "2020-01-09",
-          Amount: 2000.0,
-        },
-        {
-          ShopName: "7-11便利店",
-          Location: "九龍城",
-          ShopNumber: "1132",
-          VoucherName: "杂货商铺",
-          TradeNumber: "TG9878653",
-          CreateDate: "2020-01-09",
-          Amount: 2000.0,
-        },
-      ],
+      tableData: [],
+      parameters: {
+        storeIDs: "",
+        searchFrom: "",
+        searchTo: "",
+      },
     };
   },
   mounted() {},
@@ -105,6 +88,28 @@ export default {
     },
     handleClose() {
       this.selectShop = "";
+    },
+    search(event) {
+      const _this = this;
+      if (event) {
+        this.parameters.searchFrom = event[0];
+        this.parameters.searchTo = event[1];
+      }
+      console.log(this.$refs.shopcomponent);
+      const shops = this.$refs.shopcomponent.shopItems;
+      this.parameters.storeIDs = "";
+      shops.forEach((item) => {
+        this.parameters.storeIDs += item.storeID + ",";
+      });
+
+      _this.$axios
+        .post(
+          "/EVoucher/SearchEVoucherHistoryRecords",
+          qs.stringify(this.parameters)
+        )
+        .then((res) => {
+          _this.tableData = JSON.parse(res.data);
+        });
     },
   },
 };
@@ -143,8 +148,8 @@ export default {
   padding: 15px;
   word-break: break-all;
 }
-.content-bottom{
-  margin-top:15px
+.content-bottom {
+  margin-top: 15px;
 }
 .bottom-summary {
   height: 50px;

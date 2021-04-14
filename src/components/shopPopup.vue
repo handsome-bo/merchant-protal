@@ -30,7 +30,7 @@
                 class="shop-name middle-center"
                 :class="{ selected: item.checked }"
               >
-                {{ item.name }}
+                {{ item.storeNameTC }}
               </div>
             </div>
           </el-col>
@@ -50,9 +50,9 @@ export default {
     };
   },
   created() {},
+
   mounted() {
-    this.shopList = this.shopItems;
-    console.log("created");
+    this.initData();
   },
   methods: {
     searchAndSelected() {
@@ -85,6 +85,26 @@ export default {
         this.selectedItems.splice(this.selectedItems.indexOf(item), 1);
       }
       item.checked = !item.checked;
+    },
+    initData() {
+      const _this = this;
+      this.shopList = [];
+      this.selectedItems = [];
+      var storage = window.localStorage;
+      const shortShops = storage.getItem("shortshops") || null;
+      if (shortShops) {
+        _this.shopList = JSON.parse(shortShops);
+      } else {
+        this.$axios.get("/shop/RetrieveShortShopList", {}).then((res) => {
+          var tempdata = res.data;
+          tempdata.forEach((item) => {
+            item["checked"] = false;
+          });
+          _this.shopList = tempdata;
+          var keydata = JSON.stringify(tempdata);
+          storage.setItem("shortshops", keydata);
+        });
+      }
     },
   },
   props: {

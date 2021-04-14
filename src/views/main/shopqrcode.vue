@@ -5,27 +5,11 @@
 
     <div class="wrapper">
       <div class="outer-box">
-        <div class="box">
-          <div class="title-group flex space-between">
-            <div class="title middle-center">商舖</div>
-            <div class="add middle-center" @click="showFilter">
-              <i class="el-icon-plus"></i>
-            </div>
-          </div>
-          <div class="shop-group">
-            <shop-item
-              plabel="商铺1"
-              v-on:preview="showQrCode($event)"
-              v-bind:showPreview="true"
-              v-bind:showClose="true"
-            />
-            <shop-item
-              plabel="商铺2"
-              v-bind:showPreview="true"
-              v-bind:showClose="true"
-            />
-          </div>
-        </div>
+        <ShopFilterCompnent
+          ref="shopcomponent"
+          @preview="showQrCode($event)"
+          :showPreview="true"
+        />
       </div>
     </div>
     <div class="btn-group">
@@ -47,22 +31,36 @@
 
 <script>
 import qrImg from "../../assets/images/qr.png";
+import ShopFilterCompnent from "../../components/shop-filter";
 export default {
   name: "shopQrCode",
-
+  components: {
+    ShopFilterCompnent,
+  },
   data() {
     return {
       shopList: [],
       showDialog: false,
       showShopFilter: false,
       src: qrImg,
+      parameter: {
+        content: "",
+      },
     };
   },
   mounted() {},
   methods: {
     showQrCode: function (event) {
-      console.log(event);
-      this.showDialog = true;
+      // this.parameter.content = event;
+    const _this=this;
+      console.log(event)
+      this.$axios
+        .get("/QR/QrCode?content="+event)
+        .then((res) => {
+         _this.src=res.data
+         this.showDialog = true;
+        });
+      
     },
     showFilter() {
       this.showShopFilter = true;
