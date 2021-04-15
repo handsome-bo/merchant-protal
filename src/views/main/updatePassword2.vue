@@ -5,13 +5,13 @@
       <div class="title">{{$t("updatepassword.title")}}</div>
 
       <div class="mgtop-15">
-        <input class="input" type="password" placeholder="舊密碼" />
+        <input class="input" type="password" :placeholder="$t('updatepassword.oldpassword')" />
       </div>
       <div class="mgtop-15">
-        <input class="input" type="password" placeholder="新密碼" />
+        <input class="input" type="password" :placeholder="$t('updatepassword.newpassword')" />
       </div>
       <div class="mgtop-15">
-        <input class="input" type="password" placeholder="確認新密碼" />
+        <input class="input" type="password" :placeholder="$t('updatepassword.passwordagain')" />
       </div>
 
       <div class="text-center">

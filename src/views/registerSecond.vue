@@ -3,8 +3,8 @@
     <div class="group">
       <div class="title">{{$t("registration.title")}}</div>
  
-      <div><input class="input" type="password" placeholder="密碼" /></div>
-      <div><input class="input" type="password" placeholder="確認密碼" /></div>
+      <div><input class="input" type="password" :placeholder="$t('registration.password')" /></div>
+      <div><input class="input" type="password" :placeholder="$t('registration.passwordagain')" /></div>
 
       
       <div class="text-center">

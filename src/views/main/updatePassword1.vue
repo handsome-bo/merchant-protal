@@ -6,7 +6,7 @@
       <div class="mgtop-15"><input class="input" placeholder="用户名" /></div>
 
       <div class="mgtop-15">
-        <input class="input" type="password" placeholder="密碼" />
+        <input class="input" type="password" :placeholder="$t('updatepassword.password')" />
       </div>
 
       <div class="text-center">

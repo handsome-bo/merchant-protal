@@ -3,8 +3,8 @@
     <div class="group">
       <div class="title">{{$t("login.name")}}</div>
       <div class="title1">{{$t("login.registeredemailaddress")}}</div>
-      <div><input class="input" placeholder="電郵地址" /></div>
-      <div><input class="input" type="password" placeholder="密碼" /></div>
+      <div><input class="input" :placeholder="$t('login.emailaddress')" /></div>
+      <div><input class="input" type="password" :placeholder="$t('login.password')" /></div>
 
       <div class="other-text flex align-center space-between">
         <div>{{$t("login.forgotpassword")}}</div>
