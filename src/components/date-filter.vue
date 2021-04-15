@@ -15,8 +15,8 @@
       </el-date-picker>
     </div>
     <div class="button-group flex space-between">
-      <el-button class="search-btn">{{$t("evoucher.view")}}</el-button>
-      <el-button class="download-btn">{{$t("evoucher.saveasexcel")}}</el-button>
+      <el-button class="search-btn" @click="search()">{{$t("evoucher.view")}}</el-button>
+      <el-button class="download-btn" @click="download()">{{$t("evoucher.saveasexcel")}}</el-button>
     </div>
     </div>
   </div>
@@ -27,8 +27,17 @@ export default {
   name: "DateFilters",
   data() {
     return {
-      value1: "",
+      selectDate: "",
     };
+  },
+  methods:{
+    search() {
+      console.log(this.selectDate);
+      this.$emit("search", this.selectDate);
+    },
+    dowload() {
+      this.$emit("download", this.selectDate);
+    },
   },
 };
 </script>
@@ -39,9 +48,8 @@ export default {
   width: 470px;
   border-radius: 10px;
   background-color: #d7c4a3;
-  
 }
-.box{
+.box {
   padding: 20px;
 }
 .title {
@@ -49,14 +57,14 @@ export default {
   text-align: center;
   width: 90%;
 }
- 
-.date-group{
- width: 430px;
- margin-top: 20px;
+
+.date-group {
+  width: 430px;
+  margin-top: 20px;
 }
 .datepicker {
   height: 50px;
- width: 100%;
+  width: 100%;
   border-radius: 10px;
   background-color: #ffffff;
 }
