@@ -22,5 +22,5 @@ const i18n = new VueI18n({
   messages
 })
 locale.i18n((key, value) => i18n.t(key, value))  
-console.log('%c current Language：'+(localStorage.getItem('locale')=='en'?'English':'ZH')+'','color:#fff;background:green;padding:4px;border-radius:5px');
+console.log('%c current Language：'+(localStorage.getItem('locale')=='en'?'English':'zh')+'','color:#fff;background:green;padding:4px;border-radius:5px');
 export default i18n

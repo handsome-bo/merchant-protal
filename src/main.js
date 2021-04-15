@@ -12,13 +12,16 @@ import backButton from '@/components/common/return-button.vue'
 import i18n from './i18n/i18n'
 import store from './store'
 import axios from '../src/request/index'
+import qs from "qs";
+import '../src/util/fitler'
 Vue.use(VueRouter)
 Vue.use(ElementUI);
 Vue.use(less);
 Vue.config.productionTip = false;
 Vue.component("shop-item", shopitem);
 Vue.component("back-button", backButton);
-Vue.prototype.axios = axios;
+Vue.prototype.$axios = axios;
+Vue.prototype.$QS = qs;
 router.beforeEach((to, from, next) => {
   console.log(to.meta)
   if (to.meta.requestAuth == true) {
