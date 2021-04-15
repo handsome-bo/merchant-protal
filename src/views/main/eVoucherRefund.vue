@@ -1,6 +1,6 @@
 <template>
   <div>
-    <div class="title-top"> 電子禮券每月退款申請 </div>
+    <div class="title-top">{{$t("mothlyreport.evouchersmonthlyreimbusement")}}</div>
     <div>
       <div class="filters flex">
         <ShopFilterCompnent />
@@ -9,7 +9,7 @@
 
     
     <div class="wrapper">
-      <div class="dark el-row-top middle-center"> 月結單下載 </div>
+      <div class="dark el-row-top middle-center"> {{$t("mothlyreport.downloadmothlyreimbursementreport")}} </div>
       <div class="list middle-center"
         v-for="(item, index) in tableData"
         :key="item.ShopNumber"

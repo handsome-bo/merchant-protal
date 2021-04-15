@@ -2,7 +2,7 @@
   <div class="outer-box">
     <div class="box">
       <div class="title-group flex space-between">
-        <div class="title middle-center">選擇商舖</div>
+        <div class="title middle-center">{{$t("evoucher.selectshop")}}</div>
         <div class="add middle-center" @click="showShopFilter">
           <i class="el-icon-plus"></i>
         </div>

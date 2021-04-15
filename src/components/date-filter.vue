@@ -2,7 +2,7 @@
   <div class="outer-box">
     <div class="box">
     <div class="title-group flex space-between">
-      <div class="title middle-center">選擇日期</div>
+      <div class="title middle-center">{{$t("evoucher.selectdate")}}</div>
     </div>
     <div class="date-group">
       <el-date-picker class="datepicker"
@@ -15,8 +15,8 @@
       </el-date-picker>
     </div>
     <div class="button-group flex space-between">
-      <el-button class="search-btn">查詢</el-button>
-      <el-button class="download-btn">儲存Excel</el-button>
+      <el-button class="search-btn">{{$t("evoucher.view")}}</el-button>
+      <el-button class="download-btn">{{$t("evoucher.saveasexcel")}}</el-button>
     </div>
     </div>
   </div>
