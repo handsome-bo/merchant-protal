@@ -1,60 +1,51 @@
 <template>
   <div>
-    <div class="title">商舖列表</div>
+    <div class="title">{{ $t("shop.shoplist") }}</div>
     <div class="wrapper">
       <el-row class="dark el-row-top">
-        <el-col :span="6"> 商舖編號 </el-col>
-        <el-col :span="6"> 商舖名稱(英) </el-col>
-        <el-col :span="6"> 商舖名稱(中)</el-col>
-        <el-col :span="6"> 商舖類別</el-col>
+        <el-col :span="6"> {{ $t("shop.shopno") }} </el-col>
+        <el-col :span="6"> {{ $t("shop.shopname_en") }} </el-col>
+        <el-col :span="6"> {{ $t("shop.shopname_ch") }}</el-col>
+        <el-col :span="6"> {{ $t("shop.shopcategory") }}</el-col>
       </el-row>
       <el-row
         v-for="(item, index) in tableData"
-        :key="item.ShopNumber"
-        v-bind:class="{actived: selectShop == item.ShopNumber,inactived: selectShop != item.ShopNumber,dark: index % 2 == 1}">
+        :key="item.storeCode"
+        v-bind:class="{actived: selectShop == item.storeCode,inactived: selectShop != item.storeCode,dark: index % 2 == 1}">
         <el-row class="row-content" >
           <div @click="handleClick(item)">
-          <el-col :span="6" > {{ item.ShopNumber }} </el-col>
-          <el-col :span="6"> {{ item.ShopNameCN }} </el-col>
-          <el-col :span="6"> {{ item.ShopNameEN }}</el-col>
-          <el-col :span="6"> {{ item.Category }}</el-col>
+          <el-col :span="6" > {{ item.StoreCode }} </el-col>
+          <el-col :span="6"> {{ item.StoreName }} </el-col>
+          <el-col :span="6"> {{ item.StoreNameTC }}</el-col>
+          <el-col :span="6"> {{ item.StoreSubcategory }}</el-col>
           </div>
         </el-row>
         <div class="inner">
           <el-row class="inner-header">
-            <el-col :span="2"> 名 </el-col>
-            <el-col :span="2"> 姓 </el-col>
-            <el-col :span="4"> 電郵 </el-col>
-            <el-col :span="2"> 稱呼 </el-col>
-            <el-col :span="2"> 職位 </el-col>
-            <el-col :span="4"> 電話 </el-col>
-            <el-col :span="3"> 手機 </el-col>
-            <el-col :span="3"> 接收電子禮券使用報告 </el-col>
-            <el-col :span="2"> 狀態 </el-col>
+            <el-col :span="2"> {{ $t("shop.firstname") }} </el-col>
+            <el-col :span="2"> {{ $t("shop.lastname") }} </el-col>
+            <el-col :span="4"> {{ $t("shop.email") }} </el-col>
+            <el-col :span="2"> {{ $t("shop.salution") }} </el-col>
+            <el-col :span="2"> {{ $t("shop.jobtitle") }} </el-col>
+            <el-col :span="4"> {{ $t("shop.phone") }} </el-col>
+            <el-col :span="3"> {{ $t("shop.mobile") }} </el-col>
+            <el-col :span="3"> {{ $t("shop.receivee_vouchersusagereport") }} </el-col>
+            <el-col :span="2"> {{ $t("shop.accountstatus") }} </el-col>
           </el-row>
-          <div class="inner-content">
-            <el-row>
-              <el-col :span="2"> 小明 </el-col>
-              <el-col :span="2"> 陳 </el-col>
-              <el-col :span="4"> siuming@elements.com </el-col>
-              <el-col :span="2"> 先生 </el-col>
-              <el-col :span="2"> 經理 </el-col>
-              <el-col :span="4"> +852 20001234 </el-col>
-              <el-col :span="3"> +852 91234567 </el-col>
-              <el-col :span="3"> 是 </el-col>
-              <el-col :span="2"> 生效 </el-col>
+          <div class="inner-content" >
+            <el-row v-for="(citem) in item.ShopContact"
+        :key="citem.cellPhone">
+              <el-col :span="2"> {{citem.Name}} </el-col>
+              <el-col :span="2"> {{citem.SurName}} </el-col>
+              <el-col :span="4"> {{citem.Email}} </el-col>
+              <el-col :span="2"> {{citem.Title}} </el-col>
+              <el-col :span="2"> {{citem.Persition}} </el-col>
+              <el-col :span="4"> {{citem.Cellphone}} </el-col>
+              <el-col :span="3"> {{citem.Phone}} </el-col>
+              <el-col :span="3"> {{citem.IsAcceptedReport==1?"是":"否"}} </el-col>
+              <el-col :span="2"> {{citem.ContactStatus==1?"生效":"否"}} </el-col>
             </el-row>
-            <el-row>
-              <el-col :span="2"> 小明 </el-col>
-              <el-col :span="2"> 陳 </el-col>
-              <el-col :span="4"> siuming@elements.com </el-col>
-              <el-col :span="2"> 先生 </el-col>
-              <el-col :span="2"> 經理 </el-col>
-              <el-col :span="4"> +852 20001234 </el-col>
-              <el-col :span="3"> +852 91234567 </el-col>
-              <el-col :span="3"> 是 </el-col>
-              <el-col :span="2"> 生效 </el-col>
-            </el-row>
+            
             <div class="close flex align-center">
               <span class="close-text" @click="handleClose">收起</span>
             </div>
@@ -105,15 +96,26 @@ export default {
       ],
       
     };
+
+  },
+  mounted(){
+    this.loadShops();
   },
   methods: {
     handleClick(row) {
-      this.selectShop = row.ShopNumber;
+      this.selectShop = row.storeCode;
     },
     handleClose() {
     
       this.selectShop = "";
     },
+    loadShops(){
+      const _this=this;
+      this.$axios.post('Shop/RetrieveShopList',{}).then(res=>{
+       _this.tableData=JSON.parse(res.data);
+       console.log(_this.tableData)
+      })
+    }
   },
 };
 </script>

@@ -2,14 +2,23 @@
   <div class="outer-box">
     <div class="box">
       <div class="title-group flex space-between">
-        <div class="title middle-center">選擇商舖</div>
+        <div class="title middle-center">{{$t("evoucher.selectshop")}}</div>
         <div class="add middle-center" @click="showShopFilter">
           <i class="el-icon-plus"></i>
         </div>
       </div>
-    
-      <div class="shop-group" >
-        <shop-item v-for="item in shopItems" :key="item.id" :pid="item.id"  :plabel="item.name" :showClose="true" @onRemove="remove()" />
+
+      <div class="shop-group">
+        <shop-item
+          v-for="(item, index) in shopItems"
+          :key="item.storeID"
+          :pid="item.storeID"
+          :plabel="item.storeNameTC"
+          :showClose="true"
+          :showPreview="showPreview"
+          @onRemove="remove(index)"
+          @onPreview="preview($event)"
+        />
       </div>
     </div>
     <el-dialog
@@ -20,8 +29,8 @@
     >
       <shop-Popup
         @onClose="closeShopFilter($event)"
-        :shopItems="mockData"
         @onSubmit="onSbumit($event)"
+        ref="shoppopup"
       ></shop-Popup>
     </el-dialog>
   </div>
@@ -32,29 +41,15 @@ import shopPopup from "./shopPopup";
 export default {
   props: {
     showAdd: Boolean,
-    showPreview:Boolean,
-    shopItems:[]
+    showPreview: {
+      Type: Boolean,
+      default: () => false,
+    },
   },
   data() {
     return {
       isShowShopFilter: false,
-      mockData: [
-        {
-          name: "商铺112",
-          checked: false,
-          id: '1',
-        },
-        {
-          name: "7-11便利店",
-          checked: false,
-          id: '2',
-        },
-        {
-          name: "Family mart",
-          checked: false,
-          id: '3',
-        },
-      ],
+      shopItems: [],
     };
   },
   methods: {
@@ -67,11 +62,17 @@ export default {
     onSbumit(shopList) {
       console.log(shopList);
       this.isShowShopFilter = false;
-      this.shopItems=shopList;
+      this.shopItems = shopList;
+      this.$refs.shoppopup.initData();
     },
-    remove(id){
-      // this.shopItems.splice(this.shopItems.indexOf(id),1);
-    }
+    remove(index) {
+      this.shopItems.splice(index, 1);
+    },
+    preview(event) {
+      console.log("preview");
+      console.log(event);
+      this.$emit("preview",event)
+    },
   },
   components: {
     shopPopup,

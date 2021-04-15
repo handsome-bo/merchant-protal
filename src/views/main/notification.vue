@@ -1,118 +1,31 @@
 <template>
   <div class="wrapper">
-    <div class="row new" @click="viewDetail(true)">
-      <div class="flag middle-center">新</div>
-      <div class="date">2020-10-30 16:41</div>
+    <div
+      v-for="item in notificationDatas"
+      :key="item.ReferenceNo"
+      class="row"
+      :class="{
+        new: item.Status == 0,
+        accepted: item.Status == 1,
+        rejected: item.Status == 2,
+      }"
+      @click="viewDetail(item)"
+    >
+      <div class="flag middle-center" v-if="item.Status == 0">新</div>
+      <div class="date">{{ item.RequestDate | formatHour }}</div>
       <div class="title">
-        顧客於｛店鋪名稱｝使用電子禮券x張，交易參考碼：1n4h8a7c6v
+        顧客於 {{ item.StoreName }} 使用電子禮券{{
+          item.eVoucher.length
+        }}張，交易參考碼：{{ item.ReferenceNo }}
       </div>
-      <div class="status">待接受</div>
+      <div class="status">{{ getStatusName(item.Status) }}</div>
     </div>
-    <div class="row accepted" @click="viewDetail(false)">
-      <div class="flag middle-center"></div>
-      <div class="date">2020-10-30 16:41</div>
-      <div class="title">
-        顧客於｛店鋪名稱｝使用電子禮券x張，交易參考碼：1n4h8a7c6v
-      </div>
-      <div class="status">已接受</div>
-    </div>
-    <div class="row accepted">
-      <div class="flag middle-center"></div>
-      <div class="date">2020-10-30 16:41</div>
-      <div class="title">
-        顧客於｛店鋪名稱｝使用電子禮券x張，交易參考碼：1n4h8a7c6v
-      </div>
-      <div class="status">已接受</div>
-    </div>
-    <div class="row accepted">
-      <div class="flag middle-center"></div>
-      <div class="date">2020-10-30 16:41</div>
-      <div class="title">
-        顧客於｛店鋪名稱｝使用電子禮券x張，交易參考碼：1n4h8a7c6v
-      </div>
-      <div class="status">已接受</div>
-    </div>
-    <div class="row accepted">
-      <div class="flag middle-center"></div>
-      <div class="date">2020-10-30 16:41</div>
-      <div class="title">
-        顧客於｛店鋪名稱｝使用電子禮券x張，交易參考碼：1n4h8a7c6v
-      </div>
-      <div class="status">已接受</div>
-    </div>
-    <div class="row accepted">
-      <div class="flag middle-center"></div>
-      <div class="date">2020-10-30 16:41</div>
-      <div class="title">
-        顧客於｛店鋪名稱｝使用電子禮券x張，交易參考碼：1n4h8a7c6v
-      </div>
-      <div class="status">已接受</div>
-    </div>
-    <div class="row accepted">
-      <div class="flag middle-center"></div>
-      <div class="date">2020-10-30 16:41</div>
-      <div class="title">
-        顧客於｛店鋪名稱｝使用電子禮券x張，交易參考碼：1n4h8a7c6v
-      </div>
-      <div class="status">已接受</div>
-    </div>
-    <div class="row accepted">
-      <div class="flag middle-center"></div>
-      <div class="date">2020-10-30 16:41</div>
-      <div class="title">
-        顧客於｛店鋪名稱｝使用電子禮券x張，交易參考碼：1n4h8a7c6v
-      </div>
-      <div class="status">已接受</div>
-    </div>
-    <div class="row accepted">
-      <div class="flag middle-center"></div>
-      <div class="date">2020-10-30 16:41</div>
-      <div class="title">
-        顧客於｛店鋪名稱｝使用電子禮券x張，交易參考碼：1n4h8a7c6v
-      </div>
-      <div class="status">已接受</div>
-    </div>
-    <div class="row accepted">
-      <div class="flag middle-center"></div>
-      <div class="date">2020-10-30 16:41</div>
-      <div class="title">
-        顧客於｛店鋪名稱｝使用電子禮券x張，交易參考碼：1n4h8a7c6v
-      </div>
-      <div class="status">已接受</div>
-    </div>
-    <div class="row cancelled">
-      <div class="flag middle-center"></div>
-      <div class="date">2020-10-30 16:41</div>
-      <div class="title">
-        顧客於｛店鋪名稱｝使用電子禮券x張，交易參考碼：1n4h8a7c6v
-      </div>
-      <div class="status">已取消</div>
-    </div>
-    <div class="row accepted">
-      <div class="flag middle-center"></div>
-      <div class="date">2020-10-30 16:41</div>
-      <div class="title">
-        顧客於｛店鋪名稱｝使用電子禮券x張，交易參考碼：1n4h8a7c6v
-      </div>
-      <div class="status">已接受</div>
-    </div>
-    <div class="row accepted">
-      <div class="flag middle-center"></div>
-      <div class="date">2020-10-30 16:41</div>
-      <div class="title">
-        顧客於｛店鋪名稱｝使用電子禮券x張，交易參考碼：1n4h8a7c6v
-      </div>
-      <div class="status">已接受</div>
-    </div>
-    <div class="row cancelled">
-      <div class="flag middle-center"></div>
-      <div class="date">2020-10-30 16:41</div>
-      <div class="title">
-        顧客於｛店鋪名稱｝使用電子禮券x張，交易參考碼：1n4h8a7c6v
-      </div>
-      <div class="status">已取消</div>
-    </div>
-    <div class="tip middle-center pointer">
+
+    <div
+      class="tip middle-center pointer"
+      v-if="isShowNewTip"
+      @click="getNotificaiton()"
+    >
       有新的通知 <i class="el-icon-refresh" />
     </div>
 
@@ -121,28 +34,39 @@
       <div class="detail">
         <div class="detail-item">
           <div>交易參考碼</div>
-          <div>1n4h8a7c6v</div>
+          <div>{{ selectItem.ReferenceNo }}</div>
         </div>
-        <div class="detail-item">
-          <div>圓方100元時裝電子禮券</div>
-          <div>5張</div>
+        <div
+          class="detail-item"
+          v-for="item in selectItem.eVoucher"
+          :key="item.EVoucherID"
+        >
+          <div>{{ item.EVoucherName }}</div>
+          <div>{{ item.EVoucherQuantity }}張</div>
         </div>
-        <div class="detail-item">
-          <div>圓方100元電子禮券</div>
-          <div>1張</div>
-        </div>
+
         <div class="detail-item">
           <div>電子禮券總值</div>
-          <div>600元</div>
+          <div>{{ selectItem.TotalVoucherAmount }}元</div>
         </div>
         <div class="detail-item">
           <div>最低消費</div>
-          <div>1800元</div>
+          <div>{{ selectItem.TotalTransactionAmountRequirement }}</div>
         </div>
       </div>
       <div class="btn-group" v-if="isShowConfirmBtn">
-        <el-button type="primary" class="btn-white btn-confirm" @click="cancelledHandler">取消</el-button>
-        <el-button type="danger" class="btn-red btn-confirm">接受</el-button>
+        <el-button
+          type="primary"
+          class="btn-white btn-confirm"
+          @click="cancelledHandler"
+          >取消</el-button
+        >
+        <el-button
+          type="danger"
+          class="btn-red btn-confirm"
+          @click="acceptHandler()"
+          >接受</el-button
+        >
       </div>
       <div class="btn-group handled dialogAccepted" v-else>交易已接受</div>
     </el-dialog>
@@ -163,6 +87,7 @@
 </template>
 
 <script>
+
 export default {
   name: "notification",
   data() {
@@ -172,21 +97,79 @@ export default {
       isShowConfirDialog: false,
       showCancelledDialog: false,
       confirmedText: "",
-      selectItem: null,
+      selectItem: {},
+      notificationDatas: [],
+      isShowNewTip: false,
+      timer:null
     };
   },
-  mounted() {},
+  created(){
+     
+  },
+  mounted() {
+    this.getNotificaiton();
+    this.timer = window.setInterval(() => {
+		setTimeout(() => {
+		 this.longpooling();
+		   
+		 }, 1)
+	}, 7000);
+  },
   methods: {
-    viewDetail: function (showBtn) {
-      this.isShowConfirmBtn = showBtn;
+    viewDetail(item) {
+      this.isShowConfirmBtn = item.Status == 0 ? true : false;
       this.showDialog = true;
-      if (selectItem != null) {
-      }
+      this.selectItem = item;
     },
-    cancelledHandler: function () {
+    cancelledHandler() {
       this.showDialog = false;
       this.showCancelledDialog = true;
     },
+    acceptHandler() {
+      this.showDialog = false;
+      this.selectItem.Status = 1;
+    },
+
+    getNotificaiton() {
+      const _this = this;
+
+      this.$axios
+        .post("/Notification/RetrieveNotificationList", {})
+        .then((res) => {
+          _this.notificationDatas = JSON.parse(res.data);
+          console.log(_this.notificationDatas);
+          _this.isShowNewTip = false;
+        
+        });
+    },
+    getStatusName(status) {
+      if (status == 0) return "待接受";
+      if (status == 1) return "已接受";
+      if (status == 2) return "已取消";
+    },
+    longpooling() {
+      const _this = this;
+      this.$axios
+        .post("/Notification/GetNotificationMessageWithJson", {})
+        .then((res) => {
+          var poolingData = JSON.parse(res.data);
+          if (poolingData.data) {
+            poolingData.data.forEach((item) => {
+              if (
+                this.notificationDatas.filter(
+                  (c) => c.ReferenceNo != item.ReferenceNo
+                ).length > 0
+              ) {
+                _this.isShowNewTip = true;
+              }
+            });
+            //  _this.longpooling();
+          }
+        });
+    },
+  },
+  destroyed() {
+    clearTimeout( this.timer )
   },
 };
 </script>

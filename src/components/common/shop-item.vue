@@ -52,7 +52,7 @@ export default {
   margin-top: 15px;
 }
 .shop-name {
-  width: 80%;
+  width: 90%;
   text-align: center;
 }
 .fullwidth {
