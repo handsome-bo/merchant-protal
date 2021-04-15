@@ -20,6 +20,7 @@ Vue.use(Router);
 export default new Router({
     //base: '/',
     // mode: 'history',
+    //this is test
     routes: [
         {
             path: '/',
