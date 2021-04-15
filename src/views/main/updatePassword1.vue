@@ -3,10 +3,10 @@
     <div class="group">
       <back-button />
       <div class="title">{{$t("updatepassword.title")}}</div>
-      <div class="mgtop-15"><input class="input" placeholder="用户名" /></div>
+      <div class="mgtop-15"><input class="input" placeholder="用户名" v-model="username"/></div>
 
       <div class="mgtop-15">
-        <input class="input" type="password" placeholder="密碼" />
+        <input class="input" type="password" placeholder="密碼" v-model="password"/>
       </div>
 
       <div class="text-center">
@@ -19,10 +19,28 @@
 <script>
 export default {
   name: "UpdatePassword1",
+  data(){                       
+    return{
+    username:'',
+    password:'',
+    }
+  },
+  
   methods: {
     nextStep() {
-      this.$router.push({ name: "UpdatePassword2" });
+     if(this.username==""||this.password==""){
+       this.alertMessage();
+     }
+     else{
+     this.$router.push({ name: "UpdatePassword2" });
+     }
     },
+       alertMessage(){
+         this.$message({
+          message: '用户名或密码输入有误,请重新登录',
+          type: 'warning'
+        });
+       },
   },
 };
 </script>
