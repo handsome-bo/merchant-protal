@@ -1,25 +1,23 @@
 <template>
   <div class="outer-box">
     <div class="box">
-      <div class="title-group flex space-between">
-        <div class="title middle-center">選擇日期</div>
-      </div>
-      <div class="date-group">
-        <el-date-picker
-          class="datepicker"
-          v-model="selectDate"
-          type="daterange"
-          range-separator="到"
-          start-placeholder="开始日期"
-          end-placeholder="结束日期"
-          value-format="yyyy-MM-dd"
-        >
-        </el-date-picker>
-      </div>
-      <div class="button-group flex space-between">
-        <el-button class="search-btn" @click="search()">查詢</el-button>
-        <el-button class="download-btn" @click="download()">儲存Excel</el-button>
-      </div>
+    <div class="title-group flex space-between">
+      <div class="title middle-center">{{$t("evoucher.selectdate")}}</div>
+    </div>
+    <div class="date-group">
+      <el-date-picker class="datepicker"
+        v-model="value1"
+        type="daterange"
+        range-separator="到"
+        start-placeholder="开始日期"
+        end-placeholder="结束日期"
+      >
+      </el-date-picker>
+    </div>
+    <div class="button-group flex space-between">
+      <el-button class="search-btn" @click="search()">{{$t("evoucher.view")}}</el-button>
+      <el-button class="download-btn" @click="download()">{{$t("evoucher.saveasexcel")}}</el-button>
+    </div>
     </div>
   </div>
 </template>

@@ -1,5 +1,5 @@
 import axios from 'axios'
-import store from '@/store';
+import store from '@/store'
 
 axios.defaults.timeout = 30000;
 axios.defaults.headers.common['Content-Type'] = 'application/json; charset=utf-8';

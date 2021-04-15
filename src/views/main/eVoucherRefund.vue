@@ -8,9 +8,8 @@
     </div>
 
     <div class="wrapper">
-      <div class="dark el-row-top middle-center">月結單下載</div>
-      <div
-        class="list middle-center"
+      <div class="dark el-row-top middle-center"> {{$t("mothlyreport.downloadmothlyreimbursementreport")}} </div>
+      <div class="list middle-center"
         v-for="(item, index) in tableData"
         :key="item.ShopNumber"
         v-bind:class="{ dark: index % 2 == 1 }"

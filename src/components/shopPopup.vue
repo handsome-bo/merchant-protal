@@ -1,14 +1,14 @@
 <template>
   <div class="shop-popup">
     <div class="header flex space-between">
-      <div class="back pointer" @click="back">返回</div>
+      <div class="back pointer" @click="back">{{$t("evoucher.back")}}</div>
       <div>
         <el-button
           type="danger"
           class="btn-red btn-top"
           @click="handleSubmit"
           :disabled="selectedItems.length == 0"
-          >確定</el-button
+          >{{$t("evoucher.confirm")}}</el-button
         >
       </div>
     </div>
@@ -16,10 +16,10 @@
       <div class="search">
         <input class="search-input" v-model="keywords" />
         <el-button type="danger" class="btn-orange" @click="searchAndSelected"
-          >查找並選中</el-button
+          >{{$t("evoucher.search")}}</el-button
         >
         <el-button type="danger" class="btn-orange" @click="selectAll"
-          >全選</el-button
+          >{{$t("evoucher.selectall")}}</el-button
         >
       </div>
       <div class="shop-list">

@@ -1,6 +1,6 @@
 <template>
   <div>
-    <el-row class="title-top"> 電子禮券記錄查詢 </el-row>
+    <el-row class="title-top"> {{$t("evoucher.e_voucherstransactionhistory")}} </el-row>
     <el-row>
       <div class="filters flex">
         <div class="mg-right-20">
@@ -15,17 +15,17 @@
       </div>
     </el-row>
 
-    <div class="title">查詢結果</div>
+    <div class="title">{{$t("evoucher.view")}}</div>
     <div class="wrapper">
       <div>
         <el-row class="dark el-row-top">
-          <el-col :span="3"> 店舖 </el-col>
-          <el-col :span="3"> 地點 </el-col>
-          <el-col :span="4"> 商舖編號</el-col>
-          <el-col :span="4"> 電子禮券名稱</el-col>
-          <el-col :span="4"> 交易參考碼</el-col>
-          <el-col :span="3"> 使用日期</el-col>
-          <el-col :span="3"> 金額</el-col>
+          <el-col :span="3"> {{$t("evoucher.shop")}} </el-col>
+          <el-col :span="3"> {{$t("evoucher.location")}} </el-col>
+          <el-col :span="4"> {{$t("evoucher.shopno")}}</el-col>
+          <el-col :span="4"> {{$t("evoucher.e_vouchers")}}</el-col>
+          <el-col :span="4"> {{$t("evoucher.transactionreferencenumber")}}</el-col>
+          <el-col :span="3"> {{$t("evoucher.transactiondate")}}</el-col>
+          <el-col :span="3"> {{$t("evoucher.amount")}}</el-col>
         </el-row>
         <el-row
           v-for="(item, index) in tableData"
@@ -45,7 +45,7 @@
           </div>
         </el-row>
         <div class="content-bottom flex alig-center space-between">
-          <div class="total-text">總計頁數11，總計項目61</div>
+          <div class="total-text">{{$t("evoucher.totalpage")}}11，{{$t("evoucher.totalpageoftransaction")}}61</div>
           <div class="page-text">
             <el-pagination background layout="prev, pager, next" :total="100">
             </el-pagination>
@@ -53,7 +53,7 @@
         </div>
       </div>
       <div class="bottom-summary flex align-center">
-        <div class="total-amount">總計金額</div>
+        <div class="total-amount">{{$t("evoucher.totalamount")}}</div>
         <div>HK$61,000.00</div>
       </div>
     </div>
