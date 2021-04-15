@@ -1,17 +1,17 @@
 <template>
   <div class="outer">
     <div class="group">
-      <div class="title">電子禮券商戶系統</div>
-      <div class="title1">使用已登記之電郵地址登入</div>
+      <div class="title">{{$t("login.name")}}</div>
+      <div class="title1">{{$t("login.registeredemailaddress")}}</div>
       <div><input class="input" placeholder="電郵地址" /></div>
       <div><input class="input" type="password" placeholder="密碼" /></div>
 
       <div class="other-text flex align-center space-between">
-        <div>忘記密碼?</div>
-        <div><input class="checkbox" type="checkbox" />保持登入</div>
+        <div>{{$t("login.forgotpassword")}}</div>
+        <div><input class="checkbox" type="checkbox" />{{$t("login.keepsignin")}}</div>
       </div>
       <div class="text-center">
-        <el-button class="login-btn" @click="login">登入</el-button>
+        <el-button class="login-btn" @click="login">{{$t("login.signin")}}</el-button>
       </div>
     </div>
   </div>

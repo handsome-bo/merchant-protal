@@ -1,12 +1,12 @@
 <template>
   <div>
-    <div class="title">商舖列表</div>
+    <div class="title">{{ $t("shop.shoplist") }}</div>
     <div class="wrapper">
       <el-row class="dark el-row-top">
-        <el-col :span="6"> 商舖編號 </el-col>
-        <el-col :span="6"> 商舖名稱(英) </el-col>
-        <el-col :span="6"> 商舖名稱(中)</el-col>
-        <el-col :span="6"> 商舖類別</el-col>
+        <el-col :span="6"> {{ $t("shop.shopno") }} </el-col>
+        <el-col :span="6"> {{ $t("shop.shopname_en") }} </el-col>
+        <el-col :span="6"> {{ $t("shop.shopname_ch") }}</el-col>
+        <el-col :span="6"> {{ $t("shop.shopcategory") }}</el-col>
       </el-row>
       <el-row
         v-for="(item, index) in tableData"
@@ -22,15 +22,15 @@
         </el-row>
         <div class="inner">
           <el-row class="inner-header">
-            <el-col :span="2"> 名 </el-col>
-            <el-col :span="2"> 姓 </el-col>
-            <el-col :span="4"> 電郵 </el-col>
-            <el-col :span="2"> 稱呼 </el-col>
-            <el-col :span="2"> 職位 </el-col>
-            <el-col :span="4"> 電話 </el-col>
-            <el-col :span="3"> 手機 </el-col>
-            <el-col :span="3"> 接收電子禮券使用報告 </el-col>
-            <el-col :span="2"> 狀態 </el-col>
+            <el-col :span="2"> {{ $t("shop.firstname") }} </el-col>
+            <el-col :span="2"> {{ $t("shop.lastname") }} </el-col>
+            <el-col :span="4"> {{ $t("shop.email") }} </el-col>
+            <el-col :span="2"> {{ $t("shop.salution") }} </el-col>
+            <el-col :span="2"> {{ $t("shop.jobtitle") }} </el-col>
+            <el-col :span="4"> {{ $t("shop.phone") }} </el-col>
+            <el-col :span="3"> {{ $t("shop.mobile") }} </el-col>
+            <el-col :span="3"> {{ $t("shop.receivee_vouchersusagereport") }} </el-col>
+            <el-col :span="2"> {{ $t("shop.accountstatus") }} </el-col>
           </el-row>
           <div class="inner-content">
             <el-row>

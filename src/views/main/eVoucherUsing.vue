@@ -1,15 +1,15 @@
 <template>
   <div>
-    <div class="title-top">使用電子禮券</div>
+    <div class="title-top">{{$t("useevoucher.useevouchers")}}</div>
 
     <div class="wrapper">
-      <div class="title">會員號碼／電話號碼</div>
+      <div class="title">{{$t("useevoucher.membersidandphone")}}</div>
       <div>
         <input class="input-text" maxlength="20" />
       </div>
-      <div class="title mg-top-25">選擇商舖</div>
+      <div class="title mg-top-25">{{$t("useevoucher.shop")}}</div>
       <div>
-        <div class="choose-box middle-center pointer">選擇</div>
+        <div class="choose-box middle-center pointer">{{$t("useevoucher.select")}}</div>
       </div>
       <div class="detail" v-if="detailData.length > 0">
         <div class="detail-item flex space-between">
@@ -45,11 +45,11 @@
       </div>
     </div>
     <div class="btn-group" v-if="detailData.length == 0">
-      <el-button type="danger" @click="viewVoucher" class="btn-red">查看禮券</el-button>
+      <el-button type="danger" @click="viewVoucher" class="btn-red">{{$t("useevoucher.checkevouchers")}}</el-button>
     </div>
     <div class="btn-group" v-if="showSubmitButton">
-      <el-button type="danger" class="btn-white">重新输入</el-button>
-      <el-button type="danger" class="btn-red">提交</el-button>
+      <el-button type="danger" class="btn-white">{{$t("useevoucher.clear")}}</el-button>
+      <el-button type="danger" class="btn-red">{{$t("useevoucher.submit")}}</el-button>
     </div>
   </div>
 </template>
