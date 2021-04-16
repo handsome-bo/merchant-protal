@@ -15,6 +15,8 @@ import UpdatePassword1 from '../views/main/updatePassword1'
 import UpdatePassword2 from '../views/main/updatePassword2'
 import Register from '../views/register'
 import RegisterSecond from '../views/registerSecond'
+import Forgotpassword1 from '../views/forgotPassword1'
+import Forgotpassword2 from '../views/forgotPassword2'
 Vue.use(Router);
 
 export default new Router({
@@ -69,6 +71,18 @@ export default new Router({
                     component: RegisterSecond,
                     meta: { showLoginMenu: false, navNumber: 0 }
                 },
+                {
+                    path: '/forgotpassword1',
+                    name: 'ForgotPassword1',
+                    component: Forgotpassword1,
+                    meta: { showLoginMenu: false, navNumber: 0 }
+                },
+                // {
+                //     path: '/forgotpassword2',
+                //     name: 'ForgotPassword2',
+                //     component: Forgotpassword2,
+                //     meta: { showLoginMenu: false, navNumber: 0 }
+                // },
             ]
         },
         {

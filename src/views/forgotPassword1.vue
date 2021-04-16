@@ -14,7 +14,6 @@
 
 <script>
 export default {
-  name: "ForgotPassword1",
   data() {
     return {};
   },
@@ -28,9 +27,7 @@ export default {
 </script>
 
 <style   scoped>
-.outer {
-  padding-top: 161px;
-}
+ 
 .group {
   margin: 0 auto;
   width: 500px;

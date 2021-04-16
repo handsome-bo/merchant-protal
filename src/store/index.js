@@ -11,7 +11,7 @@ export default new Vuex.Store({
         userName: 'Siu Ming, Chan',
         userId: '',
         userRole: '',
-        isNewMessage:false
+        isNewMessage: false
     },
     mutations: {
         setNavNumber(state, num) {
@@ -27,6 +27,9 @@ export default new Vuex.Store({
         setShowLoginMenu(state, showMenu) {
             state.isShowLoginMenu = showMenu;
         },
+        setUserRole(state, role) {
+            state.userRole = role;
+        },
 
     },
     getters: {
@@ -41,6 +44,9 @@ export default new Vuex.Store({
         },
         getIsShowLoginMenu(state) {
             return state.isShowLoginMenu
+        },
+        getUserRole(state) {
+            return state.userRole
         }
     }
 })
