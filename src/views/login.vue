@@ -3,8 +3,8 @@
     <div class="group">
       <div class="title">{{$t("login.name")}}</div>
       <div class="title1">{{$t("login.registeredemailaddress")}}</div>
-      <div><input class="input" :placeholder="$t('login.emailaddress')" /></div>
-      <div><input class="input" type="password" :placeholder="$t('login.password')" /></div>
+      <div><input class="input" :placeholder="$t('login.emailaddress')" v-model="email"/></div>
+      <div><input class="input" type="password" :placeholder="$t('login.password')" v-model="password"/></div>
 
       <div class="other-text flex align-center space-between">
         <div>{{$t("login.forgotpassword")}}</div>
@@ -20,10 +20,36 @@
 <script>
 export default {
   name: "Login",
+date(){
+ return{
+   email:'',
+   password:'',
+ }
+  },
   methods: {
     login() {
-      this.$router.push("/main");
+      if(!/^\w+([\.\-]\w+)*\@\w+([\.\-]\w+)*\.\w+$/.test(this.email)
+      ||this.password==null){
+         this.alertMessage();
+      }
+      else{
+         this.$router.push("/main");
+      }
+    
     },
+    alertMessage(){
+         this.$message({
+          message: '邮箱或密码输入有误，请重新登录',
+          type: 'warning'
+        });
+          // callback: action => {
+          //   this.$message({
+          //     type: 'info',
+              
+          //   });
+          // }
+        
+    }
   },
 };
 </script>
