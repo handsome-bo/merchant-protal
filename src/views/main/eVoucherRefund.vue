@@ -1,23 +1,32 @@
 <template>
   <div>
-    <div class="title-top">電子禮券每月退款申請</div>
+    <div class="title-top">
+      {{ $t("mothlyreport.evouchersmonthlyreimbusement") }}
+    </div>
     <div>
       <div class="filters flex">
-        <ShopFilterCompnent />
+        <ShopFilterCompnent
+          ref="shopcomponent"
+          @onChange="loadRecords()"
+          v-if="$store.getters.getUserRole === 'superaccount'"
+        />
       </div>
     </div>
 
-    <div class="wrapper">
+    <div class="wrapper" v-if="$store.getters.getUserRole === 'superaccount'">
       <div class="dark el-row-top middle-center">
         {{ $t("mothlyreport.downloadmothlyreimbursementreport") }}
       </div>
       <div
         class="list middle-center"
         v-for="(item, index) in tableData"
-        :key="item.ShopNumber"
+        :key="item.StoreID"
         v-bind:class="{ dark: index % 2 == 1 }"
       >
-        <div class="item middle-center pointer">22/1/2021 - 21/2/2021</div>
+        <div class="item middle-center pointer">
+          {{ item.startDate | formatDateDDMMYY }} -
+          {{ item.endDate | formatDateDDMMYY }}
+        </div>
       </div>
     </div>
     <div class="wrappershop">
@@ -25,24 +34,36 @@
         <div class="head-title multiple">
           {{ $t("mothlyreport.downloadmothlyreimbursementreport") }}
         </div>
-        <div class="head-title multiple">狀態</div>
-        <div class="head-title multiple">表示查閱並提交申請</div>
+        <div class="head-title multiple">{{ $t("mothlyreport.status") }}</div>
+        <div class="head-title multiple">
+          {{ $t("mothlyreport.confirmandsubmit") }}
+        </div>
       </div>
       <div
         class="list middle-center"
         v-for="(item, index) in tableData"
-        :key="item.ShopNumber"
+        :key="item.StoreID"
         v-bind:class="{ dark: index % 2 == 1 }"
       >
         <div class="item middle-center pointer multiple">
-          22/1/2021 - 21/2/2021
+          {{ item.startDate | formatDateDDMMYY }} -
+          {{ item.endDate | formatDateDDMMYY }}
         </div>
-        <div class=" middle-center  multiple item-text">
-          未提交
+        <div class="middle-center multiple item-text">
+          {{
+            item.status == 1
+              ? $t("mothlyreport.submitted")
+              : $t("mothlyreport.notsubmitted")
+          }}
         </div>
-        <div class=" middle-center  multiple item-text">
-          <el-button type="danger" class="btn-red btn"  >提交申請</el-button>
-  
+        <div class="middle-center multiple item-text">
+          <el-button
+            type="danger"
+            @click="submitConfirmation(item)"
+            class="btn-red btn"
+            v-if="item.status != 1"
+            >{{ $t("mothlyreport.submitforreimbursement") }}</el-button
+          >
         </div>
       </div>
     </div>
@@ -59,39 +80,15 @@ export default {
   data() {
     return {
       selectShop: "",
-      tableData: [
-        {
-          ShopName: "7-11便利店",
-          Location: "九龍城",
-          ShopNumber: "1112",
-          VoucherName: "杂货商铺",
-          TradeNumber: "TG9878653",
-          CreateDate: "2020-01-09",
-          Amount: 2000.0,
-        },
-        {
-          ShopName: "7-11便利店",
-          Location: "九龍城",
-          ShopNumber: "1123",
-          VoucherName: "杂货商铺",
-          TradeNumber: "TG9878653",
-          CreateDate: "2020-01-09",
-          Amount: 2000.0,
-        },
-        {
-          ShopName: "7-11便利店",
-          Location: "九龍城",
-          ShopNumber: "1132",
-          VoucherName: "杂货商铺",
-          TradeNumber: "TG9878653",
-          CreateDate: "2020-01-09",
-          Amount: 2000.0,
-        },
-      ],
+      tableData: [],
+      parameters: {
+        storeIDs: "",
+        monthes: 1,
+      },
     };
   },
   mounted() {
-
+    this.loadRecords();
   },
   methods: {
     handleClick(row) {
@@ -100,7 +97,42 @@ export default {
     handleClose() {
       this.selectShop = "";
     },
-    loadRecords(){},
+    loadRecords() {
+      const _this = this;
+      if (this.$refs.shopcomponent) {
+        const shops = this.$refs.shopcomponent.shopItems;
+        this.parameters.storeIDs = "";
+        if (shops) {
+          shops.forEach((item) => {
+            this.parameters.storeIDs += item.storeID + ",";
+          });
+        }
+      }
+      this.$axios
+        .post("/EVoucher/MonthlyReport", _this.$QS.stringify(_this.parameters))
+        .then((res) => {
+          const data = JSON.parse(res.data);
+          data.map((item) => {
+            item.forEach((va) => {
+              _this.tableData.push(va);
+            });
+          });
+        });
+    },
+    submitConfirmation(item) {},
+    download(item) {
+      // const _this = this;
+      // this.parameters.storeIDs = "";
+      // shops.forEach((item) => {
+      //   this.parameters.storeIDs += item.storeID + ",";
+      // });
+      // let a = document.createElement("a");
+      // const para = this.$QS.stringify(this.parameters);
+      // a.href =
+      //   "https://localhost:44316/EVoucher/DownloadEVoucherMonthly?" +
+      //   para;
+      // a.click();
+    },
   },
 };
 </script>
@@ -161,9 +193,7 @@ export default {
 
 .item-text {
   height: 40px;
-  
- 
- 
+
   font-size: 18px;
   font-weight: 500;
 }
@@ -180,7 +210,7 @@ export default {
   line-height: 32px;
   text-align: center;
 }
-.btn{
+.btn {
   height: 40px;
   width: 120px;
   font-size: 18px;

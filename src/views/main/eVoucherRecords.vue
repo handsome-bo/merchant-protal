@@ -108,7 +108,7 @@ export default {
         this.parameters.searchFrom = event[0];
         this.parameters.searchTo = event[1];
       }
-      console.log(this.$refs.shopcomponent);
+      
       const shops = this.$refs.shopcomponent.shopItems;
       this.parameters.storeIDs = "";
       shops.forEach((item) => {

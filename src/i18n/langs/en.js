@@ -81,9 +81,11 @@ const en = {
         evouchersmonthlyreimbusement:"e-Vouchers Monthly Reimbursement Application",
         selectshop:"Select Shop",
         downloadmothlyreimbursementreport:"Download Monthly Reimbursement Report",
-        status:"Status (NotSubmitted/Submitted)",
-        confirmandsubmit:"Status (Not Submitted/Submitted)",
+        status:"Status",
+        confirmandsubmit:"Confirm and Submit",
         submitforreimbursement:"Submit for Reimbursement",
+        submitted:'Submitted',
+        notsubmitted:'Not Submitted'
 
     },
     useevoucher:{

@@ -82,9 +82,11 @@ const cn = {
         evouchersmonthlyreimbusement: "電子禮券每月退款申請",
         selectshop: "選擇商舖",
         downloadmothlyreimbursementreport: "下載每月退款結單",
-        status: "狀態 (未提交/已提交)",
+        status: "狀態",
         confirmandsubmit: "已查閱並提交申請",
         submitforreimbursement: "提交申請",
+        submitted:'已提交',
+        notsubmitted:'未提交'
 
     },
     useevoucher: {

@@ -65,10 +65,10 @@ export default {
       this.isShowShopFilter = false;
     },
     onSbumit(shopList) {
-      console.log(shopList);
       this.isShowShopFilter = false;
       this.shopItems = shopList;
       this.$refs.shoppopup.initData();
+      this.$emit('onChange',this.shopItems);
     },
     remove(index) {
       this.shopItems.splice(index, 1);
