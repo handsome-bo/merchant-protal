@@ -28,8 +28,8 @@ const cn = {
     notification: {
         new: '新',
         newnotification: '有新的通知',
-        messagetemplate: '{Transaction Timestamp} 顧客於{Transaction Date}在 {Shop name}使用電子禮券 {N} 張，交易參考碼：{Reference No.}',
-        transactiondetails: '交易詳情',
+        messagetemplate: '{TransactionTimestamp} 顧客於{TransactionDate}在 {Shopname}使用電子禮券 {N} 張，交易參考碼：{ReferenceNo.}',
+        transactiondetails: 'Transaction Details',
         transactionreferencenumber: 'Transaction Reference Number                             {Reference No.}',
         minimum: 'Minimum Spending Requirement     HK$ {N}',
         total: 'Total e-Voucher(s) Amount                 HK$ {N}',
@@ -159,6 +159,7 @@ const cn = {
         title:"更新密碼 ",
         back:"返回",
         emailaddress:"電郵地址",
+        password:"密碼",
         continue:"繼續",
         oldpassword:"舊密碼",
         newpassword:"新密碼 ",

@@ -145,6 +145,7 @@ const en = {
         title:"Update Password ",
         back:"Back",
         emailaddress:"Email Address",
+        password:"Password",
         continue:"Continue",
         oldpassword:"Old Password",
         newpassword:"New Password",

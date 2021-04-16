@@ -2,9 +2,9 @@
   <div class="outer">
     <div class="group">
       <back-button />
-      <div class="title">{{$t(forgotpassword.resetpassword)}}</div>
-      <div class="title1">{{$t(forgotpassword.receiveverification)}}</div>
-      <div><input class="input" placeholder="" />電郵地址</div>
+      <div class="title">{{$t("forgotpassword.resetpassword")}}</div>
+      <div class="title1">{{$t("forgotpassword.receiveverification")}}</div>
+      <div><input class="input" :placeholder="$t('forgotpassword.emailaddress')" />{{$t("forgotpassword.emailaddress")}}</div>
       <div class="text-center verify-btn">
         <el-button class="btn-red" @click="verify">確認</el-button>
       </div>

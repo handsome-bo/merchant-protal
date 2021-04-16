@@ -3,9 +3,9 @@
     <div class="group">
       <div class="title">{{$t("registration.title")}}</div>
       <div class="title1">{{$t("registration.sendverificationcode")}}</div>
-      <div><input class="input" placeholder="電郵地址" /></div>
+      <div><input class="input" :placeholder="$t('login.emailaddress')" /></div>
       <div class="flex space-between">
-        <input class="input input-code" maxlength="6" placeholder="驗證碼" />
+        <input class="input input-code" maxlength="6" :placeholder="$t('registration.verificationcode')" />
         <div class="code-text pointer middle-center" v-if="canSend" @click="sendCode">
           {{ countDownMsg }}
         </div>

@@ -6,7 +6,7 @@
       <div class="mgtop-15"><input class="input" placeholder="用户名" v-model="username"/></div>
 
       <div class="mgtop-15">
-        <input class="input" type="password" placeholder="密碼" v-model="password"/>
+        <input class="input" type="password" :placeholder="$t('updatepassword.password')" v-model="password"/>
       </div>
 
       <div class="text-center">

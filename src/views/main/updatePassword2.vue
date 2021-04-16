@@ -5,13 +5,13 @@
       <div class="title">{{$t("updatepassword.title")}}</div>
 
       <div class="mgtop-15">
-        <input class="input" type="password" placeholder="舊密碼" v-model="oldPassword"/>
+        <input class="input" type="password" :placeholder="$t('updatepassword.oldpassword')" v-model="oldPassword"/>
       </div>
       <div class="mgtop-15">
-        <input class="input" type="password" placeholder="新密碼" v-model="newPassword"/>
+        <input class="input" type="password" :placeholder="$t('updatepassword.newpassword')" v-model="newPassword"/>
       </div>
       <div class="mgtop-15">
-        <input class="input" type="password" placeholder="確認新密碼" v-model="confirmNewPassword"/>
+        <input class="input" type="password" :placeholder="$t('updatepassword.passwordagain')" v-model="confirmNewPassword"/>
       </div>
 
       <div class="text-center">

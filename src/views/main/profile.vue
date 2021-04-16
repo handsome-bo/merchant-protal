@@ -117,7 +117,7 @@
         @click="isUpdate = true"
         >{{$t('profile.save')}}</el-button
       >
-      <el-button type="danger" class="btn-red" @click="isUpdate = false" v-else>儲存</el-button>
+      <el-button type="danger" class="btn-red" @click="isUpdate = false" v-else>{{$t('profile.save')}}</el-button>
     </div>
   </div>
 </template>
