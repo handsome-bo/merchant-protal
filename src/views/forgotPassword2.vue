@@ -6,7 +6,7 @@
       <div class="title1">{{$t(forgotpassword.receiveverification)}}</div>
       <div><input class="input" v-model="emailAddress" disabled /></div>
       <div class="flex space-between">
-        <input class="input input-code" maxlength="6" placeholder="驗證碼" />
+        <input class="input input-code" maxlength="6" :placeholder="$t('forgotpassword.verificationcode')" />
         <div
           class="code-text pointer middle-center"
           v-if="canSend"

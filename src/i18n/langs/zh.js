@@ -59,6 +59,37 @@ const cn = {
         e_voucherstransactionhistory: '電子禮券紀錄查詢',
         selectshop: '選擇商舖',
         selectdate: '選擇日期',
+        messagetemplate: '{TransactionTimestamp} 顧客於{TransactionDate}在 {Shopname}使用電子禮券 {N} 張，交易參考碼：{ReferenceNo.}',
+        transactiondetails: 'Transaction Details',
+        transactionreferencenumber: 'Transaction Reference Number                             {Reference No.}',
+        minimum: 'Minimum Spending Requirement     HK$ {N}',
+        total: 'Total e-Voucher(s) Amount                 HK$ {N}',
+        reward: '{e-Voucher Reward EN Name}        {N} pcs',
+        confirmtext1: 'Do you confirm to cancel?',
+        confirmtext2: 'If this transaction is cancelled, the customer will be required to re-submit their request to use the e-Voucher(s) via ELEMENTS App. '
+
+    },
+    shop:{
+        shoplist:'商舖列表',
+        shopno:'商舖編號',
+        shopname_en:'商舖名稱(英)',
+        shopname_ch:'商舖名稱(中)',
+        shopcategory:'商舖類別',
+        salutation:'稱呼',
+        firstname:'名',
+        lastname:'姓',
+        jobtitle:'職位',
+        email:'電郵',
+        phone:'電話',
+        mobile:'手機',
+        receivee_vouchersusagereport:'以電郵接收電子禮券使用報告 (是/否)',
+        accountstatus:'帳戶狀態 (有效/暫停)',
+        hide:'收起'
+    },
+    evoucher:{
+        e_voucherstransactionhistory:'電子禮券紀錄查詢',
+        selectshop:'選擇商舖',
+        selectdate:'選擇日期',
         view: '查詢',
         saveasexcel: '儲存Excel',
         historydetails: '紀錄詳情',
@@ -146,70 +177,71 @@ const cn = {
         day: "日"
     },
 
-    profile: {
-        title: "修改帳戶資料",
-        merchantorshopname: "{MerchantName} or {ShopName}",
-        emailaddress: "{EmailAddress}",
-        firstname: "名（必填）",
-        lastname: "姓（必填）",
-        salutation: "稱呼",
-        areacodephone: "(+852 +86 +853 +886）",
-        phone: "電話（必填）",
-        mobile: "手機（必填）",
-        jobtilte: "職位",
-        report: "以電郵接收電子禮券使用報告 ?  ",
-        save: "儲存"
+    profile:{
+        title:"修改帳戶資料",
+        merchantorshopname:"{MerchantName} or {ShopName}",
+        emailaddress:"{EmailAddress}",
+        firstname:"名（必填）",
+        lastname:"姓（必填）",
+        salutation:"稱呼",
+        areacodephone:"(+852 +86 +853 +886）",
+        phone:"電話（必填）",
+        mobile:"手機（必填）",
+        jobtilte:"職位",
+        report:"以電郵接收電子禮券使用報告 ?  ",
+        save:"儲存"
     },
 
-    updatepassword: {
-        title: "更新密碼 ",
-        back: "返回",
-        emailaddress: "電郵地址",
-        continue: "繼續",
-        oldpassword: "舊密碼",
-        newpassword: "新密碼 ",
-        passwordagain: "再次輸入新密碼",
-        loginaain: "密碼已更新，請重新登入"
+    updatepassword:{
+        title:"更新密碼 ",
+        back:"返回",
+        emailaddress:"電郵地址",
+        password:"密碼",
+        continue:"繼續",
+        oldpassword:"舊密碼",
+        newpassword:"新密碼 ",
+        passwordagain:"再次輸入新密碼",
+        loginaain:"密碼已更新，請重新登入"
     },
 
-    registration: {
-        title: "註冊",
-        sendverificationcode: "請輸入已發送到電郵的驗證碼。",
-        prefillemail: "(Pre-fillemail)",
-        verificationcode: "驗證碼",
-        reverificationcode: "重新發送驗證碼",
-        verify: "驗證",
-        password: "密碼",
-        passwordagain: "再次輸入新密碼",
-        register: "註冊",
-        passwordcondition: "密碼需要符合至少2項條件 : 大寫、小寫、數字和符號。"
+    registration:{
+        title:"註冊",
+        sendverificationcode:"請輸入已發送到電郵的驗證碼。",
+        prefillemail:"(Pre-fillemail)",
+        verificationcode:"驗證碼",
+        reverificationcode:"重新發送驗證碼",
+        verify:"驗證",
+        password:"密碼",
+        passwordagain:"再次輸入新密碼",
+        register:"註冊",
+        passwordcondition:"密碼需要符合至少2項條件 : 大寫、小寫、數字和符號。"
     },
 
-    login: {
-        name: "電子禮券商戶系統",
-        registeredemailaddress: "使用已登記之電郵地址登入",
-        emailaddress: "電郵地址",
-        password: "密碼",
-        forgotpassword: "忘記密碼?",
-        signin: "登入",
-        keepsignin: "保持登入"
-
+    login:{
+        name:"電子禮券商戶系統",
+        registeredemailaddress:"使用已登記之電郵地址登入",
+        emailaddress:"電郵地址",
+        password:"密碼",
+        forgotpassword:"忘記密碼?",
+        signin:"登入",
+        keepsignin:"保持登入"
+    
     },
 
-    forgotpassword: {
-        resetpassword: "重設密碼",
-        back: "返回",
-        receiveverification: "請輸入已登記之電郵地址以接收驗證碼。",
-        emailaddress: "電郵地址",
-        sendverificationcode: "發送驗證碼",
-        message: "驗證碼已發送到電郵，請輸入驗證碼。 ",
-        verificationcode: "驗證碼",
-        verify: "驗證",
-        sendnewverificationcode: "重新發送驗證碼"
+    forgotpassword:{
+        resetpassword:"重設密碼",
+        back:"返回",
+        receiveverification:"請輸入已登記之電郵地址以接收驗證碼。",
+        emailaddress:"電郵地址",
+        sendverificationcode:"發送驗證碼",
+        message:"驗證碼已發送到電郵，請輸入驗證碼。 ",
+        verificationcode:"驗證碼",
+        verify:"驗證",
+        sendnewverificationcode:"重新發送驗證碼"
     },
 
-    errorpage: {
-        errormessage: "抱歉，系統暫時未能提供服務，請稍後再試。如有查詢，請致電ELEMENTS Club 熱線 2196 8993 與禮賓大使聯絡。"
+    errorpage:{
+        errormessage:"抱歉，系統暫時未能提供服務，請稍後再試。如有查詢，請致電ELEMENTS Club 熱線 2196 8993 與禮賓大使聯絡。"
     }
 }
 

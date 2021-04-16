@@ -57,7 +57,7 @@
             </el-row>
 
             <div class="close flex align-center">
-              <span class="close-text" @click="handleClose">收起</span>
+              <span class="close-text" @click="handleClose">{{$t('shop.hide')}}</span>
             </div>
           </div>
         </div>
