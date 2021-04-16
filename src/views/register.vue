@@ -1,18 +1,18 @@
 <template>
   <div class="outer">
     <div class="group">
-      <div class="title">註冊</div>
-      <div class="title1">請輸入已傳送到電郵的驗證碼</div>
-      <div><input class="input" placeholder="電郵地址" /></div>
+      <div class="title">{{$t("registration.title")}}</div>
+      <div class="title1">{{$t("registration.sendverificationcode")}}</div>
+      <div><input class="input" :placeholder="$t('login.emailaddress')" /></div>
       <div class="flex space-between">
-        <input class="input input-code" maxlength="6" placeholder="驗證碼" />
+        <input class="input input-code" maxlength="6" :placeholder="$t('registration.verificationcode')" />
         <div class="code-text pointer middle-center" v-if="canSend" @click="sendCode">
           {{ countDownMsg }}
         </div>
         <div class="code-text middle-center" v-else>{{ countDownMsg }}</div>
       </div>
       <div class="text-center verify-btn">
-        <el-button class="btn-red" @click="verify" >驗證</el-button>
+        <el-button class="btn-red" @click="verify" >{{$t("registration.verify")}}</el-button>
       </div>
     </div>
   </div>

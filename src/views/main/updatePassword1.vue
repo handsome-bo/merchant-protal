@@ -2,15 +2,15 @@
   <div class="outer">
     <div class="group">
       <back-button />
-      <div class="title">更新密碼</div>
+      <div class="title">{{$t("updatepassword.title")}}</div>
       <div class="mgtop-15"><input class="input" placeholder="用户名" /></div>
 
       <div class="mgtop-15">
-        <input class="input" type="password" placeholder="密碼" />
+        <input class="input" type="password" :placeholder="$t('updatepassword.password')" />
       </div>
 
       <div class="text-center">
-        <el-button class="btn" @click="nextStep">繼續</el-button>
+        <el-button class="btn" @click="nextStep">{{$t("updatepassword.continue")}}</el-button>
       </div>
     </div>
   </div>

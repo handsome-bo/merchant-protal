@@ -2,20 +2,20 @@
    <div class="outer">
     <div class="group">
      <back-button />
-      <div class="title">更新密碼</div>
+      <div class="title">{{$t("updatepassword.title")}}</div>
 
       <div class="mgtop-15">
-        <input class="input" type="password" placeholder="舊密碼" />
+        <input class="input" type="password" :placeholder="$t('updatepassword.oldpassword')" />
       </div>
       <div class="mgtop-15">
-        <input class="input" type="password" placeholder="新密碼" />
+        <input class="input" type="password" :placeholder="$t('updatepassword.newpassword')" />
       </div>
       <div class="mgtop-15">
-        <input class="input" type="password" placeholder="確認新密碼" />
+        <input class="input" type="password" :placeholder="$t('updatepassword.passwordagain')" />
       </div>
 
       <div class="text-center">
-        <el-button class="btn">繼續</el-button>
+        <el-button class="btn">{{$t("updatepassword.continue")}}</el-button>
       </div>
       <div class="text-tip mgtop-15">
         <div>密碼需要乎合至少2項條件（大寫、小寫、數字和符號）</div>
