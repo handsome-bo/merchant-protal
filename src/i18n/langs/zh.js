@@ -164,7 +164,9 @@ const cn = {
         oldpassword:"舊密碼",
         newpassword:"新密碼 ",
         passwordagain:"再次輸入新密碼",
+        errormessage:"密码已更新，请重新登入",
         loginaain:"密碼已更新，請重新登入"
+
     },
 
     registration:{
@@ -177,6 +179,7 @@ const cn = {
         password:"密碼",
         passwordagain:"再次輸入新密碼",
         register:"註冊",
+        errormessage:"密码已更新，请重新登入",
         passwordcondition:"密碼需要符合至少2項條件 : 大寫、小寫、數字和符號。"
     },
 

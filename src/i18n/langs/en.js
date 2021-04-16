@@ -150,6 +150,7 @@ const en = {
         oldpassword:"Old Password",
         newpassword:"New Password",
         passwordagain:"Enter New Password Again",
+        errormessage:"Password has been updated, please login again",
         loginaain:"Password has been updated. Please log in again."
     },
 
@@ -178,6 +179,7 @@ const en = {
         password:"Password",
         passwordagain:"Enter New Password Again",
         register:"Register",
+        errormessage:"Password has been updated, please login again",
         passwordcondition:"The password must contain characters from at least two of the following: upper case, lower case, digits, special characters."
     },
     

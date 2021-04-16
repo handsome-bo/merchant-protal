@@ -50,7 +50,7 @@ export default {
          this.alertMessage();
        }
        else{
-           this.$router.push("/");
+           this.$router.push({ name: "UpdatePassword3" });
        }
     },
       alertMessage(){
