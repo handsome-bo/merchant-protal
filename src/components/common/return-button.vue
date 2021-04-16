@@ -1,5 +1,5 @@
 <template>
-  <div class="return-button pointer" @click="goBack">返回</div>
+  <div class="return-button pointer" @click="goBack">{{$t("button.back")}}</div>
 </template>
 
 <script>

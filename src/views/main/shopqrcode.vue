@@ -1,7 +1,7 @@
 <template>
   <div>
     <div class="title-top">{{$t("qrcodeandtemplatesize.shopqrcode")}}</div>
-    <div class="sub-title">用作收取電子禮券</div>
+    <div class="sub-title">{{$t("qrcodeandtemplatesize.shopqrcodesubtitle")}}</div>
 
     <div class="wrapper">
       <div class="outer-box">
@@ -9,6 +9,7 @@
           ref="shopcomponent"
           @preview="showQrCode($event)"
           :showPreview="true"
+         
         />
       </div>
     </div>
@@ -76,7 +77,7 @@ export default {
   font-size: 18px;
   border-radius: 10px;
   background-color: #d7c4a3;
-  padding: 20px;
+ 
 }
 .btn-group {
   width: 470px;

@@ -28,12 +28,12 @@ const en = {
     notification: {
         new: 'NEW',
         newnotification: 'New Notification',
-        messagetemplate: '{TransactionTimestamp} Customer used {N} e-Voucher(s) at {Shop name}, transaction reference number: {Reference No.}',
+        messagetemplate: 'Customer used {N} e-Voucher(s) at {shopname}, transaction reference number: {ReferenceNo}',
         transactiondetails: 'Transaction Details',
-        transactionreferencenumber: 'Transaction Reference Number                             {Reference No.}',
-        minimum: 'Minimum Spending Requirement     HK$ {N}',
-        total: 'Total e-Voucher(s) Amount                 HK$ {N}',
-        reward: '{e-Voucher Reward EN Name}        {N} pcs',
+        transactionreferencenumber: 'Transaction Reference Number',
+        minimum: 'Minimum Spending Requirement',
+        total: 'Total e-Voucher(s) Amount',
+        reward: 'pcs',
         confirmtext1: 'Do you confirm to cancel?',
         confirmtext2: 'If this transaction is cancelled, the customer will be required to re-submit their request to use the e-Voucher(s) via ELEMENTS App. '
     },
@@ -97,8 +97,8 @@ const en = {
         entershopname:"Enter Shop Name",
         search:"Search",
         confirm:'Confirm',
-        quantity:"Quantity:  {N} pcs",
-        validtill:"Valid Till: {Expiry date}:",
+        quantity:"Quantity: {N} pcs",
+        validtill:"Valid Till: {Expirydate}:",
         totalevouchersamount:"Total e-Voucher(s) Amount                       HK$ {N}                                 HK$ {N} ",
         minimumspendingrequirement:"Minimum Spending Requirement       HK$ {N}",
         clear:"Clear",
@@ -108,7 +108,8 @@ const en = {
         
     },
     qrcodeandtemplatesize:{
-        shopqrcode:"Shop QR Code (forreceivinge-Vouchersin-store)",
+        shopqrcode:"Shop QR Code",
+        shopqrcodesubtitle:"(forreceivinge-Vouchersin-store)",
         selectshop:"Select Shop",
         saveqrcode:"Save QR Code",
         printqrcode:"Print QR Code",
@@ -123,7 +124,11 @@ const en = {
         accepted: 'Accepted',
         cancelled: 'Cancelled',
         accept: 'Accept',
-        cancel: 'Cancel'
+        cancel: 'Cancel',
+        back:'Back',
+        ok:'OK',
+        acctepting:'Waiting',
+
 
     },
 

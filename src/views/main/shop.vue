@@ -11,13 +11,18 @@
       <el-row
         v-for="(item, index) in tableData"
         :key="item.storeCode"
-        v-bind:class="{actived: selectShop == item.storeCode,inactived: selectShop != item.storeCode,dark: index % 2 == 1}">
-        <el-row class="row-content" >
-          <div @click="handleClick(item)">
-          <el-col :span="6" > {{ item.StoreCode }} </el-col>
-          <el-col :span="6"> {{ item.StoreName }} </el-col>
-          <el-col :span="6"> {{ item.StoreNameTC }}</el-col>
-          <el-col :span="6"> {{ item.StoreSubcategory }}</el-col>
+        v-bind:class="{
+          actived: selectShop == item.StoreCode,
+          inactived: selectShop != item.StoreCode,
+          dark: index % 2 == 1,
+        }"
+      >
+        <el-row class="row-content">
+          <div @click="handleClick(item)" class="pointer">
+            <el-col :span="6"> {{ item.StoreCode }} </el-col>
+            <el-col :span="6"> {{ item.StoreName }} </el-col>
+            <el-col :span="6"> {{ item.StoreNameTC }}</el-col>
+            <el-col :span="6"> {{ item.StoreSubcategory }}</el-col>
           </div>
         </el-row>
         <div class="inner">
@@ -29,23 +34,28 @@
             <el-col :span="2"> {{ $t("shop.jobtitle") }} </el-col>
             <el-col :span="4"> {{ $t("shop.phone") }} </el-col>
             <el-col :span="3"> {{ $t("shop.mobile") }} </el-col>
-            <el-col :span="3"> {{ $t("shop.receivee_vouchersusagereport") }} </el-col>
+            <el-col :span="3">
+              {{ $t("shop.receivee_vouchersusagereport") }}
+            </el-col>
             <el-col :span="2"> {{ $t("shop.accountstatus") }} </el-col>
           </el-row>
-          <div class="inner-content" >
-            <el-row v-for="(citem) in item.ShopContact"
-        :key="citem.cellPhone">
-              <el-col :span="2"> {{citem.Name}} </el-col>
-              <el-col :span="2"> {{citem.SurName}} </el-col>
-              <el-col :span="4"> {{citem.Email}} </el-col>
-              <el-col :span="2"> {{citem.Title}} </el-col>
-              <el-col :span="2"> {{citem.Persition}} </el-col>
-              <el-col :span="4"> {{citem.Cellphone}} </el-col>
-              <el-col :span="3"> {{citem.Phone}} </el-col>
-              <el-col :span="3"> {{citem.IsAcceptedReport==1?"是":"否"}} </el-col>
-              <el-col :span="2"> {{citem.ContactStatus==1?"生效":"否"}} </el-col>
+          <div class="inner-content">
+            <el-row v-for="citem in item.ShopContact" :key="citem.cellPhone">
+              <el-col :span="2"> {{ citem.Name }} </el-col>
+              <el-col :span="2"> {{ citem.SurName }} </el-col>
+              <el-col :span="4"> {{ citem.Email }} </el-col>
+              <el-col :span="2"> {{ citem.Title }} </el-col>
+              <el-col :span="2"> {{ citem.Persition }} </el-col>
+              <el-col :span="4"> {{ citem.Cellphone }} </el-col>
+              <el-col :span="3"> {{ citem.Phone }} </el-col>
+              <el-col :span="3">
+                {{ citem.IsAcceptedReport == 1 ? "是" : "否" }}
+              </el-col>
+              <el-col :span="2">
+                {{ citem.ContactStatus == 1 ? "生效" : "否" }}
+              </el-col>
             </el-row>
-            
+
             <div class="close flex align-center">
               <span class="close-text" @click="handleClose">收起</span>
             </div>
@@ -94,36 +104,32 @@ export default {
           Category: "杂货商铺",
         },
       ],
-      
     };
-
   },
-  mounted(){
+  mounted() {
     this.loadShops();
   },
   methods: {
     handleClick(row) {
-      this.selectShop = row.storeCode;
+      this.selectShop = row.StoreCode;
     },
     handleClose() {
-    
       this.selectShop = "";
     },
-    loadShops(){
-      const _this=this;
-      this.$axios.post('Shop/RetrieveShopList',{}).then(res=>{
-       _this.tableData=JSON.parse(res.data);
-       console.log(_this.tableData)
-      })
-    }
+    loadShops() {
+      const _this = this;
+      this.$axios.post("Shop/RetrieveShopList", {}).then((res) => {
+        _this.tableData = JSON.parse(res.data);
+        console.log(_this.tableData);
+      });
+    },
   },
 };
 </script>
 
 <style  scoped>
 .wrapper {
-  
-   width: 1300px;
+  width: 1300px;
   margin: 10px auto;
   font-size: 18px;
   letter-spacing: 0;

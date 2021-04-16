@@ -2,7 +2,7 @@
   <div class="outer-box">
     <div class="box">
       <div class="title-group flex space-between">
-        <div class="title middle-center">{{$t("evoucher.selectshop")}}</div>
+        <div class="title middle-center">{{ $t("evoucher.selectshop") }}</div>
         <div class="add middle-center" @click="showShopFilter">
           <i class="el-icon-plus"></i>
         </div>
@@ -31,6 +31,7 @@
         @onClose="closeShopFilter($event)"
         @onSubmit="onSbumit($event)"
         ref="shoppopup"
+        :isMutiple="isMutiple"
       ></shop-Popup>
     </el-dialog>
   </div>
@@ -44,6 +45,10 @@ export default {
     showPreview: {
       Type: Boolean,
       default: () => false,
+    },
+    isMutiple: {
+      Type: Boolean,
+      default: () => true,
     },
   },
   data() {
@@ -71,7 +76,7 @@ export default {
     preview(event) {
       console.log("preview");
       console.log(event);
-      this.$emit("preview",event)
+      this.$emit("preview", event);
     },
   },
   components: {
@@ -86,10 +91,10 @@ export default {
   width: 470px;
   border-radius: 10px;
   background-color: #d7c4a3;
-}
-.box {
+ }
+ .box {
   padding: 20px;
-}
+} 
 .title {
   font-size: 20px;
   text-align: center;
@@ -102,7 +107,7 @@ export default {
   margin-top: 12px;
   height: 115px;
   overflow-y: scroll;
-  padding-right: 8px;
+  padding-right: 5px;
 }
 .shop-item:first-child {
   margin-top: 0 !important;

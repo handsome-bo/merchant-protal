@@ -8,13 +8,42 @@
     </div>
 
     <div class="wrapper">
-      <div class="dark el-row-top middle-center"> {{$t("mothlyreport.downloadmothlyreimbursementreport")}} </div>
-      <div class="list middle-center"
+      <div class="dark el-row-top middle-center">
+        {{ $t("mothlyreport.downloadmothlyreimbursementreport") }}
+      </div>
+      <div
+        class="list middle-center"
         v-for="(item, index) in tableData"
         :key="item.ShopNumber"
         v-bind:class="{ dark: index % 2 == 1 }"
       >
         <div class="item middle-center pointer">22/1/2021 - 21/2/2021</div>
+      </div>
+    </div>
+    <div class="wrappershop">
+      <div class="dark el-row-top middle-center">
+        <div class="head-title multiple">
+          {{ $t("mothlyreport.downloadmothlyreimbursementreport") }}
+        </div>
+        <div class="head-title multiple">狀態</div>
+        <div class="head-title multiple">表示查閱並提交申請</div>
+      </div>
+      <div
+        class="list middle-center"
+        v-for="(item, index) in tableData"
+        :key="item.ShopNumber"
+        v-bind:class="{ dark: index % 2 == 1 }"
+      >
+        <div class="item middle-center pointer multiple">
+          22/1/2021 - 21/2/2021
+        </div>
+        <div class=" middle-center  multiple item-text">
+          未提交
+        </div>
+        <div class=" middle-center  multiple item-text">
+          <el-button type="danger" class="btn-red btn"  >提交申請</el-button>
+  
+        </div>
       </div>
     </div>
   </div>
@@ -61,7 +90,9 @@ export default {
       ],
     };
   },
-  mounted() {},
+  mounted() {
+
+  },
   methods: {
     handleClick(row) {
       this.selectShop = row.ShopNumber;
@@ -69,6 +100,7 @@ export default {
     handleClose() {
       this.selectShop = "";
     },
+    loadRecords(){},
   },
 };
 </script>
@@ -80,6 +112,12 @@ export default {
   margin-top: 40px;
   font-size: 18px;
 }
+.wrappershop {
+  max-width: 710px;
+  margin: 0 auto;
+  margin-top: 40px;
+  font-size: 18px;
+}
 .title {
   color: #222222;
   font-size: 24px;
@@ -87,6 +125,13 @@ export default {
   line-height: 32px;
   text-align: center;
   margin: 30px 0 10px 0;
+}
+.head-title {
+  text-align: center;
+}
+.multiple {
+  width: 33.3%;
+  text-align: center;
 }
 
 .el-row-top {
@@ -107,10 +152,18 @@ export default {
   width: 230px;
   border-radius: 10px;
   background-color: #c77900;
-
   margin: 15px auto;
   color: #ffffff;
   font-family: Ubuntu;
+  font-size: 18px;
+  font-weight: 500;
+}
+
+.item-text {
+  height: 40px;
+  
+ 
+ 
   font-size: 18px;
   font-weight: 500;
 }
@@ -126,5 +179,10 @@ export default {
   letter-spacing: 0;
   line-height: 32px;
   text-align: center;
+}
+.btn{
+  height: 40px;
+  width: 120px;
+  font-size: 18px;
 }
 </style>

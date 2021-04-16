@@ -2,9 +2,9 @@
   <div class="outer">
     <div class="group">
       <back-button />
-      <div class="title">{{$t(forgotpassword.resetpassword)}}</div>
-      <div class="title1">{{$t(forgotpassword.receiveverification)}}</div>
-      <div><input class="input" placeholder="" />電郵地址</div>
+      <div class="title">{{ $t("forgotpassword.resetpassword") }}</div>
+      <div class="title1">{{ $t("forgotpassword.receiveverification") }}</div>
+      <div><input class="input" placeholder="" /></div>
       <div class="text-center verify-btn">
         <el-button class="btn-red" @click="verify">確認</el-button>
       </div>
@@ -14,7 +14,6 @@
 
 <script>
 export default {
-  name: "ForgotPassword1",
   data() {
     return {};
   },
@@ -28,9 +27,7 @@ export default {
 </script>
 
 <style   scoped>
-.outer {
-  padding-top: 161px;
-}
+ 
 .group {
   margin: 0 auto;
   width: 500px;

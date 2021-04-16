@@ -26,13 +26,11 @@ export default {
 </script>
 
 <style   scoped>
-.outer {
-  padding-top: 161px;
-}
+ 
 .group {
   margin: 0 auto;
   width: 500px;
-  padding: 50px;
+  
   color: #ffffff;
   font-family: "Microsoft JhengHei";
 }

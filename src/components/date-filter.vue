@@ -6,11 +6,12 @@
     </div>
     <div class="date-group">
       <el-date-picker class="datepicker"
-        v-model="value1"
+        v-model="selectDate"
         type="daterange"
         range-separator="到"
         start-placeholder="开始日期"
         end-placeholder="结束日期"
+        format="yyyy-MM-dd"
       >
       </el-date-picker>
     </div>
@@ -35,7 +36,7 @@ export default {
       console.log(this.selectDate);
       this.$emit("search", this.selectDate);
     },
-    dowload() {
+    download() {
       this.$emit("download", this.selectDate);
     },
   },

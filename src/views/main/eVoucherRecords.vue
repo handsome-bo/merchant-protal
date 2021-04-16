@@ -1,6 +1,8 @@
 <template>
   <div>
-    <el-row class="title-top"> {{$t("evoucher.e_voucherstransactionhistory")}} </el-row>
+    <el-row class="title-top">
+      {{ $t("evoucher.e_voucherstransactionhistory") }}
+    </el-row>
     <el-row>
       <div class="filters flex">
         <div class="mg-right-20">
@@ -15,17 +17,19 @@
       </div>
     </el-row>
 
-    <div class="title">{{$t("evoucher.view")}}</div>
+    <div class="title">{{ $t("evoucher.view") }}</div>
     <div class="wrapper">
       <div>
         <el-row class="dark el-row-top">
-          <el-col :span="3"> {{$t("evoucher.shop")}} </el-col>
-          <el-col :span="3"> {{$t("evoucher.location")}} </el-col>
-          <el-col :span="4"> {{$t("evoucher.shopno")}}</el-col>
-          <el-col :span="4"> {{$t("evoucher.e_vouchers")}}</el-col>
-          <el-col :span="4"> {{$t("evoucher.transactionreferencenumber")}}</el-col>
-          <el-col :span="3"> {{$t("evoucher.transactiondate")}}</el-col>
-          <el-col :span="3"> {{$t("evoucher.amount")}}</el-col>
+          <el-col :span="3"> {{ $t("evoucher.shop") }} </el-col>
+          <el-col :span="3"> {{ $t("evoucher.location") }} </el-col>
+          <el-col :span="4"> {{ $t("evoucher.shopno") }}</el-col>
+          <el-col :span="4"> {{ $t("evoucher.e_vouchers") }}</el-col>
+          <el-col :span="4">
+            {{ $t("evoucher.transactionreferencenumber") }}</el-col
+          >
+          <el-col :span="3"> {{ $t("evoucher.transactiondate") }}</el-col>
+          <el-col :span="3"> {{ $t("evoucher.amount") }}</el-col>
         </el-row>
         <el-row
           v-for="(item, index) in tableData"
@@ -45,15 +49,21 @@
           </div>
         </el-row>
         <div class="content-bottom flex alig-center space-between">
-          <div class="total-text">{{$t("evoucher.totalpage")}}11，{{$t("evoucher.totalpageoftransaction")}}61</div>
+          <div class="total-text">
+            {{ $t("evoucher.totalpage") }} {{totalCount}}，{{$t("evoucher.totalpageoftransaction")}}{{totalCount}}
+          </div>
           <div class="page-text">
-            <el-pagination background layout="prev, pager, next" :total="100">
+            <el-pagination
+              :page-size="pageSize"
+              layout="prev, pager, next"
+              :total="totalCount"
+            >
             </el-pagination>
           </div>
         </div>
       </div>
       <div class="bottom-summary flex align-center">
-        <div class="total-amount">{{$t("evoucher.totalamount")}}</div>
+        <div class="total-amount">{{ $t("evoucher.totalamount") }}</div>
         <div>HK$61,000.00</div>
       </div>
     </div>
@@ -79,6 +89,9 @@ export default {
         searchFrom: "",
         searchTo: "",
       },
+      totalPage: 0,
+      totalCount: 0,
+      pageSize: 10,
     };
   },
   mounted() {},
@@ -109,7 +122,27 @@ export default {
         )
         .then((res) => {
           _this.tableData = JSON.parse(res.data);
+          _this.totalCount = this.tableData.length;
+          _this.totalPage = _this.totalCount / _this.pageSize;
         });
+    },
+    download(event) {
+      const _this = this;
+      if (event) {
+        this.parameters.searchFrom = event[0];
+        this.parameters.searchTo = event[1];
+      }
+      const shops = this.$refs.shopcomponent.shopItems;
+      this.parameters.storeIDs = "";
+      shops.forEach((item) => {
+        this.parameters.storeIDs += item.storeID + ",";
+      });
+      let a = document.createElement("a");
+      const para = qs.stringify(this.parameters);
+      a.href =
+        "https://localhost:44316/EVoucher/DownloadEVoucherHistoryExcelFile?" +
+        para;
+      a.click();
     },
   },
 };
