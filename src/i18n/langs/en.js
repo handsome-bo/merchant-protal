@@ -28,12 +28,12 @@ const en = {
     notification: {
         new: 'NEW',
         newnotification: 'New Notification',
-        messagetemplate: 'Customer used {N} e-Voucher(s) at {shopname}, transaction reference number: {ReferenceNo}',
+        messagetemplate: '{TransactionTimestamp} Customer used {N} e-Voucher(s) at {Shop name}, transaction reference number: {Reference No.}',
         transactiondetails: 'Transaction Details',
-        transactionreferencenumber: 'Transaction Reference Number',
-        minimum: 'Minimum Spending Requirement',
-        total: 'Total e-Voucher(s) Amount',
-        reward: 'pcs',
+        transactionreferencenumber: 'Transaction Reference Number                             {Reference No.}',
+        minimum: 'Minimum Spending Requirement     HK$ {N}',
+        total: 'Total e-Voucher(s) Amount                 HK$ {N}',
+        reward: '{e-Voucher Reward EN Name}        {N} pcs',
         confirmtext1: 'Do you confirm to cancel?',
         confirmtext2: 'If this transaction is cancelled, the customer will be required to re-submit their request to use the e-Voucher(s) via ELEMENTS App. '
     },
@@ -84,11 +84,9 @@ const en = {
         evouchersmonthlyreimbusement:"e-Vouchers Monthly Reimbursement Application",
         selectshop:"Select Shop",
         downloadmothlyreimbursementreport:"Download Monthly Reimbursement Report",
-        status:"Status",
-        confirmandsubmit:"Confirm and Submit",
+        status:"Status (NotSubmitted/Submitted)",
+        confirmandsubmit:"Status (Not Submitted/Submitted)",
         submitforreimbursement:"Submit for Reimbursement",
-        submitted:'Submitted',
-        notsubmitted:'Not Submitted'
 
     },
     useevoucher:{
@@ -102,8 +100,8 @@ const en = {
         entershopname:"Enter Shop Name",
         search:"Search",
         confirm:'Confirm',
-        quantity:"Quantity: {N} pcs",
-        validtill:"Valid Till: {Expirydate}:",
+        quantity:"Quantity:  {N} pcs",
+        validtill:"Valid Till: {Expiry date}:",
         totalevouchersamount:"Total e-Voucher(s) Amount                       HK$ {N}                                 HK$ {N} ",
         minimumspendingrequirement:"Minimum Spending Requirement       HK$ {N}",
         clear:"Clear",
@@ -113,8 +111,7 @@ const en = {
         
     },
     qrcodeandtemplatesize:{
-        shopqrcode:"Shop QR Code",
-        shopqrcodesubtitle:"(forreceivinge-Vouchersin-store)",
+        shopqrcode:"Shop QR Code (forreceivinge-Vouchersin-store)",
         selectshop:"Select Shop",
         saveqrcode:"Save QR Code",
         printqrcode:"Print QR Code",
@@ -129,11 +126,7 @@ const en = {
         accepted: 'Accepted',
         cancelled: 'Cancelled',
         accept: 'Accept',
-        cancel: 'Cancel',
-        back:'Back',
-        ok:'OK',
-        acctepting:'Waiting',
-
+        cancel: 'Cancel'
 
     },
 
