@@ -3,7 +3,11 @@
     <div class="box">
       <div class="title-group flex space-between">
         <div class="title middle-center">{{ $t("evoucher.selectshop") }}</div>
-        <div class="add middle-center" @click="showShopFilter">
+        <div
+          class="add middle-center"
+          v-if="$store.getters.getUserRole != 'shop'"
+          @click="showShopFilter"
+        >
           <i class="el-icon-plus"></i>
         </div>
       </div>
@@ -14,7 +18,7 @@
           :key="item.storeID"
           :pid="item.storeID"
           :plabel="item.storeNameTC"
-          :showClose="true"
+          :showClose="canClose"
           :showPreview="showPreview"
           @onRemove="remove(index)"
           @onPreview="preview($event)"
@@ -55,7 +59,12 @@ export default {
     return {
       isShowShopFilter: false,
       shopItems: [],
+      canClose: true,
     };
+  },
+  created() {
+    //   this.$store.state
+    if (this.$store.state.userRole == "shop") this.canClose = false;
   },
   methods: {
     showShopFilter() {
@@ -68,7 +77,7 @@ export default {
       this.isShowShopFilter = false;
       this.shopItems = shopList;
       this.$refs.shoppopup.initData();
-      this.$emit('onChange',this.shopItems);
+      this.$emit("onChange", this.shopItems);
     },
     remove(index) {
       this.shopItems.splice(index, 1);
@@ -91,10 +100,10 @@ export default {
   width: 470px;
   border-radius: 10px;
   background-color: #d7c4a3;
- }
- .box {
+}
+.box {
   padding: 20px;
-} 
+}
 .title {
   font-size: 20px;
   text-align: center;

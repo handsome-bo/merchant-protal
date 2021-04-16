@@ -2,6 +2,7 @@ import Vue from 'vue'
 import Vuex from 'vuex'
 Vue.use(Vuex)
 
+const userRole=localStorage.getItem('userRole')
 
 export default new Vuex.Store({
     state: {
@@ -10,7 +11,7 @@ export default new Vuex.Store({
         token: 'test',
         userName: 'Siu Ming, Chan',
         userId: '',
-        userRole: '',
+        userRole: userRole,
         isNewMessage: false
     },
     mutations: {
@@ -29,6 +30,7 @@ export default new Vuex.Store({
         },
         setUserRole(state, role) {
             state.userRole = role;
+            localStorage.setItem('userRole',state.userRole)
         },
 
     },
