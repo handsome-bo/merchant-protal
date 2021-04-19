@@ -3,7 +3,7 @@ import Vuex from 'vuex'
 Vue.use(Vuex)
 
 const userRole=localStorage.getItem('userRole')
-
+const token=localStorage.getItem('token')
 export default new Vuex.Store({
     state: {
         navNumber: 0,

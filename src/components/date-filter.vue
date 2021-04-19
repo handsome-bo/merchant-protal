@@ -44,6 +44,7 @@ export default {
 </script>
 
 <style  scoped>
+ 
 .outer-box {
   height: 202px;
   width: 470px;

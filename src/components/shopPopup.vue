@@ -54,6 +54,7 @@ export default {
       keywords: "",
       shopList: [],
       selectedItems: [],
+      tempDatas:[]
     };
   },
   created() {},
@@ -61,14 +62,22 @@ export default {
   mounted() {
     this.initData();
   },
+  destroyed(){
+    this.initData();
+    console.log('destroyed')
+  },
   methods: {
     searchAndSelected() {
       const _this = this;
-      this.shopList = this.shopItems.filter(function (shop) {
+      this.shopList = this.tempDatas.filter(function (shop) {
         return Object.keys(shop).some(function (key) {
           return String(shop[key]).toLowerCase().indexOf(_this.keywords) > -1;
         });
       });
+   
+      if (!this.shopList) {
+        this.shopList = this.tempDatas;
+      }
       if (this.isMutiple) {
         this.selectAll();
       }
@@ -96,9 +105,9 @@ export default {
         }
       } else {
         this.selectedItems = [];
-        this.shopList.forEach(item=>{
-          item['checked']=false;
-        })
+        this.shopList.forEach((item) => {
+          item["checked"] = false;
+        });
         if (!item.checked) {
           this.selectedItems.push(item);
         } else {
@@ -115,6 +124,7 @@ export default {
       const shortShops = storage.getItem("shortshops") || null;
       if (shortShops) {
         _this.shopList = JSON.parse(shortShops);
+        _this.tempDatas=_this.shopList;
       } else {
         this.$axios.get("/shop/RetrieveShortShopList", {}).then((res) => {
           var tempdata = res.data;
@@ -122,6 +132,7 @@ export default {
             item["checked"] = false;
           });
           _this.shopList = tempdata;
+           _this.tempDatas=_this.shopList;
           var keydata = JSON.stringify(tempdata);
           storage.setItem("shortshops", keydata);
         });
@@ -129,10 +140,7 @@ export default {
     },
   },
   props: {
-    shopItems: {
-      Type: Array,
-      default: () => [],
-    },
+   
     isMutiple: {
       Type: Boolean,
       default: () => true,

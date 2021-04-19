@@ -8,12 +8,12 @@
         <ShopFilterCompnent
           ref="shopcomponent"
           @onChange="loadRecords()"
-          v-if="$store.getters.getUserRole === 'superaccount'"
+          v-if="$store.getters.getUserRole == 'superaccount'"
         />
       </div>
     </div>
 
-    <div class="wrapper" v-if="$store.getters.getUserRole === 'superaccount'">
+    <div class="wrapper" v-if="$store.getters.getUserRole == 'superaccount'">
       <div class="dark el-row-top middle-center">
         {{ $t("mothlyreport.downloadmothlyreimbursementreport") }}
       </div>
@@ -29,7 +29,7 @@
         </div>
       </div>
     </div>
-    <div class="wrappershop">
+    <div class="wrappershop" v-else>
       <div class="dark el-row-top middle-center">
         <div class="head-title multiple">
           {{ $t("mothlyreport.downloadmothlyreimbursementreport") }}
@@ -61,7 +61,7 @@
             type="danger"
             @click="submitConfirmation(item)"
             class="btn-red btn"
-            v-if="item.status != 1"
+            v-if="item.status != 0"
             >{{ $t("mothlyreport.submitforreimbursement") }}</el-button
           >
         </div>
@@ -119,7 +119,10 @@ export default {
           });
         });
     },
-    submitConfirmation(item) {},
+    submitConfirmation(item) {
+
+      
+    },
     download(item) {
       // const _this = this;
       // this.parameters.storeIDs = "";

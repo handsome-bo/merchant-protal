@@ -62,7 +62,7 @@ export default {
     alertMessage() {
       this.$message({
         message: "邮箱或密码输入有误，请重新登录",
-        type: "warning",
+        type: "error",
       });
       // callback: action => {
       //   this.$message({
