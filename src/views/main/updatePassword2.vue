@@ -5,17 +5,17 @@
       <div class="title">{{$t("updatepassword.title")}}</div>
 
       <div class="mgtop-15">
-        <input class="input" type="password" :placeholder="$t('updatepassword.oldpassword')" />
+        <input class="input" type="password" :placeholder="$t('updatepassword.oldpassword')" v-model="oldPassword"/>
       </div>
       <div class="mgtop-15">
-        <input class="input" type="password" :placeholder="$t('updatepassword.newpassword')" />
+        <input class="input" type="password" :placeholder="$t('updatepassword.newpassword')" v-model="newPassword"/>
       </div>
       <div class="mgtop-15">
-        <input class="input" type="password" :placeholder="$t('updatepassword.passwordagain')" />
+        <input class="input" type="password" :placeholder="$t('updatepassword.passwordagain')" v-model="confirmNewPassword"/>
       </div>
 
       <div class="text-center">
-        <el-button class="btn">{{$t("updatepassword.continue")}}</el-button>
+        <el-button class="btn"  @click="clickContinue">{{$t("updatepassword.continue")}}</el-button>
       </div>
       <div class="text-tip mgtop-15">
         <div>密碼需要乎合至少2項條件（大寫、小寫、數字和符號）</div>
@@ -33,6 +33,33 @@
 <script>
 export default {
   name: "UpdatePassword2",
+  data(){
+    return{
+      oldPassword:'',
+      newPassword:'',
+      confirmNewPassword:''
+    }
+  },
+  methods:{
+    clickContinue(){
+       if(this.oldPassword==""||
+       this.newPassword==""||
+       this.confirmNewPassword==""||
+       this.newPassword!=this.confirmNewPassword
+       ){
+         this.alertMessage();
+       }
+       else{
+           this.$router.push({ name: "UpdatePassword3" });
+       }
+    },
+      alertMessage(){
+         this.$message({
+          message: '用户名或密码输入有误,请重新登录',
+          type: 'warning'
+        });
+       },
+  }
 };
 </script>
 

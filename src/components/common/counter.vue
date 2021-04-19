@@ -4,7 +4,11 @@
       <i class="el-icon-minus"></i>
     </div>
     <input class="counter-text" v-model="textValue" />
-    <div class="label-counter" @click="add" v-if="textValue <= maxValue">
+    <div
+      class="label-counter"
+      @click="add"
+      :aria-disabled="textValue >= maxValue"
+    >
       <i class="el-icon-plus"></i>
     </div>
   </div>

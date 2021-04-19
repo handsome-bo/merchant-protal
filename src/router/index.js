@@ -13,9 +13,15 @@ import NotifyComponent from '../views/main/notification'
 import Profile from '../views/main/profile'
 import UpdatePassword1 from '../views/main/updatePassword1'
 import UpdatePassword2 from '../views/main/updatePassword2'
+import UpdatePassword3 from '../views/main/updatePassword3'
 import Register from '../views/register'
 import RegisterSecond from '../views/registerSecond'
+
 import ErrorPage from '../views/errorPage'
+
+import Forgotpassword1 from '../views/forgotPassword1'
+import Forgotpassword2 from '../views/forgotPassword2'
+
 Vue.use(Router);
 
 export default new Router({
@@ -65,6 +71,13 @@ export default new Router({
                     component: UpdatePassword2,
                     meta: { showLoginMenu: false, navNumber: 0 }
                 },
+                //添加路由
+                {
+                    path: '/updatepassword3',
+                    name: 'UpdatePassword3',
+                    component: UpdatePassword3,
+                    meta: { showLoginMenu: false, navNumber: 0 }
+                },
                 {
                     path: '/register',
                     name: 'Register',
@@ -77,6 +90,18 @@ export default new Router({
                     component: RegisterSecond,
                     meta: { showLoginMenu: false, navNumber: 0 }
                 },
+                {
+                    path: '/forgotpassword1',
+                    name: 'ForgotPassword1',
+                    component: Forgotpassword1,
+                    meta: { showLoginMenu: false, navNumber: 0 }
+                },
+                // {
+                //     path: '/forgotpassword2',
+                //     name: 'ForgotPassword2',
+                //     component: Forgotpassword2,
+                //     meta: { showLoginMenu: false, navNumber: 0 }
+                // },
             ]
         },
         {
