@@ -1,86 +1,137 @@
 <template>
   <div>
-    <div class="title-top">使用電子禮券</div>
+    <div class="title-top">{{ $t("useevoucher.useevouchers") }}</div>
 
     <div class="wrapper">
-      <div class="title">會員號碼／電話號碼</div>
+      <div class="title">{{ $t("useevoucher.membersidandphone") }}</div>
       <div>
-        <input class="input-text" maxlength="20" />
+        <input class="input-text" v-model="memberId" maxlength="20" />
       </div>
-      <div class="title mg-top-25">選擇商舖</div>
+      <div class="title mg-top-25">{{ $t("useevoucher.shop") }}</div>
       <div>
-        <div class="choose-box middle-center pointer">選擇</div>
+        <div class="choose-box middle-center pointer" @click="showShopFilter()">
+          {{
+            selectShop == null
+              ? $t("useevoucher.select")
+              : selectShop.storeNameTC
+          }}
+        </div>
       </div>
+
       <div class="detail" v-if="detailData.length > 0">
-        <div class="detail-item flex space-between">
+        <div
+          class="detail-item flex space-between"
+          v-for="item in detailData"
+          :key="item.EVoucherID"
+        >
           <div class="detail-info">
-            <div class="text-name">圓方100元時裝電子禮券</div>
-            <div>數量：6</div>
-            <div>有效至：2021年5月1日</div>
+            <div class="text-name">{{ item.EVoucherName }}</div>
+            <div>
+              {{ $t("useevoucher.quantity", { N: item.EVoucherQuantity }) }}
+            </div>
+            <div>
+              {{
+                $t("useevoucher.validtill", {Expirydate: item.ValideTo})
+              }}
+            </div>
           </div>
           <div class="right" v-if="showCounter">
-            <counterComponent v-bind:value="5" v-bind:maxValue="6" />
-          </div>
-        </div>
-        <div class="detail-item flex space-between">
-          <div class="detail-info">
-            <div class="text-name">圓方100元時裝電子禮券</div>
-            <div>數量：6</div>
-            <div>有效至：2021年5月1日</div>
-          </div>
-          <div class="right" v-if="showCounter">
-            <counterComponent v-bind:value="5" v-bind:maxValue="6" />
-          </div>
-        </div>
-        <div class="detail-item flex space-between">
-          <div class="detail-info">
-            <div class="text-name">圓方100元時裝電子禮券</div>
-            <div>數量：6</div>
-            <div>有效至：2021年5月1日</div>
-          </div>
-          <div class="right" v-if="showCounter">
-            <counterComponent v-bind:value="5" v-bind:maxValue="6" />
+            <counterComponent
+              v-bind:value="1"
+              v-bind:maxValue="item.EVoucherQuantity"
+              @add="add($event)"
+              @reduce="reduce($event)"
+            />
           </div>
         </div>
       </div>
     </div>
-    <div class="btn-group" v-if="detailData.length == 0">
-      <el-button type="danger" @click="viewVoucher" class="btn-red">查看禮券</el-button>
+    <div class="btn-group">
+      <el-button
+        type="danger"
+        v-if="!showSubmitButton"
+        @click="searchEvouchers()"
+        class="btn-red"
+        >{{ $t("useevoucher.checkevouchers") }}</el-button
+      >
     </div>
     <div class="btn-group" v-if="showSubmitButton">
-      <el-button type="danger" class="btn-white">重新输入</el-button>
-      <el-button type="danger" class="btn-red">提交</el-button>
+      <el-button type="danger" class="btn-white">{{
+        $t("useevoucher.clear")
+      }}</el-button>
+      <el-button type="danger" class="btn-red">{{
+        $t("useevoucher.submit")
+      }}</el-button>
     </div>
+    <el-dialog
+      :visible.sync="isShowShopFilter"
+      :show-close="false"
+      center
+      width="1300px"
+    >
+      <shop-Popup
+        @onClose="closeShopFilter($event)"
+        @onSubmit="onSbumit($event)"
+        ref="shoppopup"
+        :isMutiple="false"
+      ></shop-Popup>
+    </el-dialog>
   </div>
 </template>
 
 <script>
 import counterComponent from "@/components/common/counter.vue";
- 
+import shopPopup from "../../components/shopPopup.vue";
 export default {
   name: "eVoucherUsing",
-  components: { counterComponent },
+  components: { counterComponent, shopPopup },
   data() {
     return {
-      selectShop: "",
+      selectShop: null,
       showVoucher: false,
       showCounter: false,
       showSubmitButton: false,
+      isShowShopFilter: false,
       detailData: [],
+      memberId: "",
+      parameter: {
+        memberNoOrPhoneNo: "",
+        storeID: "",
+      },
     };
   },
   mounted() {},
   methods: {
-    viewVoucher() {
-     this.detailData=[];
-      const temp = {
-        title: "圓方100元時裝電子禮券",
-        count: 3,
-        deadLine: "2021年5月1日",
-      };
-      this.detailData.push(temp);
+    searchEvouchers() {
+      const _this = this;
+      if (_this.memberId == "") {
+        this.$message.error("请输入会员信息");
+        return;
+      }
+      _this.parameter.memberNoOrPhoneNo = _this.memberId;
+      // this.detailData = [];
+      _this.$axios
+        .post("EVoucher/BurnRequest", _this.$QS.stringify(_this.parameter))
+        .then((res) => {
+          this.detailData = JSON.parse(res.data);
+          if (_this.selectShop) {
+            _this.showCounter = true;
+            _this.showSubmitButton = true;
+          }
+        });
     },
-    
+    submitEvoucher() {},
+    showShopFilter() {
+      this.isShowShopFilter = true;
+    },
+    closeShopFilter(event) {
+      this.isShowShopFilter = false;
+    },
+    onSbumit(shopList) {
+      this.isShowShopFilter = false;
+      this.selectShop = shopList[0];
+      this.$refs.shoppopup.initData();
+    },
   },
 };
 </script>

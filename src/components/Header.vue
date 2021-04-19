@@ -3,7 +3,7 @@
     <div class="flex align-center left-part">
       <div class="logo">
         <router-link to="/">
-          <img src="../assets/Images/logo.png"   />
+          <img src="../assets/Images/logo.png" />
         </router-link>
       </div>
       <div class="logo-text" v-if="$store.getters.getIsShowLoginMenu">
@@ -34,10 +34,14 @@
               </div>
               <div class="subtitle">
                 <router-link to="evoucher-refund">
+                  {{ $store.userRole }}
                   {{ $t("header.evoucher2") }}</router-link
                 >
               </div>
-              <div class="subtitle">
+              <div
+                class="subtitle"
+                v-if="$store.getters.getUserRole === 'superaccount'"
+              >
                 <router-link to="evoucher-using">{{
                   $t("header.evoucher3")
                 }}</router-link>
@@ -78,7 +82,6 @@
 </template>
 
 <script>
- 
 export default {
   name: "Header",
   data() {
@@ -117,6 +120,9 @@ export default {
 </script>
 
 <style scoped>
+a {
+  color: #222222;
+}
 #Header {
   height: 110px;
   background-color: #f6f1eb;
@@ -133,7 +139,6 @@ export default {
   height: 80px;
   width: 87px;
   margin: 15px 40px 15px 66px;
- 
 }
 .logo-text {
   width: 240px;

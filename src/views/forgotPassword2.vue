@@ -2,11 +2,11 @@
   <div class="outer">
     <div class="group">
        <back-button />
-      <div class="title">找回密碼</div>
-      <div class="title1">驗證碼已發送到電郵，請複製到輸入欄</div>
+      <div class="title">{{$t(forgotpassword.resetpassword)}}</div>
+      <div class="title1">{{$t(forgotpassword.receiveverification)}}</div>
       <div><input class="input" v-model="emailAddress" disabled /></div>
       <div class="flex space-between">
-        <input class="input input-code" maxlength="6" placeholder="驗證碼" />
+        <input class="input input-code" maxlength="6" :placeholder="$t('forgotpassword.verificationcode')" />
         <div
           class="code-text pointer middle-center"
           v-if="canSend"
@@ -16,7 +16,7 @@
         <div class="code-text middle-center" v-else>{{ countDownMsg }}</div>
       </div>
       <div class="text-center verify-btn">
-        <el-button class="btn-red" @click="verify">驗證</el-button>
+        <el-button class="btn-red" @click="verify">{{$t(forgotpassword.verify)}}</el-button>
       </div>
     </div>
   </div>

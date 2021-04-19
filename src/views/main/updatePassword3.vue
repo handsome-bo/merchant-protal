@@ -1,16 +1,11 @@
 <template>
-  <div class="outer">
+   <div class="outer">
     <div class="group">
-      <back-button />
-      <div class="title">{{$t("updatepassword.title")}}</div>
-      <div class="mgtop-15"><input class="input" placeholder="用户名" v-model="username"/></div>
-
-      <div class="mgtop-15">
-        <input class="input" type="password" :placeholder="$t('updatepassword.password')" v-model="password"/>
+      <div class="text">
+        {{$t("updatepassword.errormessage")}}
+        <div class="text-center">
+        <el-button class="btn"  @click="clickContinue">{{$t("updatepassword.continue")}}</el-button>
       </div>
-
-      <div class="text-center">
-        <el-button class="btn" @click="nextStep">{{$t("updatepassword.continue")}}</el-button>
       </div>
     </div>
   </div>
@@ -18,34 +13,32 @@
 
 <script>
 export default {
-  name: "UpdatePassword1",
-  data(){                       
+  name: "UpdatePassword3",
+  data(){
     return{
-    username:'',
-    password:'',
+      oldPassword:'',
+      newPassword:'',
+      confirmNewPassword:''
     }
   },
-  
-  methods: {
-    nextStep() {
-     if(this.username==""||this.password==""){
-       this.alertMessage();
-     }
-     else{
-     this.$router.push({ name: "UpdatePassword2" });
-     }
+  methods:{
+    clickContinue(){
+      this.$router.push("/");
     },
-       alertMessage(){
-         this.$message({
-          message: '用户名或密码输入有误,请重新登录',
-          type: 'warning'
-        });
-       },
-  },
+  }
 };
 </script>
 
 <style   scoped>
+.text {
+ 
+  font-size: 30px;
+  font-weight: normal;
+  letter-spacing: 0;
+  line-height: 40px;
+  text-align: center;
+  text-shadow: 0 2px 10px 0 rgba(0, 0, 0, 0.9);
+}
 .outer {
   padding-top: 161px;
 }
@@ -70,7 +63,8 @@ export default {
   letter-spacing: 0;
   line-height: 40px;
   text-align: center;
-  text-shadow: 0 2px 10px rgba(0, 0, 0, 0.9);
+  text-shadow: 0 2px 10px 0 rgba(0, 0, 0, 0.9);
+  margin-top: 25px;
 }
 .input {
   box-sizing: border-box;
@@ -108,5 +102,16 @@ export default {
   border: 1px solid #979797;
   border-radius: 4px;
   background-color: #ffffff;
+}
+.text-tip{
+  font-size: 16px;
+  letter-spacing: 0;
+  line-height: 21px;
+  text-align: center;
+  text-shadow: 0 2px 10px 0 rgba(0,0,0,0.9);
+}
+ul li{
+  list-style: none;
+  margin: 5px 0;
 }
 </style>

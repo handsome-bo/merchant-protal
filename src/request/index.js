@@ -1,13 +1,13 @@
 import axios from 'axios'
-import store from './store/index';
+import store from '@/store'
 
 axios.defaults.timeout = 30000;
 axios.defaults.headers.common['Content-Type'] = 'application/json; charset=utf-8';
 if (process.env.NODE_ENV == 'development') {
-    axios.defaults.baseURL = 'https://www.baidu.com';
+    axios.defaults.baseURL = 'https://localhost:44316';
 }
 else if (process.env.NODE_ENV == 'debug') {
-    axios.defaults.baseURL = 'https://www.ceshi.com';
+    axios.defaults.baseURL = 'https://localhost:44316';
 }
 else if (process.env.NODE_ENV == 'production') {
     axios.defaults.baseURL = 'https://www.production.com';
@@ -37,7 +37,7 @@ axios.interceptors.response.use(
     },
 
     error => {
-        if (error.response.status) {
+        if (error&&error.response&&error.response.status) {
             switch (error.response.status) {
 
                 case 401:

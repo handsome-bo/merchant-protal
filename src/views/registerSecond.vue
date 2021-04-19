@@ -1,14 +1,16 @@
 <template>
   <div class="outer">
     <div class="group">
-      <div class="title">註冊</div>
+      <div class="title">{{$t("registration.title")}}</div>
  
-      <div><input class="input" type="password" placeholder="密碼" /></div>
-      <div><input class="input" type="password" placeholder="確認密碼" /></div>
+      <div><input class="input" type="password" :placeholder="$t('registration.password')" /></div>
+      <div><input class="input" type="password" :placeholder="$t('registration.passwordagain')" /></div>
 
       
-      <div class="text-center">
-        <el-button class="login-btn" @click="register">註冊</el-button>
+      <div>
+        <div class="text-center">
+        <el-button class="login-btn" @click="register">{{$t("registration.title")}}</el-button>
+      </div>
       </div>
     </div>
   </div>
@@ -17,7 +19,7 @@
 <script>
 export default {
   name: "RegisterSecond",
-  methods: {
+  methods: { 
     register() {
       this.$router.push("/login");
     },
@@ -26,13 +28,11 @@ export default {
 </script>
 
 <style   scoped>
-.outer {
-  padding-top: 161px;
-}
+ 
 .group {
   margin: 0 auto;
   width: 500px;
-  padding: 50px;
+  
   color: #ffffff;
   font-family: "Microsoft JhengHei";
 }
