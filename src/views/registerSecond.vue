@@ -7,8 +7,10 @@
       <div><input class="input" type="password" :placeholder="$t('registration.passwordagain')" /></div>
 
       
-      <div class="text-center">
+      <div>
+        <div class="text-center">
         <el-button class="login-btn" @click="register">{{$t("registration.title")}}</el-button>
+      </div>
       </div>
     </div>
   </div>
@@ -17,7 +19,7 @@
 <script>
 export default {
   name: "RegisterSecond",
-  methods: {
+  methods: { 
     register() {
       this.$router.push("/login");
     },
