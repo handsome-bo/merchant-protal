@@ -21,7 +21,7 @@ export default {
 </script>>
 
 <style scoped>
-@import url("//unpkg.com/element-ui@2.15.1/lib/theme-chalk/index.css");
+
    .group {
   margin: 0 auto;
   width: 500px;
@@ -30,7 +30,6 @@ export default {
   font-family: "Microsoft JhengHei";
 }
 p{
-       
     text-align: center;
 }
 .el-icon-warning {

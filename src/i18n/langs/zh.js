@@ -28,6 +28,7 @@ const cn = {
     notification: {
         new: '新',
         newnotification: '有新的通知',
+
         messagetemplate: '顧客於在 {shopname}使用電子禮券 {N} 張，交易參考碼：{ReferenceNo}',
         transactiondetails: '交易詳情',
         transactionreferencenumber: '交易參考碼',
@@ -55,20 +56,7 @@ const cn = {
         accountstatus: '帳戶狀態 (有效/暫停)',
         hide: '收起'
     },
-    evoucher: {
-        e_voucherstransactionhistory: '電子禮券紀錄查詢',
-        selectshop: '選擇商舖',
-        selectdate: '選擇日期',
-        messagetemplate: '{TransactionTimestamp} 顧客於{TransactionDate}在 {Shopname}使用電子禮券 {N} 張，交易參考碼：{ReferenceNo.}',
-        transactiondetails: 'Transaction Details',
-        transactionreferencenumber: 'Transaction Reference Number                             {Reference No.}',
-        minimum: 'Minimum Spending Requirement     HK$ {N}',
-        total: 'Total e-Voucher(s) Amount                 HK$ {N}',
-        reward: '{e-Voucher Reward EN Name}        {N} pcs',
-        confirmtext1: 'Do you confirm to cancel?',
-        confirmtext2: 'If this transaction is cancelled, the customer will be required to re-submit their request to use the e-Voucher(s) via ELEMENTS App. '
-
-    },
+    
     shop:{
         shoplist:'商舖列表',
         shopno:'商舖編號',

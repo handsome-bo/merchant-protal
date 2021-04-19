@@ -16,8 +16,12 @@ import UpdatePassword2 from '../views/main/updatePassword2'
 import UpdatePassword3 from '../views/main/updatePassword3'
 import Register from '../views/register'
 import RegisterSecond from '../views/registerSecond'
+
+import ErrorPage from '../views/errorPage'
+
 import Forgotpassword1 from '../views/forgotPassword1'
 import Forgotpassword2 from '../views/forgotPassword2'
+
 Vue.use(Router);
 
 export default new Router({
@@ -47,6 +51,13 @@ export default new Router({
                     name: 'login',
                     component: Login,
                     meta: { showLoginMenu: false, navNumber: 0 }
+                },
+                {
+                    path:'/errorpage',
+                    name:'ErrorPage',
+                    component:ErrorPage,
+                    meta:{showLoginMenu: false, navNumber: 0}
+        
                 },
                 {
                     path: '/updatepassword1',
@@ -142,6 +153,13 @@ export default new Router({
                     meta: { showLoginMenu: true, navNumber: -1 }
                 },
             ]
+        },
+        {
+            path:'*',
+            redirect:'/errorpage',
+            name: 'notFound',
+            hidden: true
         }
+           
     ]
 });
