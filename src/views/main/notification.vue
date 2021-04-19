@@ -11,11 +11,12 @@
       }"
       @click="viewDetail(item)"
     >
-      <div class="flag middle-center" v-if="item.Status == 0">{{ $t("notification.new")}}</div>
-      <div class="flag middle-center" v-else></div>
+      <div class="flag middle-center" v-if="item.Status == 0">新</div>
       <div class="date">{{ item.RequestDate | formatHour }}</div>
       <div class="title">
-        {{ $t("notification.messagetemplate",{shopname:item.StoreName,N:item.eVoucher.length,ReferenceNo:item.ReferenceNo}) }}
+        顧客於 {{ item.StoreName }} 使用電子禮券{{
+          item.eVoucher.length
+        }}張，交易參考碼：{{ item.ReferenceNo }}
       </div>
       <div class="status">{{ getStatusName(item.Status) }}</div>
     </div>
@@ -25,14 +26,14 @@
       v-if="isShowNewTip"
       @click="getNotificaiton()"
     >
-      {{$t("notification.newnotification")}} <i class="el-icon-refresh" />
+      有新的通知 <i class="el-icon-refresh" />
     </div>
 
     <el-dialog :visible.sync="showDialog" center width="540">
-      <div class="dialog-title">{{$t("notification.transactiondetails")}}</div>
+      <div class="dialog-title">交易詳情</div>
       <div class="detail">
         <div class="detail-item">
-          <div>{{$t("notification.transactionreferencenumber")}}</div>
+          <div>交易參考碼</div>
           <div>{{ selectItem.ReferenceNo }}</div>
         </div>
         <div
@@ -41,16 +42,16 @@
           :key="item.EVoucherID"
         >
           <div>{{ item.EVoucherName }}</div>
-          <div>{{ item.EVoucherQuantity }}{{$t("notification.reward")}}</div>
+          <div>{{ item.EVoucherQuantity }}張</div>
         </div>
 
         <div class="detail-item">
-          <div>{{$t("notification.total")}}</div>
-          <div>HK$ {{ selectItem.TotalVoucherAmount }}</div>
+          <div>電子禮券總值</div>
+          <div>{{ selectItem.TotalVoucherAmount }}元</div>
         </div>
         <div class="detail-item">
-          <div>{{$t("notification.minimum")}}</div>
-          <div> HK$ {{ selectItem.TotalTransactionAmountRequirement }}</div>
+          <div>最低消費</div>
+          <div>{{ selectItem.TotalTransactionAmountRequirement }}</div>
         </div>
       </div>
       <div class="btn-group" v-if="isShowConfirmBtn">
@@ -58,34 +59,35 @@
           type="primary"
           class="btn-white btn-confirm"
           @click="cancelledHandler"
-          >{{$t("button.cancel")}}</el-button
+          >取消</el-button
         >
         <el-button
           type="danger"
           class="btn-red btn-confirm"
           @click="acceptHandler()"
-          >{{$t("button.accept")}}</el-button
+          >接受</el-button
         >
       </div>
-      <div class="btn-group handled dialogAccepted" v-else>{{$t("button.accepted")}}</div>
+      <div class="btn-group handled dialogAccepted" v-else>交易已接受</div>
     </el-dialog>
     <el-dialog :visible.sync="showCancelledDialog" center width="540">
-      <div class="dialog-title">{{$t("notification.confirmtext1")}}</div>
-      <div class="detail">{{$t("notification.confirmtext2")}}</div>
+      <div class="dialog-title">取消交易</div>
+      <div class="detail">假如取消交易，顧客需要重新提交兌換手續</div>
       <div class="btn-group">
         <el-button
           type="primary"
           class="btn-white btn-confirm"
           @click="showCancelledDialog = false"
-          >{{$t("button.back")}}</el-button
+          >返回</el-button
         >
-        <el-button type="danger" class="btn-red btn-confirm" @click="confirmCancelled()">{{$t("button.ok")}}</el-button>
+        <el-button type="danger" class="btn-red btn-confirm">確定</el-button>
       </div>
     </el-dialog>
   </div>
 </template>
 
 <script>
+
 export default {
   name: "notification",
   data() {
@@ -98,17 +100,20 @@ export default {
       selectItem: {},
       notificationDatas: [],
       isShowNewTip: false,
-      timer: null,
+      timer:null
     };
   },
-  created() {},
+  created(){
+     
+  },
   mounted() {
     this.getNotificaiton();
     this.timer = window.setInterval(() => {
-      setTimeout(() => {
-        this.longpooling();
-      }, 1);
-    }, 7000);
+		setTimeout(() => {
+		 this.longpooling();
+		   
+		 }, 1)
+	}, 7000);
   },
   methods: {
     viewDetail(item) {
@@ -119,11 +124,6 @@ export default {
     cancelledHandler() {
       this.showDialog = false;
       this.showCancelledDialog = true;
-    },
-    confirmCancelled(){
-      //to do
-      this.showCancelledDialog=false;
-
     },
     acceptHandler() {
       this.showDialog = false;
@@ -139,13 +139,13 @@ export default {
           _this.notificationDatas = JSON.parse(res.data);
           console.log(_this.notificationDatas);
           _this.isShowNewTip = false;
+        
         });
     },
     getStatusName(status) {
-      
-      if (status == 0) return this.$t("button.acctepting");
-      if (status == 1) return this.$t("button.accepted");
-      if (status == 2) return this.$t("button.cancelled");
+      if (status == 0) return "待接受";
+      if (status == 1) return "已接受";
+      if (status == 2) return "已取消";
     },
     longpooling() {
       const _this = this;
@@ -169,7 +169,7 @@ export default {
     },
   },
   destroyed() {
-    clearTimeout(this.timer);
+    clearTimeout( this.timer )
   },
 };
 </script>

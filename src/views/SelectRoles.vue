@@ -5,13 +5,11 @@
       <div class="merchant-portal">Merchant Portal Layout Design</div>
       <div class="select-role">Select Role</div>
       <div class="buttons-group">
-        <el-button class="primary-btn" @click="toRegister('superaccount')">{{
+        <el-button class="primary-btn">{{
           $t("common.superaccount")
         }}</el-button>
-        <el-button class="primary-btn" @click="toRegister('merchant')">{{
-          $t("common.merchant")
-        }}</el-button>
-        <el-button @click="toRegister('shop')" class="primary-btn">{{
+        <el-button class="primary-btn">{{ $t("common.merchant") }}</el-button>
+        <el-button @click="toLogin" class="primary-btn">{{
           $t("common.shop")
         }}</el-button>
       </div>
@@ -32,14 +30,11 @@ export default {
     toLogin() {
       this.$router.push("/login");
     },
-    toRegister(role) {
-      this.$store.commit("setUserRole", role);
-      console.log(this.$store);
-      this.$router.push("/register");
-    },
+
     engVersion() {
       localStorage.setItem("locale", "en");
       this.$i18n.locale = localStorage.getItem("locale");
+      this.$router.push("/login");
     },
   },
 };

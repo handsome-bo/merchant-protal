@@ -1,36 +1,17 @@
 <template>
   <div class="outer">
     <div class="group">
-      <div class="title">{{ $t("login.name") }}</div>
-      <div class="title1">{{ $t("login.registeredemailaddress") }}</div>
-      <div>
-        <input
-          class="input"
-          :placeholder="$t('login.emailaddress')"
-          v-model="email"
-        />
-      </div>
-      <div>
-        <input
-          class="input"
-          type="password"
-          :placeholder="$t('login.password')"
-          v-model="password"
-        />
-      </div>
+      <div class="title">{{$t("login.name")}}</div>
+      <div class="title1">{{$t("login.registeredemailaddress")}}</div>
+      <div><input class="input" :placeholder="$t('login.emailaddress')" v-model="email"/></div>
+      <div><input class="input" type="password" :placeholder="$t('login.password')" v-model="password"/></div>
 
       <div class="other-text flex align-center space-between">
-        <div class="pointer" @click="forget()">
-          {{ $t("login.forgotpassword") }}
-        </div>
-        <div>
-          <input class="checkbox" type="checkbox" />{{ $t("login.keepsignin") }}
-        </div>
+        <div>{{$t("login.forgotpassword")}}</div>
+        <div><input class="checkbox" type="checkbox" />{{$t("login.keepsignin")}}</div>
       </div>
       <div class="text-center">
-        <el-button class="login-btn" @click="login">{{
-          $t("login.signin")
-        }}</el-button>
+        <el-button class="login-btn" @click="login">{{$t("login.signin")}}</el-button>
       </div>
     </div>
   </div>
@@ -39,38 +20,36 @@
 <script>
 export default {
   name: "Login",
-  date() {
-    return {
-      email: "",
-      password: "",
-    };
+date(){
+ return{
+   email:'',
+   password:'',
+ }
   },
   methods: {
     login() {
-      if (
-        !/^\w+([\.\-]\w+)*\@\w+([\.\-]\w+)*\.\w+$/.test(this.email) ||
-        this.password == null
-      ) {
-        this.alertMessage();
-      } else {
-        this.$router.push("/main");
+      if(!/^\w+([\.\-]\w+)*\@\w+([\.\-]\w+)*\.\w+$/.test(this.email)
+      ||this.password==null){
+         this.alertMessage();
       }
+      else{
+         this.$router.push("/main");
+      }
+    
     },
-    forget() {
-      this.$router.push("/forgotpassword1");
-    },
-    alertMessage() {
-      this.$message({
-        message: "邮箱或密码输入有误，请重新登录",
-        type: "warning",
-      });
-      // callback: action => {
-      //   this.$message({
-      //     type: 'info',
-
-      //   });
-      // }
-    },
+    alertMessage(){
+         this.$message({
+          message: '邮箱或密码输入有误，请重新登录',
+          type: 'warning'
+        });
+          // callback: action => {
+          //   this.$message({
+          //     type: 'info',
+              
+          //   });
+          // }
+        
+    }
   },
 };
 </script>
@@ -79,7 +58,7 @@ export default {
 .group {
   margin: 0 auto;
   width: 500px;
-
+  padding: 50px;
   color: #ffffff;
   font-family: "Microsoft JhengHei";
 }

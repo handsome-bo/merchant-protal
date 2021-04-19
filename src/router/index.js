@@ -3,6 +3,7 @@ import Router from 'vue-router';
 import SelectRoles from '../views/SelectRoles'
 import Login from '../views/login'
 import Index from '../views/Index'
+import ErrorPage from '../views/errorPage'
 import Main from '../views/main/index'
 import Shop from '../views/main/shop'
 import EvoucherRecord from '../views/main/eVoucherRecords'
@@ -16,8 +17,6 @@ import UpdatePassword2 from '../views/main/updatePassword2'
 import UpdatePassword3 from '../views/main/updatePassword3'
 import Register from '../views/register'
 import RegisterSecond from '../views/registerSecond'
-import Forgotpassword1 from '../views/forgotPassword1'
-import Forgotpassword2 from '../views/forgotPassword2'
 Vue.use(Router);
 
 export default new Router({
@@ -36,7 +35,7 @@ export default new Router({
             component: SelectRoles,
             meta: { showLoginMenu: false, navNumber: 0 }
         },
-
+     
         {
             path: '/index',
             name: 'index',
@@ -47,6 +46,13 @@ export default new Router({
                     name: 'login',
                     component: Login,
                     meta: { showLoginMenu: false, navNumber: 0 }
+                },
+                {
+                    path:'/errorpage',
+                    name:'ErrorPage',
+                    component:ErrorPage,
+                    meta:{showLoginMenu: false, navNumber: 0}
+        
                 },
                 {
                     path: '/updatepassword1',
@@ -79,18 +85,6 @@ export default new Router({
                     component: RegisterSecond,
                     meta: { showLoginMenu: false, navNumber: 0 }
                 },
-                {
-                    path: '/forgotpassword1',
-                    name: 'ForgotPassword1',
-                    component: Forgotpassword1,
-                    meta: { showLoginMenu: false, navNumber: 0 }
-                },
-                // {
-                //     path: '/forgotpassword2',
-                //     name: 'ForgotPassword2',
-                //     component: Forgotpassword2,
-                //     meta: { showLoginMenu: false, navNumber: 0 }
-                // },
             ]
         },
         {
@@ -141,7 +135,15 @@ export default new Router({
                     component: Profile,
                     meta: { showLoginMenu: true, navNumber: -1 }
                 },
+            
+           
             ]
+        },
+        {
+            path:'*',
+            redirect:'/errorpage',
+            name: 'notFound',
+            hidden: true
         }
     ]
 });

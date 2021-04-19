@@ -66,16 +66,6 @@ Vue.filter('formatDate', function(value) {
 		return formatDate(date, 'yyyy-MM-dd');
 	}
 });
-Vue.filter('formatDateDDMMYY', function(value) {
-	if(!value) {
-		return value = ''
-	} else if(new Date(value) == 'Invalid Date') {
-		return value
-	} else {
-		let date = new Date(value);
-		return formatDate(date, 'dd/MM/yyyy');
-	}
-});
 
 
 Vue.filter('formatHour', function(value) {

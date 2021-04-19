@@ -1,32 +1,25 @@
 <template>
   <div class="shop-popup">
     <div class="header flex space-between">
-      <div class="back pointer" @click="back">{{ $t("evoucher.back") }}</div>
+      <div class="back pointer" @click="back">{{$t("evoucher.back")}}</div>
       <div>
         <el-button
           type="danger"
           class="btn-red btn-top"
           @click="handleSubmit"
           :disabled="selectedItems.length == 0"
-          >{{ $t("evoucher.confirm") }}</el-button
+          >{{$t("evoucher.confirm")}}</el-button
         >
       </div>
     </div>
     <div class="content">
       <div class="search">
         <input class="search-input" v-model="keywords" />
-        <el-button
-          type="danger"
-          class="btn-orange"
-          @click="searchAndSelected"
-          >{{ $t("evoucher.search") }}</el-button
+        <el-button type="danger" class="btn-orange" @click="searchAndSelected"
+          >{{$t("evoucher.search")}}</el-button
         >
-        <el-button
-          type="danger"
-          class="btn-orange"
-          v-if="isMutiple"
-          @click="selectAll"
-          >{{ $t("evoucher.selectall") }}</el-button
+        <el-button type="danger" class="btn-orange" @click="selectAll"
+          >{{$t("evoucher.selectall")}}</el-button
         >
       </div>
       <div class="shop-list">
@@ -69,9 +62,7 @@ export default {
           return String(shop[key]).toLowerCase().indexOf(_this.keywords) > -1;
         });
       });
-      if (this.isMutiple) {
-        this.selectAll();
-      }
+      this.selectAll();
     },
     selectAll() {
       this.shopList.forEach((item) => {
@@ -88,22 +79,10 @@ export default {
       this.$emit("onSubmit", this.selectedItems);
     },
     choose(item) {
-      if (this.isMutiple == true) {
-        if (!item.checked) {
-          this.selectedItems.push(item);
-        } else {
-          this.selectedItems.splice(this.selectedItems.indexOf(item), 1);
-        }
+      if (!item.checked) {
+        this.selectedItems.push(item);
       } else {
-        this.selectedItems = [];
-        this.shopList.forEach(item=>{
-          item['checked']=false;
-        })
-        if (!item.checked) {
-          this.selectedItems.push(item);
-        } else {
-          this.selectedItems.splice(this.selectedItems.indexOf(item), 1);
-        }
+        this.selectedItems.splice(this.selectedItems.indexOf(item), 1);
       }
       item.checked = !item.checked;
     },
@@ -132,10 +111,6 @@ export default {
     shopItems: {
       Type: Array,
       default: () => [],
-    },
-    isMutiple: {
-      Type: Boolean,
-      default: () => true,
     },
   },
 };
