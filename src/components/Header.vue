@@ -120,8 +120,9 @@ export default {
 </script>
 
 <style scoped>
-a {
-  color: #222222;
+@media (max-width: 768px) {
+}
+@media (min-width: 768px) {
 }
 #Header {
   height: 110px;
@@ -131,7 +132,12 @@ a {
   align-items: center;
   width: 100%;
   max-width: 1920px;
+ 
 }
+a {
+  color: #222222;
+}
+
 .left-part {
   width: 30%;
 }

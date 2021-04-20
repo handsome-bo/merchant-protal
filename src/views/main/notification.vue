@@ -11,11 +11,19 @@
       }"
       @click="viewDetail(item)"
     >
-      <div class="flag middle-center" v-if="item.Status == 0">{{ $t("notification.new")}}</div>
+      <div class="flag middle-center" v-if="item.Status == 0">
+        {{ $t("notification.new") }}
+      </div>
       <div class="flag middle-center" v-else></div>
       <div class="date">{{ item.RequestDate | formatHour }}</div>
       <div class="title">
-        {{ $t("notification.messagetemplate",{shopname:item.StoreName,N:item.eVoucher.length,ReferenceNo:item.ReferenceNo}) }}
+        {{
+          $t("notification.messagetemplate", {
+            shopname: item.StoreName,
+            N: item.eVoucher.length,
+            ReferenceNo: item.ReferenceNo,
+          })
+        }}
       </div>
       <div class="status">{{ getStatusName(item.Status) }}</div>
     </div>
@@ -25,14 +33,16 @@
       v-if="isShowNewTip"
       @click="getNotificaiton()"
     >
-      {{$t("notification.newnotification")}} <i class="el-icon-refresh" />
+      {{ $t("notification.newnotification") }} <i class="el-icon-refresh" />
     </div>
 
     <el-dialog :visible.sync="showDialog" center width="540">
-      <div class="dialog-title">{{$t("notification.transactiondetails")}}</div>
+      <div class="dialog-title">
+        {{ $t("notification.transactiondetails") }}
+      </div>
       <div class="detail">
         <div class="detail-item">
-          <div>{{$t("notification.transactionreferencenumber")}}</div>
+          <div>{{ $t("notification.transactionreferencenumber") }}</div>
           <div>{{ selectItem.ReferenceNo }}</div>
         </div>
         <div
@@ -41,16 +51,16 @@
           :key="item.EVoucherID"
         >
           <div>{{ item.EVoucherName }}</div>
-          <div>{{ item.EVoucherQuantity }}{{$t("notification.reward")}}</div>
+          <div>{{ item.EVoucherQuantity }}{{ $t("notification.reward") }}</div>
         </div>
 
         <div class="detail-item">
-          <div>{{$t("notification.total")}}</div>
+          <div>{{ $t("notification.total") }}</div>
           <div>HK$ {{ selectItem.TotalVoucherAmount }}</div>
         </div>
         <div class="detail-item">
-          <div>{{$t("notification.minimum")}}</div>
-          <div> HK$ {{ selectItem.TotalTransactionAmountRequirement }}</div>
+          <div>{{ $t("notification.minimum") }}</div>
+          <div>HK$ {{ selectItem.TotalTransactionAmountRequirement }}</div>
         </div>
       </div>
       <div class="btn-group" v-if="isShowConfirmBtn">
@@ -58,28 +68,35 @@
           type="primary"
           class="btn-white btn-confirm"
           @click="cancelledHandler"
-          >{{$t("button.cancel")}}</el-button
+          >{{ $t("button.cancel") }}</el-button
         >
         <el-button
           type="danger"
           class="btn-red btn-confirm"
           @click="acceptHandler()"
-          >{{$t("button.accept")}}</el-button
+          >{{ $t("button.accept") }}</el-button
         >
       </div>
-      <div class="btn-group handled dialogAccepted" v-else>{{$t("button.accepted")}}</div>
+      <div class="btn-group handled dialogAccepted" v-else>
+        {{ $t("button.accepted") }}
+      </div>
     </el-dialog>
     <el-dialog :visible.sync="showCancelledDialog" center width="540">
-      <div class="dialog-title">{{$t("notification.confirmtext1")}}</div>
-      <div class="detail">{{$t("notification.confirmtext2")}}</div>
+      <div class="dialog-title">{{ $t("notification.confirmtext1") }}</div>
+      <div class="detail">{{ $t("notification.confirmtext2") }}</div>
       <div class="btn-group">
         <el-button
           type="primary"
           class="btn-white btn-confirm"
           @click="showCancelledDialog = false"
-          >{{$t("button.back")}}</el-button
+          >{{ $t("button.back") }}</el-button
         >
-        <el-button type="danger" class="btn-red btn-confirm" @click="confirmCancelled()">{{$t("button.ok")}}</el-button>
+        <el-button
+          type="danger"
+          class="btn-red btn-confirm"
+          @click="confirmCancelled()"
+          >{{ $t("button.ok") }}</el-button
+        >
       </div>
     </el-dialog>
   </div>
@@ -120,10 +137,9 @@ export default {
       this.showDialog = false;
       this.showCancelledDialog = true;
     },
-    confirmCancelled(){
+    confirmCancelled() {
       //to do
-      this.showCancelledDialog=false;
-
+      this.showCancelledDialog = false;
     },
     acceptHandler() {
       this.showDialog = false;
@@ -142,7 +158,6 @@ export default {
         });
     },
     getStatusName(status) {
-      
       if (status == 0) return this.$t("button.acctepting");
       if (status == 1) return this.$t("button.accepted");
       if (status == 2) return this.$t("button.cancelled");
