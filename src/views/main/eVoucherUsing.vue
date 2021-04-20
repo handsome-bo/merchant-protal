@@ -37,8 +37,8 @@
           </div>
           <div class="right" v-if="showCounter">
             <counterComponent
-              v-bind:value="1"
-              v-bind:maxValue="item.EVoucherQuantity"
+              :value="1"
+              :maxValue="item.EVoucherQuantity"
               @add="add($event)"
               @reduce="reduce($event)"
             />
@@ -132,6 +132,10 @@ export default {
       this.selectShop = shopList[0];
       this.$refs.shoppopup.initData();
     },
+    add($event){
+
+    },
+    reduce($event){}
   },
 };
 </script>

@@ -5,7 +5,10 @@
     </el-row>
     <el-row>
       <div class="filters flex">
-        <div class="mg-right-20">
+        <div
+          class="mg-right-20"
+          v-if="$store.getters.getUserRole === 'superaccount'"
+        >
           <ShopFilterCompnent ref="shopcomponent" />
         </div>
         <div>
@@ -50,7 +53,9 @@
         </el-row>
         <div class="content-bottom flex alig-center space-between">
           <div class="total-text">
-            {{ $t("evoucher.totalpage") }} {{totalCount}}，{{$t("evoucher.totalpageoftransaction")}}{{totalCount}}
+            {{ $t("evoucher.totalpage") }} {{ totalCount }}，{{
+              $t("evoucher.totalpageoftransaction")
+            }}{{ totalCount }}
           </div>
           <div class="page-text">
             <el-pagination
@@ -108,13 +113,13 @@ export default {
         this.parameters.searchFrom = event[0];
         this.parameters.searchTo = event[1];
       }
-      
-      const shops = this.$refs.shopcomponent.shopItems;
-      this.parameters.storeIDs = "";
-      shops.forEach((item) => {
-        this.parameters.storeIDs += item.storeID + ",";
-      });
-
+      if (this.$refs.shopcomponent) {
+        const shops = this.$refs.shopcomponent.shopItems;
+        this.parameters.storeIDs = "";
+        shops.forEach((item) => {
+          this.parameters.storeIDs += item.storeID + ",";
+        });
+      }
       _this.$axios
         .post(
           "/EVoucher/SearchEVoucherHistoryRecords",
@@ -198,6 +203,7 @@ export default {
 .filters {
   width: 960px;
   margin: 0 auto;
+  justify-content: center;
 }
 .title-top {
   margin: 50px 0 20px 0;

@@ -36,6 +36,7 @@ router.beforeEach((to, from, next) => {
   if (to.meta.navNumber >= 0) {
     store.commit('setNavNumber', to.meta.navNumber)
   }
+  console.log(store)
   next()
 })
 
