@@ -23,7 +23,7 @@ export default {
 <style   scoped>
 @media (max-width: 768px) {
   #footer {
-    padding: 20px;
+ 
     border-top: 3px solid #c77800;
     width: 100%;
   }
