@@ -46,6 +46,8 @@ export default {
   },
   methods: {
     login() {
+      this.$router.push("/main");
+      return;
       if (
         !/^\w+([\.\-]\w+)*\@\w+([\.\-]\w+)*\.\w+$/.test(this.email) ||
         this.password == null
@@ -106,13 +108,39 @@ export default {
 </script>
 
 <style   scoped>
-.group {
-  margin: 0 auto;
-  width: 500px;
-
+  @media (max-width: 768px) {
+    .title {
+  height: 32px;
+  width: 250px;
   color: #ffffff;
-  font-family: "Microsoft JhengHei";
+  font-size: 24px;
+  line-height: 32px;
 }
+
+.title1 {
+  height: 40px;
+  width: 250px;
+  color: #FFFFFF;
+  font-family: "Microsoft JhengHei";
+  font-size: 16px;
+  line-height: 21px;
+  text-align: center;
+  text-shadow: 0 2px 10px 0 rgba(0,0,0,0.8);
+}
+
+.input {
+  
+  width: 305px;
+  
+}
+
+  }
+
+  @media (min-width: 768px){
+    .input{
+       width: 500px;
+    }
+  }
 
 .title {
   font-size: 30px;
@@ -122,16 +150,27 @@ export default {
   text-align: center;
   text-shadow: 0 2px 10px 0 rgba(0, 0, 0, 0.9);
 }
+
 .title1 {
   font-size: 20px;
   letter-spacing: 0;
   line-height: 27px;
   margin-top: 60px;
 }
+
+.group {
+  margin: 0 auto;
+  width: 500px;
+  height: 341px;
+  width: 305px;
+
+  color: #ffffff;
+  font-family: "Microsoft JhengHei";
+}
 .input {
   box-sizing: border-box;
   height: 50px;
-  width: 500px;
+ 
   border: 1px solid rgba(0, 0, 0, 0.4);
   border-radius: 10px;
   background-color: #ffffff;

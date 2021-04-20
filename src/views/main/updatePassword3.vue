@@ -30,6 +30,26 @@ export default {
 </script>
 
 <style   scoped>
+
+@media (max-width: 768px){
+
+.group{
+  height: 181px;
+  width: 210px;
+}
+
+
+
+}
+
+@media (min-width: 768px){
+  .group{
+    
+  width: 500px;
+  padding: 50px;
+  }
+}
+
 .text {
  
   font-size: 30px;
@@ -44,8 +64,6 @@ export default {
 }
 .group {
   margin: 0 auto;
-  width: 500px;
-  padding: 50px;
   color: #ffffff;
   font-family: "Microsoft JhengHei";
 }
