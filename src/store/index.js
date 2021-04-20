@@ -2,16 +2,19 @@ import Vue from 'vue'
 import Vuex from 'vuex'
 Vue.use(Vuex)
 
-
+const userRole = localStorage.getItem('userRole')
+const token = localStorage.getItem('token') || ''
+const userinfo=localStorage.getItem('userinfo')||{}
 export default new Vuex.Store({
     state: {
         navNumber: 0,
         isShowLoginMenu: false,
-        token: 'test',
+        token: token,
         userName: 'Siu Ming, Chan',
         userId: '',
-        userRole: '',
-        isNewMessage: false
+        userRole: userRole,
+        isNewMessage: false,
+        userInfo: userinfo
     },
     mutations: {
         setNavNumber(state, num) {
@@ -23,13 +26,19 @@ export default new Vuex.Store({
         },
         setToken(state, token) {
             state.token = token;
+            localStorage.setItem('token', token);
         },
         setShowLoginMenu(state, showMenu) {
             state.isShowLoginMenu = showMenu;
         },
         setUserRole(state, role) {
             state.userRole = role;
+            localStorage.setItem('userRole', state.userRole)
         },
+        setUserInfo(state, userInfo) {
+            state.userInfo = userInfo;
+            localStorage.setItem('userinfo', state.userInfo)
+        }
 
     },
     getters: {
@@ -43,10 +52,14 @@ export default new Vuex.Store({
             return state.navNumber;
         },
         getIsShowLoginMenu(state) {
-            return state.isShowLoginMenu
+            return state.isShowLoginMenu;
         },
         getUserRole(state) {
-            return state.userRole
+            return state.userRole;
+        },
+        getuserInfo(state) {
+            return state.userInfo;
         }
+
     }
 })

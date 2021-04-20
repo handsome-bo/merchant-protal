@@ -38,8 +38,7 @@
 
 <script>
 export default {
-  name: "Login",
-  date() {
+  data() {
     return {
       email: "",
       password: "",
@@ -53,8 +52,39 @@ export default {
       ) {
         this.alertMessage();
       } else {
-        this.$router.push("/main");
-      }
+        this.$axios({
+          url: "https://localhost:44316/Settings/LoginUserInfo",
+          method: "POST",
+        }).then((res) => {
+          if (res && res.status == "200" && res.data) {
+            console.log(res);
+            var data = res.data;
+            const userinfo = {
+              name: data.name,
+              firstname: data.firstname,
+              firstnametc: data.firstnametc,
+              lastname: data.lastname,
+              lastnametc: data.lastnametc,
+              email: data.email,
+              salutation: data.salutation,
+              salutationtc: data.salutationtc,
+              title: data.title,
+              titletc: data.titletc,
+              mobilenumber: data.mobilenumber,
+              canacknowledgeevouchersummaryreport:
+                data.canacknowledgeevouchersummaryreport,
+              receivemonthlyevouchersummaryreport:
+                data.receivemonthlyevouchersummaryreport,
+              receivedailyevouchersummaryreport:
+                data.receivedailyevouchersummaryreport,
+              contacttype: data.contacttype,
+            };
+            this.$store.commit("setUserInfo", userinfo);
+            this.$store.commit("setToken", "123213123");
+            this.$router.push("/main");
+          }
+        });
+        }
     },
     forget() {
       this.$router.push("/forgotpassword1");
@@ -62,7 +92,7 @@ export default {
     alertMessage() {
       this.$message({
         message: "邮箱或密码输入有误，请重新登录",
-        type: "warning",
+        type: "error",
       });
       // callback: action => {
       //   this.$message({

@@ -14,14 +14,18 @@ import store from './store'
 import axios from '../src/request/index'
 import qs from "qs";
 import '../src/util/fitler'
+import Vant from 'vant';
+import 'vant/lib/index.css';
 Vue.use(VueRouter)
 Vue.use(ElementUI);
 Vue.use(less);
+Vue.use(Vant);
 Vue.config.productionTip = false;
 Vue.component("shop-item", shopitem);
 Vue.component("back-button", backButton);
 Vue.prototype.$axios = axios;
 Vue.prototype.$QS = qs;
+
 router.beforeEach((to, from, next) => {
   console.log(to.meta)
   if (to.meta.requestAuth == true) {
@@ -36,6 +40,7 @@ router.beforeEach((to, from, next) => {
   if (to.meta.navNumber >= 0) {
     store.commit('setNavNumber', to.meta.navNumber)
   }
+  console.log(store)
   next()
 })
 

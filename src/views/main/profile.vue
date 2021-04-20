@@ -1,6 +1,6 @@
 <template>
   <div>
-    <div class="title-top">{{$t("profile.title")}}</div>
+    <div class="title-top">{{ $t("profile.title") }}</div>
     <div class="wrapper common-bg">
       <div class="text-center role-account">{{ member.role }}</div>
       <div class="text-center role-account">{{ member.account }}</div>
@@ -48,7 +48,7 @@
               v-model="member.isReceiveEmail"
               disabled
             />
-            {{$t("profile.report")}}
+            {{ $t("profile.report") }}
           </div>
         </el-row>
       </div>
@@ -104,7 +104,7 @@
         <el-row>
           <div :span="24" class="term">
             <input type="radio" class="radio" />
-            {{$t("profile.report")}}
+            {{ $t("profile.report") }}
           </div>
         </el-row>
       </div>
@@ -115,9 +115,15 @@
         class="btn-red"
         v-if="!isUpdate"
         @click="isUpdate = true"
-        >{{$t('profile.save')}}</el-button
+        >{{ $t("profile.save") }}</el-button
       >
-      <el-button type="danger" class="btn-red" @click="isUpdate = false" v-else>{{$t('profile.save')}}</el-button>
+      <el-button
+        type="danger"
+        class="btn-red"
+        @click="isUpdate = false"
+        v-else
+        >{{ $t("profile.save") }}</el-button
+      >
     </div>
   </div>
 </template>
@@ -152,6 +158,9 @@ export default {
       },
       isUpdate: false,
     };
+  },
+  mounted() {
+   console.log( this.$store.userInfo);
   },
   methods: {},
 };
