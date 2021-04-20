@@ -2,7 +2,12 @@
   <div class="outer-box">
     <div class="box">
       <div class="title-group flex space-between">
-        <div class="title middle-center">{{ $t("evoucher.selectshop") }}</div>
+        <div
+          class="title middle-center"
+          :class="{ titleFull: $store.getters.getUserRole != 'shop' }"
+        >
+          {{ $t("evoucher.selectshop") }}
+        </div>
         <div
           class="add middle-center"
           v-if="$store.getters.getUserRole != 'shop'"
@@ -64,7 +69,9 @@ export default {
   },
   created() {
     //   this.$store.state
-    if (this.$store.state.userRole == "shop") this.canClose = false;
+    if (this.$store.state.userRole == "shop") {
+      this.canClose = false;
+    }
   },
   methods: {
     showShopFilter() {
@@ -108,6 +115,9 @@ export default {
   font-size: 20px;
   text-align: center;
   width: 90%;
+}
+.titleFull {
+  width: 100%;
 }
 .title-group {
   padding-right: 8px;
