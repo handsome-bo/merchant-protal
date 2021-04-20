@@ -84,8 +84,7 @@ export default {
             this.$router.push("/main");
           }
         });
-        //   this.$router.push("/main");
-      }
+        }
     },
     forget() {
       this.$router.push("/forgotpassword1");

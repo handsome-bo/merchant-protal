@@ -55,6 +55,39 @@ export default {
 
 <style   scoped>
  
+
+ @media (max-width: 768px) {
+  .input {
+  box-sizing: border-box;
+  height: 50px;
+  width: 305px;
+  border: 1px solid rgba(0, 0, 0, 0.4);
+  border-radius: 10px;
+  background-color: #ffffff;
+  margin-top: 15px;
+  text-align: center;
+  font-size: 20px;
+}
+.group {
+  margin: 0 auto;
+  width: 100% ;
+    color: #ffffff;
+  font-family: "Microsoft JhengHei";
+}
+
+}
+@media (min-width: 768px) {
+  .input {
+  box-sizing: border-box;
+  height: 50px;
+  width: 500px;
+  border: 1px solid rgba(0, 0, 0, 0.4);
+  border-radius: 10px;
+  background-color: #ffffff;
+  margin-top: 15px;
+  text-align: center;
+  font-size: 20px;
+}
 .group {
   margin: 0 auto;
   width: 500px;
@@ -62,6 +95,8 @@ export default {
   color: #ffffff;
   font-family: "Microsoft JhengHei";
 }
+}
+
 
 .title {
   font-size: 30px;
@@ -77,17 +112,7 @@ export default {
   line-height: 27px;
   margin-top: 60px;
 }
-.input {
-  box-sizing: border-box;
-  height: 50px;
-  width: 500px;
-  border: 1px solid rgba(0, 0, 0, 0.4);
-  border-radius: 10px;
-  background-color: #ffffff;
-  margin-top: 15px;
-  text-align: center;
-  font-size: 20px;
-}
+
 .input-code {
   width: 280px !important;
 }
