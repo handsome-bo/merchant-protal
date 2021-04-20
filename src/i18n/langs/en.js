@@ -79,6 +79,8 @@ const en = {
         search:'Search',
         selectall:'Select All',
         confirm:'Confirm',
+
+        
     },
     mothlyreport:{
         evouchersmonthlyreimbusement:"e-Vouchers Monthly Reimbursement Application",
@@ -158,7 +160,8 @@ const en = {
         newpassword:"New Password",
         passwordagain:"Enter New Password Again",
         errormessage:"Password has been updated, please login again",
-        loginaain:"Password has been updated. Please log in again."
+        loginaain:"Password has been updated. Please log in again.",
+        username:"Username"
     },
 
     profile:{
@@ -187,7 +190,10 @@ const en = {
         passwordagain:"Enter New Password Again",
         register:"Register",
         errormessage:"Password has been updated, please login again",
-        passwordcondition:"The password must contain characters from at least two of the following: upper case, lower case, digits, special characters."
+        passwordcondition:"The password must contain characters from at least two of the following: upper case, lower case, digits, special characters.",
+        secondlaterresend:"Sconds Later Resend",
+        resendverifycode:"Resend Verify Code",
+        getverifycode:"Get Verify Code"
     },
     
     login:{
@@ -210,11 +216,17 @@ const en = {
         message:"A verification code has been sent to your email. Please enter the verification code. ",
         verificationcode:"Verification Code",
         verify:"Verify",
-        sendnewverificationcode:"Send New Verification Code"
+        sendnewverificationcode:"Send New Verification Code",
+        confirm:"Confirm",
     },
 
     errorpage:{
         errormessage:"Sorry, the system is not available at this moment, please try again later. For further assistance, please contact our ambassadors at ELEMENTS Club Hotline 2196 8993. "
+    },
+    datefilter:{
+        startdate:'Start Date',
+        enddate:'End Date',
+        to:'To',
     }
 }
 export default en;

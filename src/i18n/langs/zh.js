@@ -96,6 +96,7 @@ const cn = {
         search: '搜尋',
         selectall: '全選',
         confirm: '確定',
+      
     },
     mothlyreport: {
         evouchersmonthlyreimbusement: "電子禮券每月退款申請",
@@ -190,7 +191,8 @@ const cn = {
         newpassword:"新密碼 ",
         passwordagain:"再次輸入新密碼",
         errormessage:"密码已更新，请重新登入",
-        loginaain:"密碼已更新，請重新登入"
+        loginaain:"密碼已更新，請重新登入",
+        username:"用戶名"
 
     },
 
@@ -205,7 +207,10 @@ const cn = {
         passwordagain:"再次輸入新密碼",
         register:"註冊",
         errormessage:"密码已更新，请重新登入",
-        passwordcondition:"密碼需要符合至少2項條件 : 大寫、小寫、數字和符號。"
+        passwordcondition:"密碼需要符合至少2項條件 : 大寫、小寫、數字和符號。",
+        secondlaterresend:"秒後重新傳送",
+        resendverifycode:"重新傳送驗證碼",
+        getverifycode:"獲取驗證碼",
     },
 
     login:{
@@ -228,11 +233,18 @@ const cn = {
         message:"驗證碼已發送到電郵，請輸入驗證碼。 ",
         verificationcode:"驗證碼",
         verify:"驗證",
-        sendnewverificationcode:"重新發送驗證碼"
+        sendnewverificationcode:"重新發送驗證碼",
+        confirm:"確認"
     },
 
     errorpage:{
         errormessage:"抱歉，系統暫時未能提供服務，請稍後再試。如有查詢，請致電ELEMENTS Club 熱線 2196 8993 與禮賓大使聯絡。"
+    },
+
+    datefilter:{
+        startdate:"開始日期",
+        enddate:"結束日期",
+        to:"到",
     }
 }
 

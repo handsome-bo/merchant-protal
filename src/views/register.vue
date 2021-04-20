@@ -23,10 +23,11 @@ export default {
   name: "Register",
   data() {
     return {
-      countDownMsg: "获取验证码",
+      countDownMsg: this.$t("registration.getverifycode"),
       canSend: true,
     };
   },
+
   methods: {
     verify(){
       //to verify code 
@@ -40,10 +41,10 @@ export default {
       _this.timer = window.setInterval(() => {
         if (_this.count > 0 && _this.count <= TIME_COUNT) {
           _this.count--;         
-          _this.countDownMsg = _this.count + "s后重新傳送";
+          _this.countDownMsg = _this.count +  _this.$t("registration.secondlaterresend");
         } else {
           _this.canSend = true;
-          _this.countDownMsg = "重新傳送驗證碼";
+          _this.countDownMsg = _this.$t("registration.resendverifycode");
           clearInterval(_this.timer);
           _this.timer = null;
         }

@@ -8,9 +8,9 @@
       <el-date-picker class="datepicker"
         v-model="selectDate"
         type="daterange"
-        range-separator="到"
-        start-placeholder="开始日期"
-        end-placeholder="结束日期"
+        :range-separator="$t('datefilter.to')"
+        :start-placeholder="$t('datefilter.startdate')"
+        :end-placeholder="$t('datefilter.enddate')"
         format="yyyy-MM-dd"
       >
       </el-date-picker>
