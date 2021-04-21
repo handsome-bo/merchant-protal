@@ -1,5 +1,6 @@
 <template>
-  <div>
+<div>
+  <div v-if="isMobile">
     <el-row class="title-top">
       {{ $t("evoucher.e_voucherstransactionhistory") }}
     </el-row>
@@ -11,7 +12,7 @@
         >
           <ShopFilterCompnent ref="shopcomponent" />
         </div>
-        <div>
+        <div class="filters flex">
           <DateFilterCompnent
             @search="search($event)"
             @download="download($event)"
@@ -19,7 +20,8 @@
         </div>
       </div>
     </el-row>
-
+ </div>
+ <div></div>
     <div class="title">{{ $t("evoucher.view") }}</div>
     <div class="wrapper">
       <div>
@@ -72,7 +74,10 @@
         <div>HK$61,000.00</div>
       </div>
     </div>
-  </div>
+ 
+  
+</div>
+
 </template>
 
 <script>
@@ -97,9 +102,17 @@ export default {
       totalPage: 0,
       totalCount: 0,
       pageSize: 10,
+      isMobile:false,
     };
+
   },
-  mounted() {},
+  mounted() {
+   
+      
+      this.isMobile=this.$store.state.isMobile;
+      console.log(this.$store.state.isMobile)
+  
+  },
   methods: {
     handleClick(row) {
       this.selectShop = row.ShopNumber;

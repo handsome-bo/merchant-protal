@@ -1,7 +1,7 @@
 <template>
   <div class="outer-box">
     <div class="box">
-<<<<<<< HEAD
+
     <div class="title-group flex space-between">
       <div class="title middle-center">{{$t("evoucher.selectdate")}}</div>
     </div>
@@ -20,37 +20,14 @@
       <el-button class="search-btn" @click="search()">{{$t("evoucher.view")}}</el-button>
       <el-button class="download-btn" @click="download()">{{$t("evoucher.saveasexcel")}}</el-button>
     </div>
-=======
-      <div class="title-group flex space-between">
-        <div class="title middle-center">{{ $t("evoucher.selectdate") }}</div>
-      </div>
-      <div class="date-group">
-        <el-date-picker
-          class="datepicker"
-          v-model="selectDate"
-          type="daterange"
-          range-separator="到"
-          start-placeholder="开始日期"
-          end-placeholder="结束日期"
-          format="yyyy-MM-dd"
-        >
-        </el-date-picker>
-      </div>
-      <div class="button-group flex space-between">
-        <el-button class="search-btn" @click="search()">{{
-          $t("evoucher.view")
-        }}</el-button>
-        <el-button class="download-btn" @click="download()">{{
-          $t("evoucher.saveasexcel")
-        }}</el-button>
-      </div>
->>>>>>> e59bf5cbe5e9b15d372240d750b9d16fba1cebe1
+
     </div>
   </div>
 </template>
 
 <script>
 export default {
+  
   name: "DateFilters",
   data() {
     return {
@@ -70,9 +47,23 @@ export default {
 </script>
 
 <style  scoped>
-.outer-box {
+@media (max-width: 768px) {
+  .outer-box {
+      height: 202px;
+  width: 335px;
+  }
+           
+        
+}
+@media (min-width: 768px) {
+  .outer-box {
   height: 202px;
   width: 470px;
+  }
+}
+
+.outer-box {
+
   border-radius: 10px;
   background-color: #d7c4a3;
 }

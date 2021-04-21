@@ -192,7 +192,8 @@ const cn = {
         passwordagain:"再次輸入新密碼",
         errormessage:"密码已更新，请重新登入",
         loginaain:"密碼已更新，請重新登入",
-        username:"用戶名"
+        username:"用戶名",
+        texttip1:"密碼需要乎合至少2項條件（大寫、小寫、數字和符號）",
 
     },
 
