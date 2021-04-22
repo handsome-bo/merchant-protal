@@ -46,6 +46,8 @@ export default {
   },
   methods: {
     login() {
+      this.$router.push("/main");
+      return;
       if (
         !/^\w+([\.\-]\w+)*\@\w+([\.\-]\w+)*\.\w+$/.test(this.email) ||
         this.password == null
@@ -106,6 +108,19 @@ export default {
 </script>
 
 <style   scoped>
+
+ @media (max-width: 768px) {
+  .input {
+  box-sizing: border-box;
+  height: 50px;
+  width: 305px;
+  border: 1px solid rgba(0, 0, 0, 0.4);
+  border-radius: 10px;
+  background-color: #ffffff;
+  margin-top: 15px;
+  text-align: center;
+  font-size: 20px;
+}
 .group {
   margin: 0 auto;
   width: 500px;
@@ -113,6 +128,7 @@ export default {
   color: #ffffff;
   font-family: "Microsoft JhengHei";
 }
+ }
 
 .title {
   font-size: 30px;

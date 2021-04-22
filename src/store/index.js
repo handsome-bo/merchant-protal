@@ -14,9 +14,14 @@ export default new Vuex.Store({
         userId: '',
         userRole: userRole,
         isNewMessage: false,
+        isMobile:false,
         userInfo: userinfo
     },
     mutations: {
+        setIsMobile(state,isMobile){
+            state.isMobile=isMobile;
+            localStorage.setItem('isMobile',isMobile);
+        },
         setNavNumber(state, num) {
             state.navNumber = num;
         },
@@ -42,6 +47,9 @@ export default new Vuex.Store({
 
     },
     getters: {
+        getIsMobile(state){
+            return state.isMobile;
+        },
         getUserName(state) {
             return state.userName;
         },

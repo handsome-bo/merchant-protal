@@ -102,9 +102,23 @@ export default {
 </script>
 
 <style  scoped>
-.outer-box {
-  height: 202px;
+@media (max-width: 768px) {
+        .outer-box{
+          height: 202px;
+           width: 335px;
+      
+           
+        }
+}
+@media (min-width: 768px) {
+  .outer-box{
+     height: 202px;
   width: 470px;
+  }
+}
+
+.outer-box {
+ 
   border-radius: 10px;
   background-color: #d7c4a3;
 }

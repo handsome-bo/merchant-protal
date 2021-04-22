@@ -9,9 +9,12 @@ export default {
   name: "App",
   mounted() {
     if (this._isMobile()) {
+      this.$store.commit("setIsMobile",true)
       console.log("手机端");
+      //
       //  this.$router.replace("/m_index");
     } else {
+      this.$store.commit("setIsMobile",false)
       console.log("pc端");
       //  this.$router.replace("/pc_index");
     }

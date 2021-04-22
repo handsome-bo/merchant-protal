@@ -163,6 +163,7 @@ export default {
       if (status == 2) return this.$t("button.cancelled");
     },
     longpooling() {
+      
       const _this = this;
       this.$axios
         .post("/Notification/GetNotificationMessageWithJson", {})

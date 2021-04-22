@@ -11,7 +11,7 @@
         />{{ $t("forgotpassword.emailaddress") }}
       </div>
       <div class="text-center verify-btn">
-        <el-button class="btn-red" @click="verify">確認</el-button>
+        <el-button class="btn-red" @click="verify">{{$t("forgotpassword.confirm")}}</el-button>
       </div>
     </div>
   </div>

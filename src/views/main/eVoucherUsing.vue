@@ -141,8 +141,45 @@ export default {
 </script>
 
 <style  scoped>
-.wrapper {
+@media (max-width: 768px) {
+  .wrapper{
+   height: 254px;
+  width: 335px;
+  border-radius: 10px;
+  font-family: "Microsoft JhengHei";
+  }
+  .title{
+  height: 27px;
+  color: #222222;
+  font-size: 20px;
+  margin-bottom: 20px;
+  }
+  .input-text {
+    height: 50px;
+  width: 295px;
+  border-radius: 10px;
+  background-color: #FFFFFF;
+  }
+  .btn-red{
+     height: 50px;
+  width: 295px;
+  }
+
+  }
+@media(min-width: 768px){
+  .wrapper{
+     width: 470px;
+  }
+  .title{
+  font-size: 24px;
+  margin-bottom: 25px;
+  }
+.btn-group {
   width: 470px;
+  }
+}  
+.wrapper {
+ 
   margin: 10px auto;
   font-size: 18px;
   border-radius: 10px;
@@ -150,17 +187,16 @@ export default {
   padding: 20px;
 }
 .btn-group {
-  width: 470px;
+
   margin: 10px auto;
   text-align: center;
 }
 .title {
   color: #222222;
-  font-size: 24px;
   letter-spacing: 0;
   line-height: 32px;
   text-align: center;
-  margin-bottom: 25px;
+
 }
 .input-text {
   height: 50px;
