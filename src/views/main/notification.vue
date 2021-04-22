@@ -1,4 +1,102 @@
 <template>
+
+  <div>
+   <div v-if="isMobile">
+     <div class="wrapper">
+    <div
+      v-for="item in notificationDatas"
+      :key="item.ReferenceNo"
+      class="row"
+      :class="{
+        new: item.Status == 0,
+        accepted: item.Status == 1,
+        rejected: item.Status == 2,
+      }"
+      @click="viewDetail(item)"
+    >
+    <div class="flex">
+    <div class="flag middle-center " v-if="item.Status == 0">
+       {{ $t("notification.new") }}
+    </div>
+    <div class="flag middle-center" v-else></div>
+      <div class="date">{{ item.RequestDate | formatHour }}</div>
+      <div class="status">{{ getStatusName(item.Status) }}</div>
+    </div>
+    <div
+      class="tip middle-center pointer"
+      v-if="isShowNewTip"
+      @click="getNotificaiton()"
+    >
+      {{ $t("notification.newnotification") }} <i class="el-icon-refresh" />
+    </div>
+     
+    </div>
+     <el-dialog :visible.sync="showDialog" center width="540">
+      <div class="dialog-title">
+        {{ $t("notification.transactiondetails") }}
+      </div>
+      <div class="detail">
+        <div class="detail-item">
+          <div>{{ $t("notification.transactionreferencenumber") }}</div>
+          <div>{{ selectItem.ReferenceNo }}</div>
+        </div>
+        <div
+          class="detail-item"
+          v-for="item in selectItem.eVoucher"
+          :key="item.EVoucherID"
+        >
+          <div>{{ item.EVoucherName }}</div>
+          <div>{{ item.EVoucherQuantity }}{{ $t("notification.reward") }}</div>
+        </div>
+
+        <div class="detail-item">
+          <div>{{ $t("notification.total") }}</div>
+          <div>HK$ {{ selectItem.TotalVoucherAmount }}</div>
+        </div>
+        <div class="detail-item">
+          <div>{{ $t("notification.minimum") }}</div>
+          <div>HK$ {{ selectItem.TotalTransactionAmountRequirement }}</div>
+        </div>
+      </div>
+      <div class="btn-group" v-if="isShowConfirmBtn">
+        <el-button
+          type="primary"
+          class="btn-white btn-confirm"
+          @click="cancelledHandler"
+          >{{ $t("button.cancel") }}</el-button
+        >
+        <el-button
+          type="danger"
+          class="btn-red btn-confirm"
+          @click="acceptHandler()"
+          >{{ $t("button.accept") }}</el-button
+        >
+      </div>
+      <div class="btn-group handled dialogAccepted" v-else>
+        {{ $t("button.accepted") }}
+      </div>
+    </el-dialog>
+    <el-dialog :visible.sync="showCancelledDialog" center width="540">
+      <div class="dialog-title">{{ $t("notification.confirmtext1") }}</div>
+      <div class="detail">{{ $t("notification.confirmtext2") }}</div>
+      <div class="btn-group">
+        <el-button
+          type="primary"
+          class="btn-white btn-confirm"
+          @click="showCancelledDialog = false"
+          >{{ $t("button.back") }}</el-button
+        >
+        <el-button
+          type="danger"
+          class="btn-red btn-confirm"
+          @click="confirmCancelled()"
+          >{{ $t("button.ok") }}</el-button
+        >
+      </div>
+    </el-dialog>
+  </div>
+   </div>
+       <div v-else>
   <div class="wrapper">
     <div
       v-for="item in notificationDatas"
@@ -100,6 +198,8 @@
       </div>
     </el-dialog>
   </div>
+  </div>
+  </div>
 </template>
 
 <script>
@@ -113,19 +213,30 @@ export default {
       showCancelledDialog: false,
       confirmedText: "",
       selectItem: {},
-      notificationDatas: [],
+      notificationDatas: [
+        {
+          eVoucher:[],
+          ReferenceNo:"asdac45asd646c4a4s6",
+        Status:0,
+        RequestDate:"2020-10-30 16:41",
+        formatHource:1,
+        
+        StoreName:1,}
+        
+      ],
       isShowNewTip: false,
       timer: null,
+      isMobile:true,
     };
   },
   created() {},
   mounted() {
-    this.getNotificaiton();
-    this.timer = window.setInterval(() => {
-      setTimeout(() => {
-        this.longpooling();
-      }, 1);
-    }, 7000);
+    // this.getNotificaiton();
+    // this.timer = window.setInterval(() => {
+    //   setTimeout(() => {
+    //     this.longpooling();
+    //   }, 1);
+    // }, 7000);
   },
   methods: {
     viewDetail(item) {
@@ -185,18 +296,59 @@ export default {
     },
   },
   destroyed() {
-    clearTimeout(this.timer);
+  //  clearTimeout(this.timer);
   },
 };
 </script>
 
 <style  scoped>
-.wrapper {
-  width: 1027px;
-  margin: 100px auto;
-  font-size: 18px;
+@media (max-width: 768px) {
+  .wrapper{
+ padding-left: 20px;
+  }
+  .row{
+      height: 126px;
+  width: 345px;
+  border-radius: 10px;
+  background-color: #EDDDC1;
+  }
+  .date {
+    height: 18px;
+
+  opacity: 0.9;
+  color: #222222;
+  font-family: Ubuntu;
+  font-size: 16px;
+  letter-spacing: 0;
+  line-height: 18px;
+  text-align: center;
 }
-.row {
+.flag {
+  height: 30px;
+  width: 50px;
+  border-radius: 4px;
+  background-color: #840522;
+  color: #fff;
+  text-align: center;
+  margin:15px;
+}
+.status {
+  height: 21px;
+  width: 48px;
+  color: #E70048;
+  font-family: "Microsoft JhengHei";
+  font-size: 16px;
+  letter-spacing: 0;
+  line-height: 21px;
+  text-align: center;
+  margin-left: 70px;
+}
+}
+@media (min-width:768px) {
+  .wrapper{
+      width: 1027px;
+  }
+  .row {
   height: 60px;
   width: 1027px;
   border-radius: 10px;
@@ -211,25 +363,6 @@ export default {
 .new {
   background-color: #edddc1;
 }
-.accepted {
-  background-color: #f6f1eb;
-}
-.accepted > .flag,
-.cancelled > .flag {
-  background: none;
-}
-.cancelled {
-  background-color: #f4f4f4;
-}
-.flag {
-  height: 40px;
-  width: 56px;
-  border-radius: 4px;
-  background-color: #840522;
-  color: #fff;
-  text-align: center;
-}
-
 .date {
   height: 20px;
   width: 142px;
@@ -240,14 +373,12 @@ export default {
   line-height: 21px;
   text-align: center;
 }
-.title {
-  height: 24px;
-  width: 521px;
-  color: #222222;
-  font-family: Ubuntu;
-  font-size: 18px;
-  letter-spacing: 0;
-  line-height: 21px;
+.flag {
+  height: 40px;
+  width: 56px;
+  border-radius: 4px;
+  background-color: #840522;
+  color: #fff;
   text-align: center;
 }
 .status {
@@ -260,6 +391,37 @@ export default {
   line-height: 24px;
   text-align: center;
 }
+}
+.wrapper {
+
+  margin: 100px auto;
+  font-size: 18px;
+}
+
+.accepted {
+  background-color: #f6f1eb;
+}
+.accepted > .flag,
+.cancelled > .flag {
+  background: none;
+}
+.cancelled {
+  background-color: #f4f4f4;
+}
+
+
+
+.title {
+  height: 24px;
+  width: 521px;
+  color: #222222;
+  font-family: Ubuntu;
+  font-size: 18px;
+  letter-spacing: 0;
+  line-height: 21px;
+  text-align: center;
+}
+
 .tip {
   height: 50px;
   width: 166px;
