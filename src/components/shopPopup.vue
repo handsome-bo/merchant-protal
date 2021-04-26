@@ -150,16 +150,54 @@ export default {
 </script>
 
 <style  scoped>
-.content {
+@media (max-width:768px) {
+  .content {
+    height: 500px;
+  width: 315px;
+  border-radius: 10px;
+  background-color: #d7c4a3;
+  padding: 15px;
+  margin-left: 1px;
+}
+  .search-input {
+  height: 50px;
+  width: 285px;
+  border-radius: 10px;
+  background-color: #ffffff;
+  color: #222222;
+  font-family: "Microsoft JhengHei";
+  font-size: 18px;
+  letter-spacing: 0;
+  line-height: 24px;
+  border: none;
+  margin-right: 15px;
+}
+}
+@media (min-width:768px) {
+  .content {
   height: 655px;
 
   border-radius: 10px;
   background-color: #d7c4a3;
   padding: 15px;
 }
+  .search-input {
+  height: 50px;
+  width: 300px;
+  border-radius: 10px;
+  background-color: #ffffff;
+  color: #222222;
+  font-family: "Microsoft JhengHei";
+  font-size: 18px;
+  letter-spacing: 0;
+  line-height: 24px;
+  border: none;
+  margin-right: 15px;
+}
+}
+
 .shop-list {
   height: 560px;
-
   border-radius: 10px;
   background-color: #ffffff;
   padding: 15px;
@@ -185,19 +223,7 @@ export default {
 .search {
   height: 70px;
 }
-.search-input {
-  height: 50px;
-  width: 300px;
-  border-radius: 10px;
-  background-color: #ffffff;
-  color: #222222;
-  font-family: "Microsoft JhengHei";
-  font-size: 18px;
-  letter-spacing: 0;
-  line-height: 24px;
-  border: none;
-  margin-right: 15px;
-}
+
 .header {
   height: 70px;
 }

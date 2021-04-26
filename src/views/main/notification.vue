@@ -22,6 +22,15 @@
       <div class="date">{{ item.RequestDate | formatHour }}</div>
       <div class="status">{{ getStatusName(item.Status) }}</div>
     </div>
+    <div class="title">
+        {{
+          $t("notification.messagetemplate", {
+            shopname: item.StoreName,
+            N: item.eVoucher.length,
+            ReferenceNo: item.ReferenceNo,
+          })
+        }}
+      </div>
     <div
       class="tip middle-center pointer"
       v-if="isShowNewTip"
@@ -134,7 +143,7 @@
       {{ $t("notification.newnotification") }} <i class="el-icon-refresh" />
     </div>
 
-    <el-dialog :visible.sync="showDialog" center width="540">
+    <el-dialog :visible.sync="showDialog" center width="540" class="el-dialog">
       <div class="dialog-title">
         {{ $t("notification.transactiondetails") }}
       </div>
@@ -216,12 +225,15 @@ export default {
       notificationDatas: [
         {
           eVoucher:[],
-          ReferenceNo:"asdac45asd646c4a4s6",
+          ReferenceNo:"asdac4s6",
         Status:0,
         RequestDate:"2020-10-30 16:41",
-        formatHource:1,
-        
-        StoreName:1,}
+        formatHource:711,
+        EVoucherID:1235,
+        StoreName:711,
+
+        EVoucherQuantity:"顧客使用了電子禮券X張，交易",
+        StoreName:711,}
         
       ],
       isShowNewTip: false,
@@ -343,6 +355,32 @@ export default {
   text-align: center;
   margin-left: 70px;
 }
+.title {
+   height: 52px;
+  width: 315px;
+  color: #222222;
+  font-family: "Microsoft JhengHei";
+  font-size: 16px;
+  letter-spacing: 0;
+  line-height: 26px;
+  padding-left: 15px;
+ 
+}
+.dialog-title {
+    height: 32px;
+ 
+  color: #222222;
+  font-family: "Microsoft JhengHei";
+  font-size: 24px;
+  font-weight: bold;
+  letter-spacing: 0;
+  line-height: 32px;
+  text-align: center;
+}
+.el-dialog{
+     height: 557px;
+    width: 345px;
+}
 }
 @media (min-width:768px) {
   .wrapper{
@@ -391,6 +429,25 @@ export default {
   line-height: 24px;
   text-align: center;
 }
+.title {
+  height: 24px;
+  width: 521px;
+  color: #222222;
+  font-family: Ubuntu;
+  font-size: 18px;
+  letter-spacing: 0;
+  line-height: 21px;
+  text-align: center;
+}
+.dialog-title {
+  color: #222222;
+  font-family: "Microsoft JhengHei";
+  font-size: 30px;
+  font-weight: bold;
+  letter-spacing: 0;
+  line-height: 40px;
+  text-align: center;
+}
 }
 .wrapper {
 
@@ -411,16 +468,7 @@ export default {
 
 
 
-.title {
-  height: 24px;
-  width: 521px;
-  color: #222222;
-  font-family: Ubuntu;
-  font-size: 18px;
-  letter-spacing: 0;
-  line-height: 21px;
-  text-align: center;
-}
+
 
 .tip {
   height: 50px;
@@ -440,15 +488,7 @@ export default {
   left: 45%;
   bottom: 40px;
 }
-.dialog-title {
-  color: #222222;
-  font-family: "Microsoft JhengHei";
-  font-size: 30px;
-  font-weight: bold;
-  letter-spacing: 0;
-  line-height: 40px;
-  text-align: center;
-}
+
 .detail {
   margin: 30px auto;
   width: 80%;

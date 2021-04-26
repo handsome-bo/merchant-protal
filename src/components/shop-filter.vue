@@ -34,7 +34,8 @@
       :visible.sync="isShowShopFilter"
       :show-close="false"
       center
-      width="1300px"
+      width="92%"
+   
     >
       <shop-Popup
         @onClose="closeShopFilter($event)"
@@ -63,7 +64,9 @@ export default {
   data() {
     return {
       isShowShopFilter: false,
-      shopItems: [],
+      shopItems: [
+        {}
+      ],
       canClose: true,
     };
   },
