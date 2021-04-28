@@ -1,6 +1,6 @@
 <template>
 <div>
-  <div v-if="isMobile">
+  <div >
     <el-row class="title-top">
       {{ $t("evoucher.e_voucherstransactionhistory") }}
     </el-row>
@@ -55,7 +55,7 @@
         </el-row>
         <div class="content-bottom flex alig-center space-between">
           <div class="total-text">
-            {{ $t("evoucher.totalpage") }} {{ totalCount }}，{{
+            {{ $t("evoucher.totalpage") }} {{ totalPage }}，{{
               $t("evoucher.totalpageoftransaction")
             }}{{ totalCount }}
           </div>
@@ -64,6 +64,7 @@
               :page-size="pageSize"
               layout="prev, pager, next"
               :total="totalCount"
+              @current-change="changePage"
             >
             </el-pagination>
           </div>
@@ -93,7 +94,13 @@ export default {
   data() {
     return {
       selectShop: "",
-      tableData: [],
+      tableData: [
+         
+      ],
+      //put data in this arr
+      totalData:[
+       
+      ],
       parameters: {
         storeIDs: "",
         searchFrom: "",
@@ -107,15 +114,27 @@ export default {
 
   },
   mounted() {
-   
-      
       this.isMobile=this.$store.state.isMobile;
-      console.log(this.$store.state.isMobile)
+      this.totalCount=this.totalData.length;
+      this.totalPage=Math.ceil(this.totalCount/this.pageSize);
+      for(var j=0;j<this.pageSize;j++){
+        this.tableData[j]=this.totalData[j];
+      }
+     
+     
   
   },
   methods: {
     handleClick(row) {
       this.selectShop = row.ShopNumber;
+    },
+    changePage(val){
+      this.tableData=[];    
+      var index=0;
+      for(var j=(val-1)*this.pageSize;j<this.pageSize*val&& j<this.totalData.length;j++){
+        this.tableData[index]=this.totalData[j];
+        index++;
+      }
     },
     handleClose() {
       this.selectShop = "";
