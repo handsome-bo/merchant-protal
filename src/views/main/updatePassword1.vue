@@ -46,12 +46,46 @@ export default {
 </script>
 
 <style   scoped>
+
+@media (max-width: 768px){
+  .group{
+    height: 307px;
+  width: 305px;
+  }
+
+.title{
+  height: 32px;
+  color: #FFFFFF;
+  font-family: "Microsoft JhengHei";
+  font-size: 24px;
+  line-height: 32px;
+  text-align: center;
+  text-shadow: 0 2px 10px 0 rgba(0,0,0,0.8);
+}
+
+.input {
+  
+  width: 305px;
+  
+}
+}
+
+@media (min-width: 768px){
+.group{
+   margin: 0 auto;
+  width: 500px;
+}
+
+.input{
+       width: 500px;
+    }
+
+}
+
 .outer {
   padding-top: 161px;
 }
 .group {
-  margin: 0 auto;
-  width: 500px;
   padding: 50px;
   color: #ffffff;
   font-family: "Microsoft JhengHei";
@@ -75,7 +109,6 @@ export default {
 .input {
   box-sizing: border-box;
   height: 50px;
-  width: 500px;
   border: 1px solid rgba(0, 0, 0, 0.4);
   border-radius: 10px;
   background-color: #ffffff;

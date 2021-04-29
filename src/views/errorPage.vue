@@ -21,10 +21,19 @@ export default {
 </script>>
 
 <style scoped>
-
+@media (max-width: 768px){
+    .group{
+        height: 321px;
+        width: 295px;
+    }
+}
+@media (min-width: 768px){
+    .group{
+ width: 500px;
+    }
+}
    .group {
   margin: 0 auto;
-  width: 500px;
   padding: 50px;
   color: #ffffff;
   font-family: "Microsoft JhengHei";

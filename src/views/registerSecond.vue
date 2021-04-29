@@ -29,10 +29,35 @@ export default {
 
 <style   scoped>
  
+@media (max-width: 768px){
+
+.group{
+  height: 431px;
+  width: 305px;
+}
+
+.input{
+  height: 50px;
+  width: 305px;
+}
+
+}
+
+@media (min-width: 768px){
+
+.group{
+  width: 500px;
+}
+
+.input{
+  width: 500px
+}
+
+
+}
+
 .group {
   margin: 0 auto;
-  width: 500px;
-  
   color: #ffffff;
   font-family: "Microsoft JhengHei";
 }
@@ -54,7 +79,6 @@ export default {
 .input {
   box-sizing: border-box;
   height: 50px;
-  width: 500px;
   border: 1px solid rgba(0, 0, 0, 0.4);
   border-radius: 10px;
   background-color: #ffffff;

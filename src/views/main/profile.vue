@@ -4,109 +4,211 @@
     <div class="wrapper common-bg">
       <div class="text-center role-account">{{ member.role }}</div>
       <div class="text-center role-account">{{ member.account }}</div>
-      <div class="form" v-if="!isUpdate">
-        <el-row>
-          <el-col :span="12">
-            {{ member.name }}
-          </el-col>
-          <el-col :span="12">
-            {{ member.nickName }}
-          </el-col>
-        </el-row>
-        <el-row>
-          <el-col :span="12">
-            {{ member.gender == "1" ? "先生" : "女士" }}
-          </el-col>
+      <div v-if="!isMobile">
+        <div class="form" v-if="!isUpdate">
+          <el-row>
+            <el-col :span="12">
+              {{ member.name }}
+            </el-col>
+            <el-col :span="12">
+              {{ member.nickName }}
+            </el-col>
+          </el-row>
+          <el-row>
+            <el-col :span="12">
+              {{ member.gender == "1" ? "先生" : "女士" }}
+            </el-col>
 
-          <el-col :span="12">
-            <el-col :span="8">
-              {{ member.phonePrefix1 == "1" ? "+852" : "+853" }}
+            <el-col :span="12">
+              <el-col :span="8">
+                {{ member.phonePrefix1 == "1" ? "+852" : "+853" }}
+              </el-col>
+              <el-col :span="8">
+                {{ member.phoneNumber1 }}
+              </el-col>
             </el-col>
-            <el-col :span="8">
-              {{ member.phoneNumber1 }}
+          </el-row>
+          <el-row>
+            <el-col :span="12">
+              {{ member.position }}
             </el-col>
-          </el-col>
-        </el-row>
-        <el-row>
-          <el-col :span="12">
-            {{ member.position }}
-          </el-col>
-          <el-col :span="12">
-            <el-col :span="8">
-              {{ member.phonePrefix2 == "1" ? "+852" : "+853" }}
+            <el-col :span="12">
+              <el-col :span="8">
+                {{ member.phonePrefix2 == "1" ? "+852" : "+853" }}
+              </el-col>
+              <el-col :span="8">
+                {{ member.phoneNumber2 }}
+              </el-col>
             </el-col>
-            <el-col :span="8">
-              {{ member.phoneNumber2 }}
+          </el-row>
+          <el-row>
+            <div :span="24" class="term">
+              <input
+                type="radio"
+                class="radio"
+                v-model="member.isReceiveEmail"
+                disabled
+              />
+              {{ $t("profile.report") }}
+            </div>
+          </el-row>
+        </div>
+        <div class="form" v-else>
+          <el-row>
+            <el-col :span="12">
+              <input class="input-text" v-model="member.name" />
             </el-col>
-          </el-col>
-        </el-row>
-        <el-row>
-          <div :span="24" class="term">
-            <input
-              type="radio"
-              class="radio"
-              v-model="member.isReceiveEmail"
-              disabled
-            />
-            {{ $t("profile.report") }}
-          </div>
-        </el-row>
+            <el-col :span="12">
+              <input class="input-text" v-model="member.nickName" />
+            </el-col>
+          </el-row>
+          <el-row>
+            <el-col :span="12">
+              <select
+                class="input-text"
+                v-model="member.gender"
+                style="width: 292px"
+              >
+                <option value="1">先生</option>
+                <option value="2">女士</option>
+              </select>
+            </el-col>
+
+            <el-col :span="12">
+              <el-col :span="8">
+                <select class="select-short" v-model="member.phonePrefix1">
+                  <option value="1">+852</option>
+                  <option value="2">+853</option>
+                </select>
+              </el-col>
+              <el-col :span="8">
+                <input class="input-text-short" v-model="member.phoneNumber1" />
+              </el-col>
+            </el-col>
+          </el-row>
+          <el-row>
+            <el-col :span="12">
+              <input class="input-text" v-model="member.position" />
+            </el-col>
+            <el-col :span="12">
+              <el-col :span="8">
+                <select class="select-short" v-model="member.phonePrefix2">
+                  <option value="1">+852</option>
+                  <option value="2">+853</option>
+                </select>
+              </el-col>
+              <el-col :span="8">
+                <input class="input-text-short" v-model="member.phoneNumber2" />
+              </el-col>
+            </el-col>
+          </el-row>
+          <el-row>
+            <div :span="24" class="term">
+              <input type="radio" class="radio" />
+              {{ $t("profile.report") }}
+            </div>
+          </el-row>
+        </div>
       </div>
-      <div class="form" v-else>
-        <el-row>
-          <el-col :span="12">
-            <input class="input-text" v-model="member.name" />
-          </el-col>
-          <el-col :span="12">
-            <input class="input-text" v-model="member.nickName" />
-          </el-col>
-        </el-row>
-        <el-row>
-          <el-col :span="12">
-            <select
-              class="input-text"
-              v-model="member.gender"
-              style="width: 292px"
-            >
-              <option value="1">先生</option>
-              <option value="2">女士</option>
-            </select>
-          </el-col>
+      <div v-else>
+        <div class="form" v-if="!isUpdate">
+          <el-row>
+            <el-col :span="12">
+              {{ member.name }}
+            </el-col>
+            <el-col :span="12">
+              {{ member.nickName }}
+            </el-col>
+          </el-row>
+          <el-row>
+            <el-col :span="12">
+              {{ member.gender == "1" ? "先生" : "女士" }}
+            </el-col>
 
-          <el-col :span="12">
-            <el-col :span="8">
-              <select class="select-short" v-model="member.phonePrefix1">
-                <option value="1">+852</option>
-                <option value="2">+853</option>
+            <el-col :span="12">
+              <el-col :span="8">
+                {{ member.phonePrefix1 == "1" ? "+852" : "+853" }}
+              </el-col>
+              <el-col :span="8">
+                {{ member.phoneNumber1 }}
+              </el-col>
+            </el-col>
+          </el-row>
+          <el-row>
+            <el-col :span="12">
+              {{ member.position }}
+            </el-col>
+            <el-col :span="12">
+              <el-col :span="8">
+                {{ member.phonePrefix2 == "1" ? "+852" : "+853" }}
+              </el-col>
+              <el-col :span="8">
+                {{ member.phoneNumber2 }}
+              </el-col>
+            </el-col>
+          </el-row>
+          <el-row>
+            <div :span="24" class="term">
+              <input
+                type="radio"
+                class="radio"
+                v-model="member.isReceiveEmail"
+                disabled
+              />
+              {{ $t("profile.report") }}
+            </div>
+          </el-row>
+        </div>
+        <!-- mobile -->
+        <div class="form" v-else>   
+          <div class="mobileform">
+          
+            
+              <input class="input-text mrg-15" v-model="member.name" />
+            
+          
+           <input class="input-text mrg-15" v-model="member.nickName" /></el-col>
+           
+           
+            
+              <select
+                class="input-text mrg-15"
+                v-model="member.gender"
+                style="width: 292px"
+              >
+                <option value="1">先生</option>
+                <option value="2">女士</option>
               </select>
-            </el-col>
-            <el-col :span="8">
-              <input class="input-text-short" v-model="member.phoneNumber1" />
-            </el-col>
-          </el-col>
-        </el-row>
-        <el-row>
-          <el-col :span="12">
-            <input class="input-text" v-model="member.position" />
-          </el-col>
-          <el-col :span="12">
-            <el-col :span="8">
-              <select class="select-short" v-model="member.phonePrefix2">
-                <option value="1">+852</option>
-                <option value="2">+853</option>
-              </select>
-            </el-col>
-            <el-col :span="8">
-              <input class="input-text-short" v-model="member.phoneNumber2" />
-            </el-col>
-          </el-col>
-        </el-row>
-        <el-row>
-          <div :span="24" class="term">
-            <input type="radio" class="radio" />
-            {{ $t("profile.report") }}
-          </div>
-        </el-row>
+          
+            
+              <input class="input-text mrg-15" v-model="member.position" />
+           
+          
+             
+              <div>
+                <select class="select-short mrg-15" v-model="member.phonePrefix2">
+                  <option value="1">+852</option>
+                  <option value="2">+853</option>
+                </select>
+             
+                <input class="input-text-short mrg-15" v-model="member.phoneNumber2" />
+             </div>
+        
+        <div>
+                <select class="select-short mrg-15" v-model="member.phonePrefix2">
+                  <option value="1">+852</option>
+                  <option value="2">+853</option>
+                </select>
+             
+                <input class="input-text-short mrg-15" v-model="member.phoneNumber2" />
+            </div>
+           
+            <div :span="24" class="term">
+              <input type="radio" class="radio" />
+              {{ $t("profile.report") }}
+            </div>
+       </div>
+        </div>
       </div>
     </div>
     <div class="btn-bottom">
@@ -115,15 +217,13 @@
         class="btn-red"
         v-if="!isUpdate"
         @click="isUpdate = true"
-        >{{ $t("profile.save") }}</el-button
-      >
+        >{{ $t("profile.save") }}</el-button>
       <el-button
         type="danger"
         class="btn-red"
         @click="isUpdate = false"
         v-else
-        >{{ $t("profile.save") }}</el-button
-      >
+        >{{ $t("profile.save") }}</el-button>
     </div>
   </div>
 </template>
@@ -157,21 +257,78 @@ export default {
         isReceiveEmail: false,
       },
       isUpdate: false,
+      isMobile: true,
     };
   },
   mounted() {
-   console.log( this.$store.userInfo);
+    console.log(this.$store.userInfo);
   },
   methods: {},
 };
 </script>
 
 <style scoped>
+@media (max-width: 768px) {
+  .title-top {
+    height: 32px;
+    color: #222222;
+    font-family: "Microsoft JhengHei";
+    font-size: 24px;
+    letter-spacing: 0;
+    line-height: 32px;
+    text-align: center;
+  }
+
+  .wrapper common-bg {
+    width: auto;
+    margin: auto;
+  }
+  .from {
+    height: 540px;
+    width: auto;
+    border-radius: 10px;
+    background-color: #d7c4a3;
+  }
+  .input-text {
+    height: 50px;
+    width: 295px;
+    border-radius: 10px;
+    background-color: #ffffff;
+  }
+  .select-short {
+    height: 50px;
+    width: 100px;
+    border-radius: 10px;
+    background-color: #ffffff;
+  }
+  .input-text-short {
+    height: 50px;
+    width: 180px;
+    border-radius: 10px;
+    background-color: #ffffff;
+  }
+  .mobileform{
+    display: flex;
+    flex-direction: column;
+   justify-content: center;
+    align-items: center;
+    vertical-align: middle;
+  }
+  .btn-red{
+    width: 295px;
+  }
+}
+
+@media (min-width: 768px) {
+  .wrapper {
+    width: 600px;
+    padding: 15px;
+    margin: 15px auto;
+  }
+}
+
 .wrapper {
-  width: 600px;
   border-radius: 10px;
-  padding: 15px;
-  margin: 15px auto;
 }
 .role-account {
   font-size: 20px;
@@ -210,5 +367,8 @@ export default {
 .btn-bottom {
   margin: 40px auto;
   text-align: center;
+}
+.mrg-15{
+  margin-bottom:  15px ;
 }
 </style>
