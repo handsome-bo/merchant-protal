@@ -1,7 +1,7 @@
 <template>
   <div>
     <div class="title">{{ $t("shop.shoplist") }}</div>
-    <div class="wrapper" v-if="isMobile">
+    <div class="wrapper" v-loading="loading">
       <el-row class="dark el-row-top">
         <el-col :span="6"> {{ $t("shop.shopno") }} </el-col>
         <el-col :span="6"> {{ $t("shop.shopname_en") }} </el-col>
@@ -10,16 +10,16 @@
       </el-row>
       <el-row
         v-for="(item, index) in tableData"
-        :key="item.storeCode"
+        :key="item.StoreNo"
         v-bind:class="{
-          actived: selectShop == item.StoreCode,
-          inactived: selectShop != item.StoreCode,
+          actived: selectShop == item.StoreNo,
+          inactived: selectShop != item.StoreNo,
           dark: index % 2 == 1,
         }"
       >
         <el-row class="row-content">
           <div @click="handleClick(item)" class="pointer">
-            <el-col :span="6"> {{ item.StoreCode }} </el-col>
+            <el-col :span="6"> {{ item.StoreNo }} </el-col>
             <el-col :span="6"> {{ item.StoreName }} </el-col>
             <el-col :span="6"> {{ item.StoreNameTC }}</el-col>
             <el-col :span="6"> {{ item.StoreSubcategory }}</el-col>
@@ -30,9 +30,9 @@
             <el-col :span="2"> {{ $t("shop.firstname") }} </el-col>
             <el-col :span="2"> {{ $t("shop.lastname") }} </el-col>
             <el-col :span="4"> {{ $t("shop.email") }} </el-col>
-            <el-col :span="2"> {{ $t("shop.salution") }} </el-col>
-            <el-col :span="2"> {{ $t("shop.jobtitle") }} </el-col>
-            <el-col :span="4"> {{ $t("shop.phone") }} </el-col>
+            <el-col :span="2"> {{ $t("shop.salutation") }} </el-col>
+            <el-col :span="3"> {{ $t("shop.jobtitle") }} </el-col>
+            <el-col :span="3"> {{ $t("shop.phone") }} </el-col>
             <el-col :span="3"> {{ $t("shop.mobile") }} </el-col>
             <el-col :span="3">
               {{ $t("shop.receivee_vouchersusagereport") }}
@@ -40,31 +40,37 @@
             <el-col :span="2"> {{ $t("shop.accountstatus") }} </el-col>
           </el-row>
           <div class="inner-content">
-            <el-row v-for="citem in item.ShopContact" :key="citem.cellPhone">
-              <el-col :span="2"> {{ citem.Name }} </el-col>
-              <el-col :span="2"> {{ citem.SurName }} </el-col>
-              <el-col :span="4"> {{ citem.Email }} </el-col>
-              <el-col :span="2"> {{ citem.Title }} </el-col>
-              <el-col :span="2"> {{ citem.Persition }} </el-col>
-              <el-col :span="4"> {{ citem.Cellphone }} </el-col>
-              <el-col :span="3"> {{ citem.Phone }} </el-col>
+            <el-row
+              v-for="citem in item.shopContacts"
+              :key="citem.mobilenumber"
+            >
+              <el-col :span="2"> {{ citem.firstname }} </el-col>
+              <el-col :span="2"> {{ citem.lastname }} </el-col>
+              <el-col :span="4"> {{ citem.email }} </el-col>
+              <el-col :span="2"> {{ toSalution(citem.salutation) }} </el-col>
+              <el-col :span="3"> {{ citem.title }} </el-col>
+              <el-col :span="3"> {{ citem.businessphonenumber }} </el-col>
+              <el-col :span="3"> {{ citem.mobilenumber }} </el-col>
               <el-col :span="3">
-                {{ citem.IsAcceptedReport == 1 ? "是" : "否" }}
+                {{
+                  citem.receivemonthlyevouchersummaryreport == 1
+                    ? $t("common.yes")
+                    : $t("common.no")
+                }}
               </el-col>
               <el-col :span="2">
-                {{ citem.ContactStatus == 1 ? "生效" : "否" }}
+                {{ citem.status == 0 ? $t("common.actived") : $t("common.no") }}
               </el-col>
             </el-row>
 
-            <div class="close flex align-center">
-              <span class="close-text" @click="handleClose">{{$t('shop.hide')}}</span>
+            <div class="close flex align-center" v-if="!isOnlyOne">
+              <span class="close-text" @click="handleClose">{{
+                $t("shop.hide")
+              }}</span>
             </div>
           </div>
         </div>
       </el-row>
-    </div>
-    <div v-else>
-<div></div>
     </div>
   </div>
 </template>
@@ -74,84 +80,95 @@ export default {
   name: "shop",
   data() {
     return {
-      isMobile:false,
+      isMobile: false,
+      loading: false,
       selectShop: "",
-      tableData: [
-        {
-          ShopNumber: "1001",
-          ShopNameCN: "7-11便利店",
-          ShopNameEN: "Seven Eleven",
-          Category: "杂货商铺",
-        },
-        {
-          ShopNumber: "1002",
-          ShopNameCN: "7-11便利店",
-          ShopNameEN: "Seven Eleven",
-          Category: "杂货商铺",
-        },
-        {
-          ShopNumber: "1003",
-          ShopNameCN: "7-11便利店",
-          ShopNameEN: "Seven Eleven",
-          Category: "杂货商铺",
-        },
-        {
-          ShopNumber: "1004",
-          ShopNameCN: "7-11便利店",
-          ShopNameEN: "Seven Eleven",
-          Category: "杂货商铺",
-        },
-        {
-          ShopNumber: "1005",
-          ShopNameCN: "7-11便利店",
-          ShopNameEN: "Seven Eleven",
-          Category: "杂货商铺",
-        },
-      ],
+      tableData: [],
+      isOnlyOne: false,
     };
   },
   mounted() {
     this.loadShops();
-    this.isMobile=this.$store.state.isMobile;
+    this.isMobile = this.$store.state.isMobile;
   },
   methods: {
     handleClick(row) {
-      this.selectShop = row.StoreCode;
+      this.selectShop = row.StoreNo;
     },
     handleClose() {
       this.selectShop = "";
     },
     loadShops() {
-      return;
       const _this = this;
-      this.$axios.post("Shop/RetrieveShopList", {}).then((res) => {
-        _this.tableData = JSON.parse(res.data);
-        console.log(_this.tableData);
-      });
+      this.loading = true;
+      this.$axios
+        .post("Shops/RetrieveShopList", {})
+        .then((res) => {
+          if (res.errorCode != "0") {
+            this.$message({
+              showClose: true,
+              message: res.errorDescription,
+              type: "error",
+            });
+            return;
+          }
+          _this.tableData = new Array();
+          if (Array.isArray(res.shopDetailList.MP_ShopDetail)) {
+            _this.tableData = res.shopDetailList.MP_ShopDetail;
+          } else {
+            _this.tableData.push(res.shopDetailList.MP_ShopDetail);
+          }
+          if (_this.tableData.length > 0) {
+            _this.tableData.forEach((item) => {
+              if (item.MerchantContactList) {
+                item["shopContacts"] =
+                  item.MerchantContactList.MP_MerchantContact;
+              }
+            });
+            if (this.tableData.length == 1) {
+              _this.selectShop = _this.tableData[0].StoreNo;
+              _this.isOnlyOne = true;
+            } else {
+              _this.selectShop = "";
+              _this.isOnlyOne = false;
+            }
+          }
+        })
+        .finally((res) => {
+          _this.loading = false;
+        });
+    },
+    toSalution(id) {
+      var salutationstr = "";
+      if (id == this.GLOBAL.Mr) salutationstr = this.$t("common.mr");
+      if (id == this.GLOBAL.MS) salutationstr = this.$t("common.ms");
+      if (id == this.GLOBAL.Mrs) salutationstr = this.$t("common.mrs");
+      if (id == this.GLOBAL.Miss) salutationstr = this.$t("common.miss");
+      if (id == this.GLOBAL.Other) salutationstr = this.$t("common.other");
+      return salutationstr;
     },
   },
 };
 </script>
 
 <style  scoped>
-
- @media (max-width: 768px) {
-   .wrapper{
-  margin: 10px auto;
-  font-size: 18px;
-  letter-spacing: 0;
-  font-family: "Microsoft JhengHei";
-  color: #222222;
-   text-align: center;
-   }
-  .title {  
-  height: 32px;
-  font-size: 24px;
-  letter-spacing: 0;
-  line-height: 32px;
-  text-align: center;
+@media (max-width: 768px) {
+  .wrapper {
+    margin: 10px auto;
+    font-size: 18px;
+    letter-spacing: 0;
+    font-family: "Microsoft JhengHei";
+    color: #222222;
+    text-align: center;
+  }
+  .title {
+    height: 32px;
+    font-size: 24px;
+    letter-spacing: 0;
+    line-height: 32px;
+    text-align: center;
+  }
 }
- }
 .wrapper {
   width: 1300px;
   margin: 10px auto;
@@ -166,7 +183,7 @@ export default {
   letter-spacing: 0;
   line-height: 32px;
   text-align: center;
-  
+
   margin: 30px 0 10px 0;
 }
 

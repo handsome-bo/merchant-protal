@@ -4,13 +4,13 @@
       <div class="title-group flex space-between">
         <div
           class="title middle-center"
-          :class="{ titleFull: $store.getters.getUserRole != 'shop' }"
+          :class="{ titleFull: $store.state.userInfo.contaccontacttypettype != GLOBAL.Shop }"
         >
           {{ $t("evoucher.selectshop") }}
         </div>
         <div
           class="add middle-center"
-          v-if="$store.getters.getUserRole != 'shop'"
+          v-if=" $store.state.userInfo.contacttype !=  GLOBAL.Shop"
           @click="showShopFilter"
         >
           <i class="el-icon-plus"></i>
@@ -20,9 +20,9 @@
       <div class="shop-group">
         <shop-item
           v-for="(item, index) in shopItems"
-          :key="item.storeID"
-          :pid="item.storeID"
-          :plabel="item.storeNameTC"
+          :key="item.StoreID"
+          :pid="item.StoreID"
+          :plabel="item.StoreName"
           :showClose="canClose"
           :showPreview="showPreview"
           @onRemove="remove(index)"
@@ -69,7 +69,7 @@ export default {
   },
   created() {
     //   this.$store.state
-    if (this.$store.state.userRole == "shop") {
+    if (this. $store.state.userInfo.contacttype == this.GLOBAL.Shop) {
       this.canClose = false;
     }
   },
@@ -83,7 +83,6 @@ export default {
     onSbumit(shopList) {
       this.isShowShopFilter = false;
       this.shopItems = shopList;
-      this.$refs.shoppopup.initData();
       this.$emit("onChange", this.shopItems);
     },
     remove(index) {
@@ -92,7 +91,7 @@ export default {
     preview(event) {
       console.log("preview");
       console.log(event);
-      this.$emit("preview", event);
+      this.$emit("OnPreview", event);
     },
   },
   components: {

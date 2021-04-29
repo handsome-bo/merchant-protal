@@ -1,44 +1,56 @@
 <template>
   <div>
-    <div class="title-top">{{ $t("qrcodeandtemplatesize.shopqrcode") }}</div>
-    <div class="sub-title">
-      {{ $t("qrcodeandtemplatesize.shopqrcodesubtitle") }}
-    </div>
+    <div v-show="canPrint">
+      <div class="title-top">{{ $t("qrcodeandtemplatesize.shopqrcode") }}</div>
+      <div class="sub-title">
+        {{ $t("qrcodeandtemplatesize.shopqrcodesubtitle") }}
+      </div>
 
-    <div class="wrapper">
-      <div class="outer-box">
-        <ShopFilterCompnent
-          ref="shopcomponent"
-          @preview="showQrCode($event)"
-          :showPreview="true"
-        />
+      <div class="wrapper">
+        <div class="outer-box">
+          <ShopFilterCompnent
+            ref="shopcomponent"
+            @OnPreview="showQrCode($event)"
+            :showPreview="true"
+          />
+        </div>
       </div>
-    </div>
-    <div class="btn-group">
-      <el-button type="danger" class="btn-orange">{{
-        $t("qrcodeandtemplatesize.saveqrcode")
-      }}</el-button>
-      <el-button type="danger" class="btn-red">{{
-        $t("qrcodeandtemplatesize.printqrcode")
-      }}</el-button>
-    </div>
-    <el-dialog
-      :visible.sync="showDialog"
-      :show-close="false"
-      center
-      width="540x"
-    >
-      <div class="qrcode middle-center">
-        <el-image :src="src" style="width: 360px"></el-image>
+      <div class="btn-group">
+        <el-button
+          type="danger"
+          @click="download()"
+          :disabled="selectShop == null"
+          class="btn-orange"
+          >{{ $t("qrcodeandtemplatesize.saveqrcode") }}</el-button
+        >
+        <el-button
+          type="danger"
+          @click="print()"
+          :disabled="selectShop == null"
+          class="btn-red"
+          >{{ $t("qrcodeandtemplatesize.printqrcode") }}</el-button
+        >
       </div>
-    </el-dialog>
+      <el-dialog
+        :visible.sync="showDialog"
+        :show-close="false"
+        center
+        width="540x"
+      >
+        <div class="qrcode middle-center">
+          <el-image :src="src" style="width: 360px"></el-image>
+        </div>
+      </el-dialog>
+    </div>
+    <div id="printContent" v-show="!canPrint">
+      <el-image :src="src" style="width: 360px"></el-image>
+    </div>
   </div>
 </template>
 
 <script>
 import ShopFilterCompnent from "../../components/shop-filter";
 export default {
-  name: "shopQrCode",
   components: {
     ShopFilterCompnent,
   },
@@ -48,51 +60,54 @@ export default {
       showDialog: false,
       showShopFilter: false,
       src: "",
+      selectShop: null,
       parameter: {
-        content: "",
+        storeId: "",
+        storeName: "",
       },
+      canPrint: true,
     };
   },
-  mounted() {},
+  mounted() {
+    if (this.$store.state.userInfo.contacttype ===this.GLOBAL.Shop) {
+      const shops = this.$store.state.shopList;
+      this.$refs.shopcomponent.shopItems = shops;
+    }
+  },
   methods: {
     showQrCode: function (event) {
-      // this.parameter.content = event;
+      this.selectShop = event;
       const _this = this;
-
-      // this.$axios.get("/QR/QrCode?content=" + event).then((res) => {
-      //   _this.src = window.URL.revokeObjectURL(res.data);
-      //   //_this.src='data:image/jpeg;base64,'+res.data
-      //   this.showDialog = true;
-      // });
-      this.$axios({
-        method: "GET",
-        url: "https://localhost:44316/QR/QrCode?content=" + event,
-        responseType: "blob",
-      }).then((res) => {
-        // const { data, headers } = res;
-        // const blob = new Blob([data], { type: headers["content-type"] });
-        // _this.src = window.URL.revokeObjectURL(blob);
-        // this.showDialog = true;
-        if (res && res.data && res.data.size) {
-          const dataInfo = res.data;
-          let reader = new window.FileReader();
-          // 使用readAsArrayBuffer读取文件, result属性中将包含一个 ArrayBuffer 对象以表示所读取文件的数据
-          reader.readAsArrayBuffer(dataInfo);
-          reader.onload = function (e) {
-            const result = e.target.result;
-            const contentType = dataInfo.type;
-            // 生成blob图片,需要参数(字节数组, 文件类型)
-            const blob = new Blob([result], { type: contentType });
-            // 使用 Blob 创建一个指向类型化数组的URL, URL.createObjectURL是new Blob文件的方法,可以生成一个普通的url,可以直接使用,比如用在img.src上
-            const url = window.URL.createObjectURL(blob);
-            _this.src = url;
-            _this.showDialog = true;
-          };
-        }
-      });
+      const baseUrl = this.GLOBAL.BaseURL;
+      this.$axios
+        .post(baseUrl + "QR/GenerateShopQR", {
+          StoreId: event.storeId,
+          StoreName: event.storeName,
+        })
+        .then((res) => {
+          console.log(res);
+          _this.src = baseUrl + res;
+          _this.showDialog = true;
+        });
     },
     showFilter() {
       this.showShopFilter = true;
+    },
+    print() {
+      this.canPrint = false;
+      setTimeout(function () {
+        window.print();
+        this.canPrint = true;
+      }, 5000);
+    },
+    download() {
+      const _this = this;
+      _this.parameter.storeId = this.selectShop.storeId;
+      _this.parameter.storeName = this.selectShop.storeName;
+      let a = document.createElement("a");
+      const para = this.$QS.stringify(this.parameter);
+      a.href = this.GLOBAL.BaseURL + "QR/Download?" + para;
+      a.click();
     },
   },
 };
@@ -291,5 +306,8 @@ div::-webkit-scrollbar-corner {
 }
 .el-dialog__header {
   display: none !important;
+}
+.printContent {
+  display: none;
 }
 </style>

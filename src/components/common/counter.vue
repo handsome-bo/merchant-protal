@@ -3,7 +3,7 @@
     <div class="label-counter" @click="reduce">
       <i class="el-icon-minus"></i>
     </div>
-    <input class="counter-text" v-model="textValue" />
+    <input class="counter-text" ref="numbox" :value="textValue" />
     <div
       class="label-counter"
       @click="add"
@@ -19,8 +19,11 @@ export default {
   name: "counter",
   data() {
     return {
-      textValue: this.value,
+      textValue: 0,
     };
+  },
+  mounted(){
+    this.textValue=1;
   },
   props: {
     value: Number,
@@ -33,14 +36,13 @@ export default {
       } else {
         this.textValue--;
       }
-      console.log(this.textValue);
-      this.$emit("add", this.textValue);
+      this.$emit("OnReduce", this.$refs.numbox.value);
     },
     add: function () {
       if (this.textValue < this.maxValue) {
         this.textValue++;
       }
-      this.$emit("reduce", this.textValue);
+      this.$emit("OnAdd", this.$refs.numbox.value);
     },
   },
 };

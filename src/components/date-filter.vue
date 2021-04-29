@@ -1,38 +1,61 @@
 <template>
   <div class="outer-box">
     <div class="box">
-
-    <div class="title-group flex space-between">
-      <div class="title middle-center">{{$t("evoucher.selectdate")}}</div>
-    </div>
-    <div class="date-group">
-      <el-date-picker class="datepicker"
-        v-model="selectDate"
-        type="daterange"
-        :range-separator="$t('datefilter.to')"
-        :start-placeholder="$t('datefilter.startdate')"
-        :end-placeholder="$t('datefilter.enddate')"
-        format="yyyy-MM-dd"
-      >
-      </el-date-picker>
-    </div>
-    <div class="button-group flex space-between">
-      <el-button class="search-btn" @click="search()">{{$t("evoucher.view")}}</el-button>
-      <el-button class="download-btn" @click="download()">{{$t("evoucher.saveasexcel")}}</el-button>
-    </div>
-
+      <div class="title-group flex space-between">
+        <div class="title middle-center">{{ $t("evoucher.selectdate") }}</div>
+      </div>
+      <div class="date-group">
+        <el-date-picker
+          class="datepicker"
+          v-model="selectDate"
+          type="daterange"
+          :range-separator="$t('datefilter.to')"
+          :start-placeholder="$t('datefilter.startdate')"
+          :end-placeholder="$t('datefilter.enddate')"
+          format="yyyy-MM-dd"
+          value-format="yyyy-MM-dd"
+        >
+        </el-date-picker>
+      </div>
+      <div class="button-group flex space-between">
+        <el-button class="search-btn" @click="search()">{{
+          $t("evoucher.view")
+        }}</el-button>
+        <el-button class="download-btn" @click="download()">{{
+          $t("evoucher.saveasexcel")
+        }}</el-button>
+      </div>
     </div>
   </div>
 </template>
 
 <script>
 export default {
-  
   name: "DateFilters",
   data() {
     return {
       selectDate: "",
     };
+  },
+  mounted() {
+    this.selectDate = [
+      new Date(
+        new Date().getFullYear(),
+        new Date().getMonth(),
+        new Date().getDate(),
+        0,
+        0,
+        0
+      ),
+      new Date(
+        new Date().getFullYear(),
+        new Date().getMonth(),
+        new Date().getDate() + 1,
+        23,
+        59,
+        59
+      ),
+    ];
   },
   methods: {
     search() {
@@ -49,21 +72,18 @@ export default {
 <style  scoped>
 @media (max-width: 768px) {
   .outer-box {
-      height: 202px;
-  width: 335px;
+    height: 202px;
+    width: 335px;
   }
-           
-        
 }
 @media (min-width: 768px) {
   .outer-box {
-  height: 202px;
-  width: 470px;
+    height: 202px;
+    width: 470px;
   }
 }
 
 .outer-box {
-
   border-radius: 10px;
   background-color: #d7c4a3;
 }

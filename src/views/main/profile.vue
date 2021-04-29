@@ -1,21 +1,25 @@
 <template>
   <div>
     <div class="title-top">{{ $t("profile.title") }}</div>
-    <div class="wrapper common-bg">
-      <div class="text-center role-account">{{ member.role }}</div>
-      <div class="text-center role-account">{{ member.account }}</div>
+    <div class="wrapper common-bg" v-loading="loading">
+      <div class="text-center role-account">
+        {{ $store.state.userInfo.contacttype }}
+      </div>
+      <div class="text-center role-account">
+        {{ $store.state.userInfo.email }}
+      </div>
       <div class="form" v-if="!isUpdate">
         <el-row>
           <el-col :span="12">
-            {{ member.name }}
+            {{ isEn ? member.firstname : member.firstnametc }}
           </el-col>
           <el-col :span="12">
-            {{ member.nickName }}
+            {{ isEn ? member.lastname : member.lastnametc }}
           </el-col>
         </el-row>
         <el-row>
           <el-col :span="12">
-            {{ member.gender == "1" ? "先生" : "女士" }}
+            {{ member.salutation == "915240000" ? "先生" : "女士" }}
           </el-col>
 
           <el-col :span="12">
@@ -23,20 +27,20 @@
               {{ member.phonePrefix1 == "1" ? "+852" : "+853" }}
             </el-col>
             <el-col :span="8">
-              {{ member.phoneNumber1 }}
+              {{ member.mobilenumber }}
             </el-col>
           </el-col>
         </el-row>
         <el-row>
           <el-col :span="12">
-            {{ member.position }}
+            {{ isEn ? member.title : member.titletc }}
           </el-col>
           <el-col :span="12">
             <el-col :span="8">
               {{ member.phonePrefix2 == "1" ? "+852" : "+853" }}
             </el-col>
             <el-col :span="8">
-              {{ member.phoneNumber2 }}
+              {{ member.mobilenumber }}
             </el-col>
           </el-col>
         </el-row>
@@ -45,7 +49,8 @@
             <input
               type="radio"
               class="radio"
-              v-model="member.isReceiveEmail"
+              value="true"
+              v-model="member.receivedailyevouchersummaryreport"
               disabled
             />
             {{ $t("profile.report") }}
@@ -55,21 +60,28 @@
       <div class="form" v-else>
         <el-row>
           <el-col :span="12">
-            <input class="input-text" v-model="member.name" />
+            <input class="input-text" v-model="member.firstname" v-if="isEn" />
+            <input class="input-text" v-model="member.firstnametc" v-else />
           </el-col>
           <el-col :span="12">
-            <input class="input-text" v-model="member.nickName" />
+            <input class="input-text" v-model="member.lastname" v-if="isEn" />
+            <input class="input-text" v-model="member.lastnametc" v-else />
           </el-col>
         </el-row>
         <el-row>
           <el-col :span="12">
             <select
               class="input-text"
-              v-model="member.gender"
+              v-model="member.salutation"
               style="width: 292px"
             >
-              <option value="1">先生</option>
-              <option value="2">女士</option>
+              <option
+                v-for="item in options"
+                :key="item.value"
+                :value="item.value"
+              >
+                {{ item.label }}
+              </option>
             </select>
           </el-col>
 
@@ -81,13 +93,14 @@
               </select>
             </el-col>
             <el-col :span="8">
-              <input class="input-text-short" v-model="member.phoneNumber1" />
+              <input class="input-text-short" v-model="member.mobilenumber" />
             </el-col>
           </el-col>
         </el-row>
         <el-row>
           <el-col :span="12">
-            <input class="input-text" v-model="member.position" />
+            <input class="input-text" v-model="member.title" v-if="isEn" />
+            <input class="input-text" v-model="member.titletc" v-else />
           </el-col>
           <el-col :span="12">
             <el-col :span="8">
@@ -97,13 +110,19 @@
               </select>
             </el-col>
             <el-col :span="8">
-              <input class="input-text-short" v-model="member.phoneNumber2" />
+              <input class="input-text-short" v-model="member.businessphonenumber" />
             </el-col>
           </el-col>
         </el-row>
         <el-row>
           <div :span="24" class="term">
-            <input type="radio" class="radio" />
+            <input
+              type="radio"
+              class="radio"
+              v-model="member.receivedailyevouchersummaryreport"
+              value="true"
+              @click="handleItem()"
+            />
             {{ $t("profile.report") }}
           </div>
         </el-row>
@@ -115,12 +134,13 @@
         class="btn-red"
         v-if="!isUpdate"
         @click="isUpdate = true"
-        >{{ $t("profile.save") }}</el-button
+        >{{ $t("profile.update") }}</el-button
       >
       <el-button
         type="danger"
         class="btn-red"
-        @click="isUpdate = false"
+        @click="save()"
+        :disabled="loading"
         v-else
         >{{ $t("profile.save") }}</el-button
       >
@@ -130,39 +150,103 @@
 
 <script>
 export default {
-  name: "profile",
   data() {
     return {
       options: [
         {
-          value: "0",
-          label: "先生",
+          value: "915240000",
+          label: this.$t("common.mr"),
         },
         {
-          value: "1",
-          label: "女士",
+          value: "915240001",
+          label: this.$t("common.ms"),
+        },
+        {
+          value: "915240002",
+          label: this.$t("common.mrs"),
+        },
+        {
+          value: "915240003",
+          label: this.$t("common.miss"),
+        },
+        {
+          value: "915240004",
+          label: this.$t("common.other"),
         },
       ],
-      member: {
-        role: "Super Account",
-        account: "siuming@elements.com",
-        name: "Siu Ming",
-        nickName: "Chan",
-        gender: "1",
-        phonePrefix1: "1",
-        phonePrefix2: "2",
-        phoneNumber1: "2000 1234",
-        phoneNumber2: "9123 4567",
-        position: "經理",
-        isReceiveEmail: false,
-      },
+      member: {},
       isUpdate: false,
+      loading: false,
     };
   },
   mounted() {
-   console.log( this.$store.userInfo);
+    this.getUserInfo();
   },
-  methods: {},
+  methods: {
+    save() {
+      const _this = this;
+      _this.loading = true;
+      if (this.member.receivedailyevouchersummaryreport == "true")
+        this.member.receivedailyevouchersummaryreport = true;
+      else this.member.receivedailyevouchersummaryreport = false;
+    
+      if (this.member.receivemonthlyevouchersummaryreport == "true")
+        this.member.receivemonthlyevouchersummaryreport = true;
+      else this.member.receivemonthlyevouchersummaryreport = false;
+      this.$axios
+        .post("Profile/SubmitLoginUserInfoUpdate", _this.member)
+        .then((res) => {
+          if (res.errorCode != "0") {
+            this.$message({
+              showClose: true,
+              message: res.errorDescription,
+              type: "error",
+            });
+            return;
+          }
+          this.$message({
+            showClose: true,
+            message: "更新成功",
+            type: "success",
+          });
+          _this.isUpdate = false;
+        })
+        .finally((res) => {
+          _this.loading = false;
+        });
+    },
+    handleItem() {
+      this.member.receivedailyevouchersummaryreport = !this.member
+        .receivedailyevouchersummaryreport;
+    },
+    getUserInfo() {
+      const _this = this;
+      _this.loading = true;
+      this.$axios
+        .post("Profile/RetrieveLoginUserInfo", {})
+        .then((res) => {
+          if (res.errorCode != "0") {
+            this.$message({
+              showClose: true,
+              message: res.errorDescription,
+              type: "error",
+            });
+            return;
+          }
+          _this.member = res;
+          console.log(_this.member);
+        })
+        .finally((res) => {
+          _this.loading = false;
+        });
+    },
+  },
+  computed: {
+    isEn() {
+      if (this.$store.state.lang === "zh") return false;
+      else return true;
+    },
+  },
 };
 </script>
 

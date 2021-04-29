@@ -1,29 +1,29 @@
 <template>
-<div>
-  <div v-if="isMobile">
-    <el-row class="title-top">
-      {{ $t("evoucher.e_voucherstransactionhistory") }}
-    </el-row>
-    <el-row>
-      <div class="filters flex">
-        <div
-          class="mg-right-20"
-          v-if="$store.getters.getUserRole === 'superaccount'"
-        >
-          <ShopFilterCompnent ref="shopcomponent" />
-        </div>
+  <div>
+    <div>
+      <el-row class="title-top">
+        {{ $t("evoucher.e_voucherstransactionhistory") }}
+      </el-row>
+      <el-row>
         <div class="filters flex">
-          <DateFilterCompnent
-            @search="search($event)"
-            @download="download($event)"
-          />
+          <div
+            class="mg-right-20"
+            v-if="$store.state.userInfo.contacttype != GLOBAL.Shop"
+          >
+            <ShopFilterCompnent ref="shopcomponent" />
+          </div>
+          <div class="filters flex">
+            <DateFilterCompnent
+              @search="search($event)"
+              @download="download($event)"
+            />
+          </div>
         </div>
-      </div>
-    </el-row>
- </div>
- <div></div>
+      </el-row>
+    </div>
+
     <div class="title">{{ $t("evoucher.view") }}</div>
-    <div class="wrapper">
+    <div class="wrapper" v-loading="loading">
       <div>
         <el-row class="dark el-row-top">
           <el-col :span="3"> {{ $t("evoucher.shop") }} </el-col>
@@ -42,28 +42,34 @@
           v-bind:class="{ dark: index % 2 == 1 }"
         >
           <div @click="handleClick(item)">
-            <el-col :span="3"> {{ item.StoreNameTC }} </el-col>
-            <el-col :span="3"> {{ item.ShopNo }} </el-col>
-            <el-col :span="4"> {{ item.StoreCode }}</el-col>
-            <el-col :span="4"> {{ item.EVoucherNameTC }}</el-col>
-            <el-col :span="4"> {{ item.ReferenceNo }}</el-col>
-            <el-col :span="3"> {{ item.BurnDate | formatHour }}</el-col>
             <el-col :span="3">
-              HK ${{ item.TotalVoucherAmount | MoneyFormat }}</el-col
+              {{ lang === "en" ? item.StoreName : item.StoreNameSC }}
+            </el-col>
+            <el-col :span="3"> {{ item.StoreNo }} </el-col>
+            <el-col :span="4"> {{ item.StoreCode }}</el-col>
+            <el-col :span="4">
+              {{ lang === "en" ? item.eVoucherName : item.eVoucherNameSC }}
+            </el-col>
+            <el-col :span="4"> {{ item.ReferenceNo }}</el-col>
+            <el-col :span="3"> {{ item.eVoucheBurnDate | formatHour }}</el-col>
+            <el-col :span="3">
+              HK ${{ item.TotalAmountValue | MoneyFormat }}</el-col
             >
           </div>
         </el-row>
         <div class="content-bottom flex alig-center space-between">
           <div class="total-text">
-            {{ $t("evoucher.totalpage") }} {{ totalCount }}，{{
+            {{ $t("evoucher.totalpage") }} {{ totalPage }}，{{
               $t("evoucher.totalpageoftransaction")
             }}{{ totalCount }}
           </div>
           <div class="page-text">
             <el-pagination
+              v-if="totalPage > 1"
               :page-size="pageSize"
               layout="prev, pager, next"
               :total="totalCount"
+              @current-change="changePage"
             >
             </el-pagination>
           </div>
@@ -71,13 +77,10 @@
       </div>
       <div class="bottom-summary flex align-center">
         <div class="total-amount">{{ $t("evoucher.totalamount") }}</div>
-        <div>HK$61,000.00</div>
+        <div>HK${{ totalAmountValue | MoneyFormat }}</div>
       </div>
     </div>
- 
-  
-</div>
-
+  </div>
 </template>
 
 <script>
@@ -93,25 +96,22 @@ export default {
   data() {
     return {
       selectShop: "",
+      loading: false,
       tableData: [],
       parameters: {
-        storeIDs: "",
-        searchFrom: "",
-        searchTo: "",
+        ShopIDs: Array,
+        SearchStartDate: "",
+        SearchEndDate: "",
       },
       totalPage: 0,
       totalCount: 0,
       pageSize: 10,
-      isMobile:false,
+      isMobile: false,
+      totalData: [],
     };
-
   },
   mounted() {
-   
-      
-      this.isMobile=this.$store.state.isMobile;
-      console.log(this.$store.state.isMobile)
-  
+    this.isMobile = this.$store.state.isMobile;
   },
   methods: {
     handleClick(row) {
@@ -123,25 +123,47 @@ export default {
     search(event) {
       const _this = this;
       if (event) {
-        this.parameters.searchFrom = event[0];
-        this.parameters.searchTo = event[1];
+        this.parameters.SearchStartDate = event[0];
+        this.parameters.SearchEndDate = event[1];
+      } else {
+        this.$message.error("請選擇時間");
+        return;
       }
+      this.parameters.ShopIDs = new Array();
       if (this.$refs.shopcomponent) {
         const shops = this.$refs.shopcomponent.shopItems;
-        this.parameters.storeIDs = "";
         shops.forEach((item) => {
-          this.parameters.storeIDs += item.storeID + ",";
+          this.parameters.ShopIDs.push(item.StoreID);
         });
+        if (this.parameters.ShopIDs.length == 0) {
+          this.$message.error("請選擇商鋪");
+          return;
+        }
+      } else {
+        //shop
+        const shopid = this.$store.state.shopList[0]["StoreID"];
+        this.parameters.ShopIDs.push(shopid);
       }
+      this.loading = true;
       _this.$axios
-        .post(
-          "/EVoucher/SearchEVoucherHistoryRecords",
-          qs.stringify(this.parameters)
-        )
+        .post("MerchantEvoucher/RetrieveEvoucherHistoryList", this.parameters)
         .then((res) => {
-          _this.tableData = JSON.parse(res.data);
-          _this.totalCount = this.tableData.length;
-          _this.totalPage = _this.totalCount / _this.pageSize;
+          if (res.eVoucherHistorylist) {
+            _this.totalData = new Array();
+            if (Array.isArray(res.eVoucherHistorylist.MP_EVoucherHistory)) {
+              _this.totalData = res.eVoucherHistorylist.MP_EVoucherHistory;
+            } else {
+              _this.totalData.push(res.eVoucherHistorylist.MP_EVoucherHistory);
+            }
+            // _this.totalData = _this.tableData;
+            _this.totalCount = this.totalData.length;
+            _this.totalPage = Math.floor(_this.totalCount / _this.pageSize) + 1;
+            _this.changePage(1)
+
+          }
+        })
+        .finally((res) => {
+          _this.loading = false;
         });
     },
     download(event) {
@@ -149,18 +171,60 @@ export default {
       if (event) {
         this.parameters.searchFrom = event[0];
         this.parameters.searchTo = event[1];
+      } else {
+        this.$message.error("請選擇時間");
+        return;
       }
-      const shops = this.$refs.shopcomponent.shopItems;
-      this.parameters.storeIDs = "";
-      shops.forEach((item) => {
-        this.parameters.storeIDs += item.storeID + ",";
-      });
+      this.parameters.ShopIDs = new Array();
+      if (this.$refs.shopcomponent) {
+        const shops = this.$refs.shopcomponent.shopItems;
+        shops.forEach((item) => {
+          this.parameters.ShopIDs.push(item.StoreID);
+        });
+        if (this.parameters.ShopIDs.length == 0) {
+          this.$message.error("請選擇商鋪");
+          return;
+        }
+      } else {
+        //shop
+        const shopid = this.$store.state.shopList[0]["StoreID"];
+        this.parameters.ShopIDs.push(shopid);
+      }
+
       let a = document.createElement("a");
       const para = qs.stringify(this.parameters);
+
       a.href =
-        "https://localhost:44316/EVoucher/DownloadEVoucherHistoryExcelFile?" +
+        this.GLOBAL.BaseURL +
+        "EVoucher/DownloadEVoucherHistoryExcelFile?" +
         para;
       a.click();
+    },
+    changePage(val) {
+      this.tableData = [];
+      var index = 0;
+      for (
+        var j = (val - 1) * this.pageSize;
+        j < this.pageSize * val && j < this.totalData.length;
+        j++
+      ) {
+        this.tableData[index] = this.totalData[j];
+        index++;
+      }
+    },
+  
+  },
+  computed: {
+    totalAmountValue() {
+      var s = 0;
+      this.totalData.forEach((item) => {
+        s += parseFloat(item.TotalAmountValue);
+      });
+
+      return s;
+    },
+    lang() {
+      return localStorage.getItem("locale");
     },
   },
 };

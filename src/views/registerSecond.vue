@@ -1,16 +1,38 @@
 <template>
   <div class="outer">
     <div class="group">
-      <div class="title">{{$t("registration.title")}}</div>
- 
-      <div><input class="input" type="password" :placeholder="$t('registration.password')" /></div>
-      <div><input class="input" type="password" :placeholder="$t('registration.passwordagain')" /></div>
+      <div class="title">{{ $t("registration.title") }}</div>
 
-      
+      <div>
+        <input
+          class="input"
+          type="password"
+          :placeholder="$t('registration.password')"
+        />
+      </div>
+      <div>
+        <input
+          class="input"
+          type="password"
+          :placeholder="$t('registration.passwordagain')"
+        />
+      </div>
+
       <div>
         <div class="text-center">
-        <el-button class="login-btn" @click="register">{{$t("registration.title")}}</el-button>
+          <el-button class="login-btn" @click="register">{{
+            $t("registration.title")
+          }}</el-button>
+        </div>
       </div>
+      <div class="text-tip mgtop-15">
+        <div>密碼需要乎合至少2項條件（大寫、小寫、數字和符號）</div>
+        <ul>
+          <li>大寫：ABCDEFGHIJKLMNOPQRSTUVWXYZ</li>
+          <li>小寫：abcdefghijklmnopqrstuvwxyz</li>
+          <li>數字：0123456789</li>
+          <li>符號：~!@#$%^*()_+{}|:?-=[]\;,./‘</li>
+        </ul>
       </div>
     </div>
   </div>
@@ -19,7 +41,7 @@
 <script>
 export default {
   name: "RegisterSecond",
-  methods: { 
+  methods: {
     register() {
       this.$router.push("/login");
     },
@@ -28,11 +50,10 @@ export default {
 </script>
 
 <style   scoped>
- 
 .group {
   margin: 0 auto;
   width: 500px;
-  
+
   color: #ffffff;
   font-family: "Microsoft JhengHei";
 }
@@ -88,5 +109,16 @@ export default {
   border: 1px solid #979797;
   border-radius: 4px;
   background-color: #ffffff;
+}
+.text-tip{
+  font-size: 16px;
+  letter-spacing: 0;
+  line-height: 21px;
+ 
+  text-shadow: 0 2px 10px 0 rgba(0,0,0,0.9);
+}
+ul li{
+  list-style: none;
+  margin: 5px 0;
 }
 </style>

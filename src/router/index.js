@@ -32,15 +32,8 @@ export default new Router({
         {
             path: '/',
             name: 'default',
-            redirect: '/selectroles'
+            redirect: '/login'
         },
-        {
-            path: '/selectroles',
-            name: 'SelectRoles',
-            component: SelectRoles,
-            meta: { showLoginMenu: false, navNumber: 0 }
-        },
-
         {
             path: '/index',
             name: 'index',
@@ -71,7 +64,7 @@ export default new Router({
                     component: UpdatePassword2,
                     meta: { showLoginMenu: false, navNumber: 0 }
                 },
-                //添加路由
+  
                 {
                     path: '/updatepassword3',
                     name: 'UpdatePassword3',
@@ -114,52 +107,52 @@ export default new Router({
                     path: 'shop',
                     name: 'shop',
                     component: Shop,
-                    meta: { showLoginMenu: true, navNumber: 1 }
+                    meta: { showLoginMenu: true, navNumber: 1,requestAuth:true }
                 },
                 {
                     path: 'evoucher-record',
                     name: 'evoucherrecord',
                     component: EvoucherRecord,
-                    meta: { showLoginMenu: true, navNumber: 2 }
+                    meta: { showLoginMenu: true, navNumber: 2,requestAuth:true }
                 },
                 {
                     path: 'evoucher-refund',
                     name: 'evoucherrefund',
                     component: EvoucherRefund,
-                    meta: { showLoginMenu: true, navNumber: 2 }
+                    meta: { showLoginMenu: true, navNumber: 2,requestAuth:true }
                 },
                 {
                     path: 'evoucher-using',
                     name: 'evoucherusing',
                     component: EvoucherUsing,
-                    meta: { showLoginMenu: true, navNumber: 2 }
+                    meta: { showLoginMenu: true, navNumber: 2,requestAuth:true }
                 },
                 {
                     path: 'shopqrcode',
                     name: 'shopqrcode',
                     component: Shopqrcode,
-                    meta: { showLoginMenu: true, navNumber: 3 }
+                    meta: { showLoginMenu: true, navNumber: 3,requestAuth:true }
                 },
                 {
                     path: 'notification',
                     name: 'notification',
                     component: NotifyComponent,
-                    meta: { showLoginMenu: true, navNumber:0 }
+                    meta: { showLoginMenu: true, navNumber:0,requestAuth:true }
                 },
                 {
                     path: 'profile',
                     name: 'profile',
                     component: Profile,
-                    meta: { showLoginMenu: true, navNumber: -1 }
+                    meta: { showLoginMenu: true, navNumber: -1 ,requestAuth:true}
                 },
             ]
         },
-        {
-            path:'*',
-            redirect:'/errorpage',
-            name: 'notFound',
-            hidden: true
-        }
+        // {
+        //     path:'*',
+        //     redirect:'/errorpage',
+        //     name: 'notFound',
+        //     hidden: true
+        // }
            
     ]
 });

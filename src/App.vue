@@ -1,22 +1,30 @@
 <template>
   <div id="app">
+    <transition name="fade">
     <router-view />
+    </transition>
   </div>
 </template>
 
 <script>
 export default {
   name: "App",
+  created() {
+    console.log(window.location.hash);
+    if (window.location.hash.indexOf("id_token=") > 0) {
+      var token = window.location.hash.replace("#/id_token=", "");
+      console.log(token);
+      this.$store.commit("setToken", token);
+      this.$router.push("/login");
+    }
+  },
   mounted() {
     if (this._isMobile()) {
-      this.$store.commit("setIsMobile",true)
-      console.log("手机端");
-      //
-      //  this.$router.replace("/m_index");
+      this.$store.commit("setIsMobile", true);
+      console.log("mobile");
     } else {
-      this.$store.commit("setIsMobile",false)
-      console.log("pc端");
-      //  this.$router.replace("/pc_index");
+      this.$store.commit("setIsMobile", false);
+      console.log("pc");
     }
   },
   methods: {
@@ -30,4 +38,18 @@ export default {
 };
 </script>
 
- 
+ <<style scoped>
+ .fade-enter {
+  opacity:0;
+}
+.fade-leave{
+  opacity:1;
+}
+.fade-enter-active{
+  transition:opacity .5s;
+}
+.fade-leave-active{
+  opacity:0;
+  transition:opacity .5s;
+}
+ </style>

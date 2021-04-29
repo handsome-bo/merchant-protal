@@ -2,7 +2,7 @@
   <div>
     <div class="title-top">{{ $t("useevoucher.useevouchers") }}</div>
 
-    <div class="wrapper">
+    <div class="wrapper" v-loading="loading">
       <div class="title">{{ $t("useevoucher.membersidandphone") }}</div>
       <div>
         <input class="input-text" v-model="memberId" maxlength="20" />
@@ -11,37 +11,64 @@
       <div>
         <div class="choose-box middle-center pointer" @click="showShopFilter()">
           {{
-            selectShop == null
-              ? $t("useevoucher.select")
-              : selectShop.storeNameTC
+            selectShop == null ? $t("useevoucher.select") : selectShop.StoreName
           }}
         </div>
       </div>
 
-      <div class="detail" v-if="detailData.length > 0">
+      <div class="detail" v-if="showCounter == false && detailData.length > 0">
         <div
           class="detail-item flex space-between"
           v-for="item in detailData"
+          :key="item.eVoucherID"
+        >
+          <div class="detail-info">
+            <div class="text-name">{{ item.eVoucherName }}</div>
+            <div>
+              {{ $t("useevoucher.quantity", { N: item.eVoucherQuantity }) }}
+            </div>
+            <div>
+              {{ $t("useevoucher.validtill", { Expirydate: item.expiryDate }) }}
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="detail" v-if="showCounter == true && detailData.length > 0">
+        <div
+          class="detail-item flex space-between"
+          v-for="(item, index) in detailData"
           :key="item.EVoucherID"
         >
           <div class="detail-info">
-            <div class="text-name">{{ item.EVoucherName }}</div>
+            <div class="text-name">{{ item.eVoucherName }}</div>
             <div>
               {{ $t("useevoucher.quantity", { N: item.EVoucherQuantity }) }}
             </div>
             <div>
               {{
-                $t("useevoucher.validtill", {Expirydate: item.ValideTo})
+                $t("useevoucher.validtill", {
+                  Expirydate: item.eVoucherflexibleexpiryDate,
+                })
               }}
             </div>
           </div>
-          <div class="right" v-if="showCounter">
+          <div class="right">
             <counterComponent
               :value="1"
               :maxValue="item.EVoucherQuantity"
-              @add="add($event)"
-              @reduce="reduce($event)"
+              @OnAdd="add($event, index)"
+              @OnReduce="reduce($event, index)"
             />
+          </div>
+        </div>
+        <div class="summary">
+          <div class="flex space-between">
+            <div>{{ $t("useevoucher.totalevouchersamount") }}</div>
+            <div>HK$ {{ totalAmount | MoneyFormat }}</div>
+          </div>
+          <div class="flex space-between">
+            <div>{{ $t("useevoucher.minimumspendingrequirement") }}</div>
+            <div>HK$ {{ minAmountRequired | MoneyFormat }}</div>
           </div>
         </div>
       </div>
@@ -56,10 +83,10 @@
       >
     </div>
     <div class="btn-group" v-if="showSubmitButton">
-      <el-button type="danger" class="btn-white">{{
+      <el-button type="danger" @click="initData()" class="btn-white">{{
         $t("useevoucher.clear")
       }}</el-button>
-      <el-button type="danger" class="btn-red">{{
+      <el-button type="danger" @click="submitEvoucher()" class="btn-red">{{
         $t("useevoucher.submit")
       }}</el-button>
     </div>
@@ -95,32 +122,106 @@ export default {
       detailData: [],
       memberId: "",
       parameter: {
-        memberNoOrPhoneNo: "",
-        storeID: "",
+        MemberId: "",
+        StoreId: "",
+        EvoucherList: [],
       },
+      loading: false,
+      totalAmount: 0,
+      minAmountRequired: 0,
     };
   },
-  mounted() {},
+  mounted() {
+    if (this.$store.state.userInfo.contacttype != this.GLOBAL.Super) {
+      this.$router.go(-1);
+    }
+  },
   methods: {
     searchEvouchers() {
       const _this = this;
+      _this.parameter.MemberId = "";
+      this.parameter.StoreId = "";
       if (_this.memberId == "") {
         this.$message.error("请输入会员信息");
         return;
       }
-      _this.parameter.memberNoOrPhoneNo = _this.memberId;
-      // this.detailData = [];
+      _this.parameter.MemberId = _this.memberId;
+      let url = "MerchantEvoucher/RetrieveMemberEVoucherList";
+      if (_this.selectShop) {
+        url = "MerchantEvoucher/RetrieveMemberEVoucherListForShop";
+        this.parameter.StoreId = _this.selectShop.StoreID;
+      }
+      _this.detailData = new Array();
+      _this.loading = true;
       _this.$axios
-        .post("EVoucher/BurnRequest", _this.$QS.stringify(_this.parameter))
+        .post(url, _this.parameter)
         .then((res) => {
-          this.detailData = JSON.parse(res.data);
           if (_this.selectShop) {
+            if (Array.isArray(res.EvouchersList.MP_EvoucherUsage)) {
+              _this.detailData = res.EvouchersList.MP_EvoucherUsage;
+            } else {
+              _this.detailData.push(res.EvouchersList.MP_EvoucherUsage);
+            }
+            _this.minAmountRequired = 0;
+            _this.totalAmount = 0;
+            _this.parameter.EvoucherList = new Array();
+            _this.detailData.forEach((item) => {
+              _this.totalAmount += parseFloat(item.faceValue);
+              _this.minAmountRequired += parseFloat(
+                item.transactionamountrequirement
+              );
+              const pmodel = {
+                eVoucherID: item.EVoucherID,
+                eVoucherQuantity: item.EVoucherQuantity,
+                eVoucherValidFrom: item.eVoucherFlexiblestartDate,
+                eVoucherValidTo: item.eVoucherflexibleexpiryDate,
+              };
+              _this.parameter.EvoucherList.push(pmodel);
+            });
             _this.showCounter = true;
             _this.showSubmitButton = true;
+          } else {
+            _this.showCounter = false;
+            if (Array.isArray(res.EVoucherList.MP_EVoucher)) {
+              _this.detailData = res.EVoucherList.MP_EVoucher;
+            } else {
+              _this.detailData.push(res.EVoucherList.MP_EVoucher);
+            }
           }
+        })
+        .finally((res) => {
+          _this.loading = false;
         });
     },
-    submitEvoucher() {},
+    submitEvoucher() {
+      const _this = this;
+      _this.loading = true;
+      _this.$axios
+        .post(
+          "MerchantEvoucher/SubmitEVoucherBurnWithDelegation",
+          this.parameter
+        )
+        .then((res) => {
+          if (res.errorCode == "0") {
+            _this.initData();
+          } else {
+            this.$notify({
+              title: "提示",
+              message: "error",
+              duration: 5000,
+            });
+          }
+        })
+        .finally((res) => {
+          _this.loading = false;
+        });
+    },
+    initData() {
+      this.memberId = "";
+      this.selectShop = null;
+      this.detailData = [];
+    },
+
     showShopFilter() {
       this.isShowShopFilter = true;
     },
@@ -129,57 +230,60 @@ export default {
     },
     onSbumit(shopList) {
       this.isShowShopFilter = false;
-      this.selectShop = shopList[0];
-      this.$refs.shoppopup.initData();
+      if (Array.isArray(shopList)) {
+        this.selectShop = shopList[0];
+      } else {
+        this.selectShop = shopList;
+      }
     },
-    add($event){
-
+    add($event, index) {
+      this.parameter.EvoucherList[index].eVoucherQuantity = $event;
     },
-    reduce($event){}
+    reduce($event, index) {
+      this.parameter.EvoucherList[index].eVoucherQuantity = $event;
+    },
   },
 };
 </script>
 
 <style  scoped>
 @media (max-width: 768px) {
-  .wrapper{
-   height: 254px;
-  width: 335px;
-  border-radius: 10px;
-  font-family: "Microsoft JhengHei";
+  .wrapper {
+    height: 254px;
+    width: 335px;
+    border-radius: 10px;
+    font-family: "Microsoft JhengHei";
   }
-  .title{
-  height: 27px;
-  color: #222222;
-  font-size: 20px;
-  margin-bottom: 20px;
+  .title {
+    height: 27px;
+    color: #222222;
+    font-size: 20px;
+    margin-bottom: 20px;
   }
   .input-text {
     height: 50px;
-  width: 295px;
-  border-radius: 10px;
-  background-color: #FFFFFF;
+    width: 295px;
+    border-radius: 10px;
+    background-color: #ffffff;
   }
-  .btn-red{
-     height: 50px;
-  width: 295px;
+  .btn-red {
+    height: 50px;
+    width: 295px;
   }
-
+}
+@media (min-width: 768px) {
+  .wrapper {
+    width: 470px;
   }
-@media(min-width: 768px){
-  .wrapper{
-     width: 470px;
+  .title {
+    font-size: 24px;
+    margin-bottom: 25px;
   }
-  .title{
-  font-size: 24px;
-  margin-bottom: 25px;
+  .btn-group {
+    width: 470px;
   }
-.btn-group {
-  width: 470px;
-  }
-}  
+}
 .wrapper {
- 
   margin: 10px auto;
   font-size: 18px;
   border-radius: 10px;
@@ -187,7 +291,6 @@ export default {
   padding: 20px;
 }
 .btn-group {
-
   margin: 10px auto;
   text-align: center;
 }
@@ -196,7 +299,6 @@ export default {
   letter-spacing: 0;
   line-height: 32px;
   text-align: center;
-
 }
 .input-text {
   height: 50px;

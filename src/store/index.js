@@ -1,58 +1,83 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
+import axios from 'axios'
 Vue.use(Vuex)
 
-const userRole = localStorage.getItem('userRole')
-const token = localStorage.getItem('token') || ''
-const userinfo=localStorage.getItem('userinfo')||{}
+
+const token = sessionStorage.getItem('token') || ''
+const userinfo = JSON.parse(sessionStorage.getItem('userinfo') || '{}')
+const shoplist = JSON.parse(sessionStorage.getItem('shoplist') || '{}')
 export default new Vuex.Store({
     state: {
         navNumber: 0,
         isShowLoginMenu: false,
         token: token,
-        userName: 'Siu Ming, Chan',
         userId: '',
-        userRole: userRole,
         isNewMessage: false,
-        isMobile:false,
-        userInfo: userinfo
+        isMobile: false,
+        userInfo: userinfo,
+        lang: localStorage.getItem('locale'),
+        shopList: shoplist
     },
     mutations: {
-        setIsMobile(state,isMobile){
-            state.isMobile=isMobile;
-            localStorage.setItem('isMobile',isMobile);
+        setIsMobile(state, isMobile) {
+            state.isMobile = isMobile;
+            sessionStorage.setItem('isMobile', isMobile);
         },
         setNavNumber(state, num) {
             state.navNumber = num;
         },
-        setUserName(state, username) {
-            state.userName = username;
-            localStorage.setItem('userName', username)
-        },
+
         setToken(state, token) {
             state.token = token;
-            localStorage.setItem('token', token);
+            sessionStorage.setItem('token', token);
         },
         setShowLoginMenu(state, showMenu) {
             state.isShowLoginMenu = showMenu;
         },
-        setUserRole(state, role) {
-            state.userRole = role;
-            localStorage.setItem('userRole', state.userRole)
-        },
+
         setUserInfo(state, userInfo) {
             state.userInfo = userInfo;
-            localStorage.setItem('userinfo', state.userInfo)
+            sessionStorage.setItem('userinfo', JSON.stringify(state.userInfo))
+        },
+        logout(state) {
+            state.userInfo = {};
+            sessionStorage.removeItem("userinfo");
+        },
+        setShopList(state) {
+            axios.post("Shops/RetrieveShortShopList",
+                {
+                    Email: state.userInfo.email,
+                    RoleType: state.userInfo.contacttype
+                }).then((res) => {
+                    var tempdata = [];
+                    if (Array.isArray(res.shopList.Shop)) {
+                        tempdata = res.shopList.Shop;
+                        tempdata.forEach((item) => {
+                            item["checked"] = false;
+                        });
+                    }
+                    else {
+                        tempdata.push(res.shopList.Shop)
+                    }
+                    state.shopList = tempdata;
+                    console.log('setShopList')
+                    sessionStorage.setItem('shoplist', JSON.stringify(state.shopList))
+                })
+        },
+        updateShopList(state, datas) {
+            state.shopList = datas;
+            sessionStorage.setItem('shoplist', JSON.stringify(state.shopList))
+
         }
+
 
     },
     getters: {
-        getIsMobile(state){
+        getIsMobile(state) {
             return state.isMobile;
         },
-        getUserName(state) {
-            return state.userName;
-        },
+
         getToken(state) {
             return state.token;
         },
@@ -62,12 +87,18 @@ export default new Vuex.Store({
         getIsShowLoginMenu(state) {
             return state.isShowLoginMenu;
         },
-        getUserRole(state) {
-            return state.userRole;
-        },
+
         getuserInfo(state) {
             return state.userInfo;
         }
 
+    },
+    actions: {
+        setShopList(context) {
+            context.commit("setShopList");
+        },
+        logout(context) {
+            context.commit("logout");
+        }
     }
 })

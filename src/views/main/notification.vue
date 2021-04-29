@@ -1,17 +1,17 @@
 <template>
-  <div class="wrapper">
+  <div class="wrapper" v-loading="loading">
     <div
       v-for="item in notificationDatas"
       :key="item.ReferenceNo"
       class="row"
       :class="{
-        new: item.Status == 0,
-        accepted: item.Status == 1,
-        rejected: item.Status == 2,
+        new: item.Status == GLOBAL.New,
+        accepted: item.Status == GLOBAL.Accepted,
+        cancelled: item.Status == GLOBAL.Cancelled,
       }"
       @click="viewDetail(item)"
     >
-      <div class="flag middle-center" v-if="item.Status == 0">
+      <div class="flag middle-center" v-if="item.Status == GLOBAL.New">
         {{ $t("notification.new") }}
       </div>
       <div class="flag middle-center" v-else></div>
@@ -20,7 +20,7 @@
         {{
           $t("notification.messagetemplate", {
             shopname: item.StoreName,
-            N: item.eVoucher.length,
+            N: item.TotalEVoucherQuantity,
             ReferenceNo: item.ReferenceNo,
           })
         }}
@@ -36,7 +36,12 @@
       {{ $t("notification.newnotification") }} <i class="el-icon-refresh" />
     </div>
 
-    <el-dialog :visible.sync="showDialog" center width="540">
+    <el-dialog
+      v-loading="handleLoading"
+      :visible.sync="showDialog"
+      center
+      width="540"
+    >
       <div class="dialog-title">
         {{ $t("notification.transactiondetails") }}
       </div>
@@ -47,20 +52,22 @@
         </div>
         <div
           class="detail-item"
-          v-for="item in selectItem.eVoucher"
-          :key="item.EVoucherID"
+          v-for="item in evoucherDetail"
+          :key="item.eVoucherID"
         >
-          <div>{{ item.EVoucherName }}</div>
-          <div>{{ item.EVoucherQuantity }}{{ $t("notification.reward") }}</div>
+          <div>{{ item.eVoucherNameTC }}</div>
+          <div>{{ item.eVoucherQuantity }}{{ $t("notification.reward") }}</div>
         </div>
 
         <div class="detail-item">
           <div>{{ $t("notification.total") }}</div>
-          <div>HK$ {{ selectItem.TotalVoucherAmount }}</div>
+          <div>HK$ {{ selectItem.TotalEVoucherAmount | MoneyFormat }}</div>
         </div>
         <div class="detail-item">
           <div>{{ $t("notification.minimum") }}</div>
-          <div>HK$ {{ selectItem.TotalTransactionAmountRequirement }}</div>
+          <div>
+            HK$ {{ selectItem.TotalTransactionAmountRequirement | MoneyFormat }}
+          </div>
         </div>
       </div>
       <div class="btn-group" v-if="isShowConfirmBtn">
@@ -81,7 +88,12 @@
         {{ $t("button.accepted") }}
       </div>
     </el-dialog>
-    <el-dialog :visible.sync="showCancelledDialog" center width="540">
+    <el-dialog
+      v-loading="handleLoading"
+      :visible.sync="showCancelledDialog"
+      center
+      width="540"
+    >
       <div class="dialog-title">{{ $t("notification.confirmtext1") }}</div>
       <div class="detail">{{ $t("notification.confirmtext2") }}</div>
       <div class="btn-group">
@@ -113,9 +125,12 @@ export default {
       showCancelledDialog: false,
       confirmedText: "",
       selectItem: {},
+      evoucherDetail: [],
       notificationDatas: [],
       isShowNewTip: false,
       timer: null,
+      loading: false,
+      handleLoading: false,
     };
   },
   created() {},
@@ -124,14 +139,22 @@ export default {
     this.timer = window.setInterval(() => {
       setTimeout(() => {
         this.longpooling();
-      }, 1);
+      }, 5000);
     }, 7000);
   },
   methods: {
     viewDetail(item) {
-      this.isShowConfirmBtn = item.Status == 0 ? true : false;
+      this.isShowConfirmBtn = item.Status == this.GLOBAL.New ? true : false;
       this.showDialog = true;
       this.selectItem = item;
+      this.evoucherDetail = new Array();
+      if (!Array.isArray(item.eVoucher.MP_EVoucher)) {
+        this.evoucherDetail.push(item.eVoucher.MP_EVoucher);
+      } else {
+        item.eVoucher.MP_EVoucher.forEach((item) => {
+          this.evoucherDetail.push(item);
+        });
+      }
     },
     cancelledHandler() {
       this.showDialog = false;
@@ -139,47 +162,108 @@ export default {
     },
     confirmCancelled() {
       //to do
-      this.showCancelledDialog = false;
+      const _this = this;
+      _this.handleLoading = true;
+      this.$axios
+        .post("/Notification/SubmitConfirmEVoucherBurn", {
+          ReferenceNo: _this.selectItem.ReferenceNo,
+          IsAccepted: "true",
+          StoreId: _this.selectItem.StoreID,
+          MemberId: _this.selectItem.MemberID,
+        })
+        .then((res) => {
+          if (res.errorCode == "0") {
+            this.selectItem.Status = this.GLOBAL.Cancelled;
+            this.showCancelledDialog = false;
+          } else {
+            this.$notify.error({
+              title: "错误",
+              message: "这是一条错误的提示消息",
+            });
+          }
+        })
+        .finally((res) => {
+          _this.handleLoading = false;
+        });
     },
     acceptHandler() {
-      this.showDialog = false;
-      this.selectItem.Status = 1;
+      const _this = this;
+      _this.handleLoading = true;
+      this.$axios
+        .post("/Notification/SubmitConfirmEVoucherBurn", {
+          ReferenceNo: _this.selectItem.ReferenceNo,
+          IsAccepted: "true",
+          StoreId: _this.selectItem.StoreID,
+          MemberId: _this.selectItem.MemberID,
+        })
+        .then((res) => {
+          if (res.errorCode == "0") {
+            this.showDialog = false;
+            this.selectItem.Status = this.GLOBAL.Accepted;
+          }
+        })
+        .finally((res) => {
+          _this.handleLoading = false;
+        });
     },
 
     getNotificaiton() {
       const _this = this;
-
+      _this.loading = true;
       this.$axios
         .post("/Notification/RetrieveNotificationList", {})
         .then((res) => {
-          _this.notificationDatas = JSON.parse(res.data);
-          console.log(_this.notificationDatas);
+          console.log(res);
+          if (res.errorCode != "0") {
+            this.$message({
+              showClose: true,
+              message: "please try it later",
+              type: "error",
+            });
+            return;
+          }
+          _this.notificationDatas =
+            res.evoucherTranactionNotificationList.MP_EvoucherTranactionNotification;
           _this.isShowNewTip = false;
+        })
+        .finally((res) => {
+          _this.loading = false;
         });
     },
     getStatusName(status) {
-      if (status == 0) return this.$t("button.acctepting");
-      if (status == 1) return this.$t("button.accepted");
-      if (status == 2) return this.$t("button.cancelled");
+      if (status == "915240000") return this.$t("button.acctepting");
+      if (status == "1") return this.$t("button.accepted");
+      if (status == "915240001") return this.$t("button.cancelled");
     },
     longpooling() {
-      
       const _this = this;
+      if (!_this.$store.state.shopList) {
+        return;
+      }
       this.$axios
-        .post("/Notification/GetNotificationMessageWithJson", {})
+        .post("/Notification/GetNotificationMessageWithJson", {
+          timeoutSeconds: 30,
+          ShopList: _this.$store.state.shopList,
+        })
         .then((res) => {
-          var poolingData = JSON.parse(res.data);
-          if (poolingData.data) {
-            poolingData.data.forEach((item) => {
+          var poolingData = Array();
+          if (Array.isArray(res)) {
+            poolingData = res;
+          }
+          else{
+            poolingData.push(res);
+          }
+
+          if (poolingData) {
+            poolingData.forEach((item) => {
               if (
-                this.notificationDatas.filter(
+                _this.notificationDatas.filter(
                   (c) => c.ReferenceNo != item.ReferenceNo
                 ).length > 0
               ) {
                 _this.isShowNewTip = true;
               }
             });
-            //  _this.longpooling();
           }
         });
     },
@@ -195,6 +279,7 @@ export default {
   width: 1027px;
   margin: 100px auto;
   font-size: 18px;
+  min-height: 300px;
 }
 .row {
   height: 60px;
@@ -242,7 +327,7 @@ export default {
 }
 .title {
   height: 24px;
-  width: 521px;
+  width: 590px;
   color: #222222;
   font-family: Ubuntu;
   font-size: 18px;

@@ -12,7 +12,7 @@
         >
       </div>
     </div>
-    <div class="content">
+    <div class="content" v-loading="loading">
       <div class="search">
         <input class="search-input" v-model="keywords" />
         <el-button
@@ -31,13 +31,13 @@
       </div>
       <div class="shop-list">
         <el-row :gutter="20">
-          <el-col :span="8" v-for="item in shopList" :key="item.id">
+          <el-col :span="8" v-for="item in shopList" :key="item.StoreID">
             <div class="shop-list-item" @click="choose(item)">
               <div
                 class="shop-name middle-center"
                 :class="{ selected: item.checked }"
               >
-                {{ item.storeNameTC }}
+                {{ item.StoreName }}
               </div>
             </div>
           </el-col>
@@ -54,7 +54,9 @@ export default {
       keywords: "",
       shopList: [],
       selectedItems: [],
-      tempDatas:[]
+      tempDatas: [],
+
+      loading: false,
     };
   },
   created() {},
@@ -62,26 +64,23 @@ export default {
   mounted() {
     this.initData();
   },
-  destroyed(){
+  destroyed() {
     this.initData();
-    console.log('destroyed')
+    console.log("destroyed");
   },
   methods: {
     searchAndSelected() {
       const _this = this;
-      this.shopList = this.tempDatas.filter(function (shop) {
-        return Object.keys(shop).some(function (key) {
-          return String(shop[key]).toLowerCase().indexOf(_this.keywords) > -1;
+      this.initData();
+      if (_this.keywords.length > 0) {
+        this.shopList = this.shopList.filter(function (shop) {
+          return Object.keys(shop).some(function (key) {
+            return String(shop[key]).toLowerCase().indexOf(_this.keywords) > -1;
+          });
         });
-      });
-   
-      if (!this.shopList) {
-        this.shopList = this.tempDatas;
-      }
-      if (this.isMutiple) {
-        this.selectAll();
       }
     },
+
     selectAll() {
       this.shopList.forEach((item) => {
         item.checked = true;
@@ -91,10 +90,13 @@ export default {
       });
     },
     back() {
+      this.initData();
       this.$emit("onClose", true);
     },
     handleSubmit() {
+      console.log(this.selectedItems);
       this.$emit("onSubmit", this.selectedItems);
+      this.initData();
     },
     choose(item) {
       if (this.isMutiple == true) {
@@ -120,27 +122,43 @@ export default {
       const _this = this;
       this.shopList = [];
       this.selectedItems = [];
-      var storage = window.localStorage;
-      const shortShops = storage.getItem("shortshops") || null;
-      if (shortShops) {
-        _this.shopList = JSON.parse(shortShops);
-        _this.tempDatas=_this.shopList;
-      } else {
-        this.$axios.get("/shop/RetrieveShortShopList", {}).then((res) => {
-          var tempdata = res.data;
-          tempdata.forEach((item) => {
-            item["checked"] = false;
-          });
-          _this.shopList = tempdata;
-           _this.tempDatas=_this.shopList;
-          var keydata = JSON.stringify(tempdata);
-          storage.setItem("shortshops", keydata);
+      const shortShops = this.$store.state.shopList;
+      console.log("initaData");
+
+      if (shortShops.length > 0) {
+        shortShops.forEach((item) => {
+          item["checked"] = false;
         });
+        _this.shopList = shortShops;
+         _this.$store.commit("updateShopList", _this.shopList);
+      } else {
+        _this.loading = true;
+        this.$axios
+          .post("Shops/RetrieveShortShopList", {})
+          .then((res) => {
+            debugger;
+            if (res.errorCode != "0") {
+              this.$message({
+                showClose: true,
+                message: res.errorDescription,
+                type: "error",
+              });
+              return;
+            }
+            var tempdata = res.shopList.Shop || [];
+            tempdata.forEach((item) => {
+              item["checked"] = false;
+            });
+            _this.shopList = tempdata;
+            _this.$store.commit("updateShopList", _this.shopList);
+          })
+          .finally((res) => {
+            _this.loading = false;
+          });
       }
     },
   },
   props: {
-   
     isMutiple: {
       Type: Boolean,
       default: () => true,
@@ -163,6 +181,8 @@ export default {
   border-radius: 10px;
   background-color: #ffffff;
   padding: 15px;
+  overflow-y: scroll;
+  overflow-x: hidden;
 }
 .shop-name {
   height: 50px;

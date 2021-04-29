@@ -2,15 +2,28 @@
   <div class="outer">
     <div class="group">
       <back-button />
-      <div class="title">{{$t("updatepassword.title")}}</div>
-      <div class="mgtop-15"><input class="input" :placeholder="$t('updatepassword.username')" v-model="username"/></div>
+      <div class="title">{{ $t("updatepassword.title") }}</div>
+      <div class="mgtop-15">
+        <input
+          class="input"
+          :placeholder="$t('updatepassword.username')"
+          v-model="username"
+        />
+      </div>
 
       <div class="mgtop-15">
-        <input class="input" type="password" :placeholder="$t('updatepassword.password')" v-model="password"/>
+        <input
+          class="input"
+          type="password"
+          :placeholder="$t('updatepassword.password')"
+          v-model="password"
+        />
       </div>
 
       <div class="text-center">
-        <el-button class="btn" @click="nextStep">{{$t("updatepassword.continue")}}</el-button>
+        <el-button class="btn" @click="nextStep">{{
+          $t("updatepassword.continue")
+        }}</el-button>
       </div>
     </div>
   </div>
@@ -19,28 +32,27 @@
 <script>
 export default {
   name: "UpdatePassword1",
-  data(){                       
-    return{
-    username:'',
-    password:'',
-    }
+  data() {
+    return {
+      username: "",
+      password: "",
+    };
   },
-  
+
   methods: {
     nextStep() {
-     if(this.username==""||this.password==""){
-       this.alertMessage();
-     }
-     else{
-     this.$router.push({ name: "UpdatePassword2" });
-     }
+      if (this.username == "" || this.password == "") {
+        this.alertMessage();
+      } else {
+        this.$router.push({ name: "UpdatePassword2" });
+      }
     },
-       alertMessage(){
-         this.$message({
-          message: '用户名或密码输入有误,请重新登录',
-          type: 'warning'
-        });
-       },
+    alertMessage() {
+      this.$message({
+        message: "用户名或密码输入有误,请重新登录",
+        type: "warning",
+      });
+    },
   },
 };
 </script>
