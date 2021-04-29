@@ -1,7 +1,7 @@
 <template>
   <div>
     <div class="title">{{ $t("shop.shoplist") }}</div>
-    <div class="wrapper">
+    <div class="wrapper" v-if="isMobile">
       <el-row class="dark el-row-top">
         <el-col :span="6"> {{ $t("shop.shopno") }} </el-col>
         <el-col :span="6"> {{ $t("shop.shopname_en") }} </el-col>
@@ -63,6 +63,9 @@
         </div>
       </el-row>
     </div>
+    <div v-else>
+<div></div>
+    </div>
   </div>
 </template>
 
@@ -71,6 +74,7 @@ export default {
   name: "shop",
   data() {
     return {
+      isMobile:false,
       selectShop: "",
       tableData: [
         {
@@ -108,6 +112,7 @@ export default {
   },
   mounted() {
     this.loadShops();
+    this.isMobile=this.$store.state.isMobile;
   },
   methods: {
     handleClick(row) {
@@ -117,6 +122,7 @@ export default {
       this.selectShop = "";
     },
     loadShops() {
+      return;
       const _this = this;
       this.$axios.post("Shop/RetrieveShopList", {}).then((res) => {
         _this.tableData = JSON.parse(res.data);
@@ -128,6 +134,24 @@ export default {
 </script>
 
 <style  scoped>
+
+ @media (max-width: 768px) {
+   .wrapper{
+  margin: 10px auto;
+  font-size: 18px;
+  letter-spacing: 0;
+  font-family: "Microsoft JhengHei";
+  color: #222222;
+   text-align: center;
+   }
+  .title {  
+  height: 32px;
+  font-size: 24px;
+  letter-spacing: 0;
+  line-height: 32px;
+  text-align: center;
+}
+ }
 .wrapper {
   width: 1300px;
   margin: 10px auto;
@@ -142,6 +166,7 @@ export default {
   letter-spacing: 0;
   line-height: 32px;
   text-align: center;
+  
   margin: 30px 0 10px 0;
 }
 

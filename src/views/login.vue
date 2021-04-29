@@ -102,6 +102,7 @@ margin-top: 60px;
   color: #ffffff;
   font-family: "Microsoft JhengHei";
 }
+ }
 
 .title { 
   letter-spacing: 0;

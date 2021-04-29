@@ -3,27 +3,26 @@
     <el-row class="title-top">
       {{ $t("evoucher.e_voucherstransactionhistory") }}
     </el-row>
-    <el-row>
-      <div class="filters flex">
+
+    <div v-if="isMobile">
+      <div class="filters">
         <div
           class="mg-right-20"
           v-if="$store.getters.getUserRole === 'superaccount'"
         >
           <ShopFilterCompnent ref="shopcomponent" />
         </div>
-        <div>
-          <DateFilterCompnent
-            @search="search($event)"
-            @download="download($event)"
-          />
-        </div>
       </div>
-    </el-row>
-
-    <div class="title">{{ $t("evoucher.view") }}</div>
-    <div class="wrapper">
-      <div>
-        <el-row class="dark el-row-top">
+      <div class="filters">
+        <DateFilterCompnent
+          @search="search($event)"
+          @download="download($event)"
+        />
+      </div>
+      <div class="title">{{ $t("evoucher.view") }}</div>
+      <div class="wrapper">
+        <div>
+          <!-- <el-row class="dark el-row-top">
           <el-col :span="3"> {{ $t("evoucher.shop") }} </el-col>
           <el-col :span="3"> {{ $t("evoucher.location") }} </el-col>
           <el-col :span="4"> {{ $t("evoucher.shopno") }}</el-col>
@@ -33,43 +32,154 @@
           >
           <el-col :span="3"> {{ $t("evoucher.transactiondate") }}</el-col>
           <el-col :span="3"> {{ $t("evoucher.amount") }}</el-col>
-        </el-row>
-        <el-row
-          v-for="(item, index) in tableData"
-          :key="item.ShopNumber"
-          v-bind:class="{ dark: index % 2 == 1 }"
-        >
-          <div @click="handleClick(item)">
-            <el-col :span="3"> {{ item.StoreNameTC }} </el-col>
-            <el-col :span="3"> {{ item.ShopNo }} </el-col>
-            <el-col :span="4"> {{ item.StoreCode }}</el-col>
-            <el-col :span="4"> {{ item.EVoucherNameTC }}</el-col>
-            <el-col :span="4"> {{ item.ReferenceNo }}</el-col>
-            <el-col :span="3"> {{ item.BurnDate | formatHour }}</el-col>
-            <el-col :span="3">
-              HK ${{ item.TotalVoucherAmount | MoneyFormat }}</el-col
-            >
+        </el-row> -->
+          <!-- <el-row
+            v-for="(item, index) in tableData"
+            :key="item.ShopNumber"
+            v-bind:class="{ dark: index % 2 == 1 }"
+          >
+            <div @click="handleClick(item)">
+              <el-col :span="3"> {{ item.StoreNameTC }} </el-col>
+              <el-col :span="3"> {{ item.ShopNo }} </el-col>
+              <el-col :span="4"> {{ item.StoreCode }}</el-col>
+              <el-col :span="4"> {{ item.EVoucherNameTC }}</el-col>
+              <el-col :span="4"> {{ item.ReferenceNo }}</el-col>
+              <el-col :span="3"> {{ item.BurnDate | formatHour }}</el-col>
+              <el-col :span="3">
+                HK ${{ item.TotalVoucherAmount | MoneyFormat }}</el-col
+              >
+            </div>
+          </el-row> -->
+          <div
+            v-for="(item, index) in tableData"
+            :key="item.ShopNumber"
+            v-bind:class="{ dark: index % 2 == 1 }"
+          >
+          <div class="single-context">
+            <div class="flex space-between font-space">
+             
+              <div>{{ $t("evoucher.shop") }}</div>
+              <div>{{ item.StoreNameTC }}</div>
+            
+        
+            </div>
+            <div class="flex space-between">
+              <div class="font-size">{{ $t("evoucher.location") }}</div>
+              <div>{{ item.StoreNameTC }}</div>
+            </div>
+             <div class="flex space-between">
+              <div >{{ $t("evoucher.shopno") }}</div>
+              <div>{{ item.ShopNo }}</div>
+            </div>
+             <div class="flex space-between">
+              <div> {{ $t("evoucher.e_vouchers") }}</div>
+              <div>{{ item.ReferenceNo }}</div>
+            </div>
+             <div class="flex space-between">
+              <div>{{ $t("evoucher.transactionreferencenumber") }}</div>
+              <div>{{ item.EVoucherNameTC }}</div>
+            </div>
+               <div class="flex space-between">
+              <div> {{ $t("evoucher.transactiondate") }}</div>
+              <div>{{ item.BurnDate | formatHour }}</div>
+            </div>
+              <div class="flex space-between">
+              <div> {{ $t("evoucher.amount") }}</div>
+              <div>{{ item.TotalVoucherAmount | MoneyFormat }}</div>
+            </div>
           </div>
-        </el-row>
-        <div class="content-bottom flex alig-center space-between">
-          <div class="total-text">
-            {{ $t("evoucher.totalpage") }} {{ totalCount }}，{{
-              $t("evoucher.totalpageoftransaction")
-            }}{{ totalCount }}
           </div>
-          <div class="page-text">
-            <el-pagination
-              :page-size="pageSize"
-              layout="prev, pager, next"
-              :total="totalCount"
-            >
-            </el-pagination>
+          <div class="content-bottom flex alig-center space-between">
+            <div class="total-text">
+              {{ $t("evoucher.totalpage") }} {{ totalCount }}，{{
+                $t("evoucher.totalpageoftransaction")
+              }}{{ totalCount }}
+            </div>
+            <div class="page-text">
+              <el-pagination
+                :page-size="pageSize"
+                layout="prev, pager, next"
+                :total="totalCount"
+              >
+              </el-pagination>
+            </div>
           </div>
         </div>
+        <div class="bottom-summary flex align-center">
+          <div class="total-amount">{{ $t("evoucher.totalamount") }}</div>
+          <div>HK$61,000.00</div>
+        </div>
       </div>
-      <div class="bottom-summary flex align-center">
-        <div class="total-amount">{{ $t("evoucher.totalamount") }}</div>
-        <div>HK$61,000.00</div>
+    </div>
+    <div v-else>
+      <el-row>
+        <div class="filters flex">
+          <div
+            class="mg-right-20"
+            v-if="$store.getters.getUserRole === 'superaccount'"
+          >
+            <ShopFilterCompnent ref="shopcomponent" />
+          </div>
+          <div>
+            <DateFilterCompnent
+              @search="search($event)"
+              @download="download($event)"
+            />
+          </div>
+        </div>
+      </el-row>
+
+      <div class="title">{{ $t("evoucher.view") }}</div>
+      <div class="wrapper">
+        <div>
+          <el-row class="dark el-row-top">
+            <el-col :span="3"> {{ $t("evoucher.shop") }} </el-col>
+            <el-col :span="3"> {{ $t("evoucher.location") }} </el-col>
+            <el-col :span="4"> {{ $t("evoucher.shopno") }}</el-col>
+            <el-col :span="4"> {{ $t("evoucher.e_vouchers") }}</el-col>
+            <el-col :span="4">
+              {{ $t("evoucher.transactionreferencenumber") }}</el-col
+            >
+            <el-col :span="3"> {{ $t("evoucher.transactiondate") }}</el-col>
+            <el-col :span="3"> {{ $t("evoucher.amount") }}</el-col>
+          </el-row>
+          <el-row
+            v-for="(item, index) in tableData"
+            :key="item.ShopNumber"
+            v-bind:class="{ dark: index % 2 == 1 }"
+          >
+            <div @click="handleClick(item)">
+              <el-col :span="3"> {{ item.StoreNameTC }} </el-col>
+              <el-col :span="3"> {{ item.ShopNo }} </el-col>
+              <el-col :span="4"> {{ item.StoreCode }}</el-col>
+              <el-col :span="4"> {{ item.EVoucherNameTC }}</el-col>
+              <el-col :span="4"> {{ item.ReferenceNo }}</el-col>
+              <el-col :span="3"> {{ item.BurnDate | formatHour }}</el-col>
+              <el-col :span="3">
+                HK ${{ item.TotalVoucherAmount | MoneyFormat }}</el-col
+              >
+            </div>
+          </el-row>
+          <div class="content-bottom flex alig-center space-between">
+            <div class="total-text">
+              {{ $t("evoucher.totalpage") }} {{ totalCount }}，{{
+                $t("evoucher.totalpageoftransaction")
+              }}{{ totalCount }}
+            </div>
+            <div class="page-text">
+              <el-pagination
+                :page-size="pageSize"
+                layout="prev, pager, next"
+                :total="totalCount"
+              >
+              </el-pagination>
+            </div>
+          </div>
+        </div>
+        <div class="bottom-summary flex align-center">
+          <div class="total-amount">{{ $t("evoucher.totalamount") }}</div>
+          <div>HK$61,000.00</div>
+        </div>
       </div>
     </div>
   </div>
@@ -88,7 +198,17 @@ export default {
   data() {
     return {
       selectShop: "",
-      tableData: [],
+      tableData: [
+        {
+          StoreNameTC: "asd",
+          ShopNo: 1,
+          StoreCode: 9527,
+          EVoucherNameTC: "10文",
+          ReferenceNo: "1sad15a15c1sc56",
+          BurnDate: "2021-1-1",
+          formateFormat: "16:14",
+        },
+      ],
       parameters: {
         storeIDs: "",
         searchFrom: "",
@@ -97,9 +217,13 @@ export default {
       totalPage: 0,
       totalCount: 0,
       pageSize: 10,
+      isMobile: false,
     };
   },
-  mounted() {},
+  mounted() {
+    console.log(this.$store.state.isMobile);
+    this.isMobile = true; //this.$store.state.isMobile;
+  },
   methods: {
     handleClick(row) {
       this.selectShop = row.ShopNumber;
@@ -154,6 +278,37 @@ export default {
 </script>
 
 <style  scoped>
+@media (max-width: 768px) {
+  .filters {
+    padding-left: 20px;
+    padding-bottom: 20px;
+  }
+  .single-context{
+      height: 309px;
+  width: 335px;
+  border-radius: 10px;
+  background-color: #F6F1EB;
+    margin-left: 20px;
+    padding: 20px;
+  }
+  .font-size{
+    height: 21px;
+  width: 32px;
+  color: #222222;
+  font-family: "Microsoft JhengHei";
+  font-size: 16px;
+  font-weight: bold;
+  letter-spacing: 0;
+  line-height: 21px;
+
+  }
+  
+}
+@media (min-width: 768px) {
+  .filters {
+    width: 960px;
+  }
+}
 .wrapper {
   max-width: 1300px;
   margin: 10px auto;
@@ -201,7 +356,6 @@ export default {
   margin-right: 30px;
 }
 .filters {
-  width: 960px;
   margin: 0 auto;
   justify-content: center;
 }

@@ -3,7 +3,7 @@
     <div class="group">
       <back-button />
       <div class="title">{{$t("updatepassword.title")}}</div>
-      <div class="mgtop-15"><input class="input" placeholder="用户名" v-model="username"/></div>
+      <div class="mgtop-15"><input class="input" :placeholder="$t('updatepassword.username')" v-model="username"/></div>
 
       <div class="mgtop-15">
         <input class="input" type="password" :placeholder="$t('updatepassword.password')" v-model="password"/>

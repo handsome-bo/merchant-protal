@@ -4,8 +4,9 @@
     <div class="sub-title">
       {{ $t("qrcodeandtemplatesize.shopqrcodesubtitle") }}
     </div>
-
-    <div class="wrapper">
+       
+      
+    <div v-if="isMobile" class="wrapper">
       <div class="outer-box">
         <ShopFilterCompnent
           ref="shopcomponent"
@@ -14,10 +15,23 @@
         />
       </div>
     </div>
+     
+ <div class="wrapper" v-else>
+      <div class="outer-box">
+        <ShopFilterCompnent
+          ref="shopcomponent"
+          @preview="showQrCode($event)"
+          :showPreview="true"
+        />
+      </div>
+    </div>
+
     <div class="btn-group">
       <el-button type="danger" class="btn-orange">{{
         $t("qrcodeandtemplatesize.saveqrcode")
       }}</el-button>
+    </div>
+    <div class="btn-group"> 
       <el-button type="danger" class="btn-red">{{
         $t("qrcodeandtemplatesize.printqrcode")
       }}</el-button>
@@ -51,6 +65,7 @@ export default {
       parameter: {
         content: "",
       },
+      isMobile:true,
     };
   },
   mounted() {},
@@ -99,6 +114,36 @@ export default {
 </script>
 
 <style  scoped>
+@media (max-width:768px) {
+  .outer-box{
+  border-radius: 10px;
+  background-color: #D7C4A3;
+  
+  }
+  .wrapper {
+   height: 202px;
+  width: 335px;
+  border-radius: 10px;
+  background-color: #D7C4A3;
+  margin: 10px auto;
+  font-size: 18px;
+  border-radius: 10px;
+  background-color: #d7c4a3;
+}
+.btn-group {
+  width: 40px auto;
+  margin: 10px auto;
+  text-align: center;
+}
+}
+@media (min-width:768px) {
+  
+.outer-box {
+  height: 202px;
+  width: 470111px;
+  border-radius: 10px;
+  background-color: #d7c4a3;
+}
 .wrapper {
   width: 470px;
   margin: 10px auto;
@@ -111,6 +156,10 @@ export default {
   margin: 10px auto;
   text-align: center;
 }
+}
+
+
+
 .title {
   color: #222222;
   font-size: 24px;
@@ -158,12 +207,6 @@ export default {
   font-size: 20px;
 }
 
-.outer-box {
-  height: 202px;
-  width: 470px;
-  border-radius: 10px;
-  background-color: #d7c4a3;
-}
 
 .title {
   font-size: 20px;
