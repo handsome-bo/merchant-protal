@@ -148,6 +148,14 @@ export default {
       _this.$axios
         .post("MerchantEvoucher/RetrieveEvoucherHistoryList", this.parameters)
         .then((res) => {
+          if (res.errorCode != "0") {
+            this.$message({
+              showClose: true,
+              message: "please try it later",
+              type: "error",
+            });
+            return;
+          }
           if (res.eVoucherHistorylist) {
             _this.totalData = new Array();
             if (Array.isArray(res.eVoucherHistorylist.MP_EVoucherHistory)) {
@@ -158,8 +166,7 @@ export default {
             // _this.totalData = _this.tableData;
             _this.totalCount = this.totalData.length;
             _this.totalPage = Math.floor(_this.totalCount / _this.pageSize) + 1;
-            _this.changePage(1)
-
+            _this.changePage(1);
           }
         })
         .finally((res) => {
@@ -212,7 +219,6 @@ export default {
         index++;
       }
     },
-  
   },
   computed: {
     totalAmountValue() {

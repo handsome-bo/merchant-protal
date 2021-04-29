@@ -85,6 +85,7 @@ export default {
       selectShop: "",
       tableData: [],
       isOnlyOne: false,
+    
     };
   },
   mounted() {
@@ -118,6 +119,7 @@ export default {
           } else {
             _this.tableData.push(res.shopDetailList.MP_ShopDetail);
           }
+
           if (_this.tableData.length > 0) {
             _this.tableData.forEach((item) => {
               if (item.MerchantContactList) {
@@ -147,6 +149,7 @@ export default {
       if (id == this.GLOBAL.Other) salutationstr = this.$t("common.other");
       return salutationstr;
     },
+    
   },
 };
 </script>

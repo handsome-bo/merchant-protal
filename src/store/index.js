@@ -1,6 +1,7 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
 import axios from 'axios'
+import router from '../router'
 Vue.use(Vuex)
 
 
@@ -41,8 +42,11 @@ export default new Vuex.Store({
             sessionStorage.setItem('userinfo', JSON.stringify(state.userInfo))
         },
         logout(state) {
-            state.userInfo = {};
-            sessionStorage.removeItem("userinfo");
+           
+            state.token='';
+            state.userInfo={};
+            window.sessionStorage.clear();
+            router.push('/logout');
         },
         setShopList(state) {
             axios.post("Shops/RetrieveShortShopList",
@@ -51,6 +55,7 @@ export default new Vuex.Store({
                     RoleType: state.userInfo.contacttype
                 }).then((res) => {
                     var tempdata = [];
+                    if(res.ShopList&&res.ShopList.errorCode=="0"&&res.ShopList.shopList){
                     if (Array.isArray(res.shopList.Shop)) {
                         tempdata = res.shopList.Shop;
                         tempdata.forEach((item) => {
@@ -60,6 +65,7 @@ export default new Vuex.Store({
                     else {
                         tempdata.push(res.shopList.Shop)
                     }
+                }
                     state.shopList = tempdata;
                     console.log('setShopList')
                     sessionStorage.setItem('shoplist', JSON.stringify(state.shopList))

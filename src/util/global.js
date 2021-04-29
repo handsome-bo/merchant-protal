@@ -11,6 +11,7 @@ const GlOBAL = {
     Other: "915240004",
     Super: "super",
     Merchant: "merchant",
-    Shop: "shop"
+    Shop: "shop",
+    RedirectURL:"http://localhost:8080"
 }
 export default GlOBAL;

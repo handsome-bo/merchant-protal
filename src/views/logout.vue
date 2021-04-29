@@ -1,0 +1,48 @@
+<template>
+  <div class="outer">
+    <div class="group">
+      <p>
+        <i class="el-icon-warning"> </i>
+      </p>
+      <div class="text">
+     logout successfully
+      </div>
+    </div>
+  </div>
+</template>
+
+<script>
+export default {
+  data() {
+    return {};
+  },
+  mounted() {
+    // this.$router.push("/forgotpassword1");
+  },
+  methods: {},
+};
+</script>
+
+<style   scoped>
+.group {
+  margin: 0 auto;
+  width: 500px;
+  padding: 50px;
+  color: #ffffff;
+  font-family: "Microsoft JhengHei";
+}
+p {
+  text-align: center;
+}
+.el-icon-warning {
+  font-size: 50px;
+}
+.text {
+  font-size: 30px;
+  font-weight: normal;
+  letter-spacing: 0;
+  line-height: 40px;
+  text-align: center;
+  text-shadow: 0 2px 10px 0 rgba(0, 0, 0, 0.9);
+}
+</style>

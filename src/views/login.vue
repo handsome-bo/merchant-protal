@@ -54,17 +54,14 @@ export default {
       let useremail = JSON.parse(userString).emails[0];
       this.email = "ken.lau@mtrtest.com.hk"; //useremail;
       this.login();
-    } 
-    else 
-    {
-      
+    } else {
       this.loginfromAdb2c();
     }
   },
   methods: {
     loginfromAdb2c() {
-      const url =
-        "https://MerchantPortal2.b2clogin.com/MerchantPortal2.onmicrosoft.com/oauth2/v2.0/authorize?p=B2C_1_SignIn&client_id=4e3ba4f4-2d1f-45e5-b65b-7a4dab3b2d69&nonce=defaultNonce&redirect_uri=http%3A%2F%2Flocalhost%3A8080&scope=openid&response_type=id_token&prompt=login";
+      const redirect_uri = this.GLOBAL.RedirectURL;
+      const url = `https://MerchantPortal2.b2clogin.com/MerchantPortal2.onmicrosoft.com/oauth2/v2.0/authorize?p=B2C_1_SignIn&client_id=4e3ba4f4-2d1f-45e5-b65b-7a4dab3b2d69&nonce=defaultNonce&redirect_uri=${redirect_uri}&scope=openid&response_type=id_token&prompt=login`;
       window.location.href = url;
     },
     login() {
@@ -88,7 +85,7 @@ export default {
             window.sessionStorage.clear();
             return;
           }
-        
+
           const data = res;
           const userinfo = {
             name: data.name,

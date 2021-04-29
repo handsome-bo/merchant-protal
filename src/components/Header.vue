@@ -18,7 +18,6 @@
             v-bind:class="{ actived: $store.getters.getNavNumber == 0 }"
             v-if="$store.state.userInfo.contacttype != GLOBAL.Super"
           >
-         
             {{ $t("header.notifications") }}
           </li>
           <li
@@ -30,7 +29,9 @@
           <li v-bind:class="{ actived: $store.getters.getNavNumber == 2 }">
             {{ $t("header.evouchers") }}
             <div class="dropmenu-common">
-              <div class="title" @click="navigateTo('evoucherrecord')">{{ $t("header.evouchers") }}</div>
+              <div class="title" @click="navigateTo('evoucherrecord')">
+                {{ $t("header.evouchers") }}
+              </div>
               <div class="subtitle" @click="navigateTo('evoucherrecord')">
                 {{ $t("header.evoucher1") }}
               </div>
@@ -76,7 +77,9 @@
               {{ $t("header.password") }}</router-link
             >
           </div>
-          <div class="subtitle pointer" @click="logout()">{{ $t("header.logout") }}</div>
+          <div class="subtitle pointer" @click="logout()">
+            {{ $t("header.logout") }}
+          </div>
         </div>
       </div>
     </div>
@@ -97,10 +100,7 @@ export default {
   created() {
     this.lang = localStorage.getItem("locale");
   },
-  mounted() {
-console.log(this.GLOBAL)
-
-  },
+  mounted() {},
   methods: {
     handleSelect(key, keyPath) {
       console.log(key, keyPath);
@@ -121,10 +121,9 @@ console.log(this.GLOBAL)
       }
     },
     logout() {
+    
       this.$store.dispatch("logout");
-      window.sessionStorage.clear();
-      this.$router.push("/login");
-      
+
     },
   },
 };
@@ -221,7 +220,7 @@ a {
   position: absolute;
   z-index: 9;
   top: 108px;
-    z-index: 2001;
+  z-index: 2001;
   left: 0;
 }
 .dropmenu-common {

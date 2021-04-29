@@ -2,6 +2,7 @@ import Vue from 'vue';
 import Router from 'vue-router';
 import SelectRoles from '../views/SelectRoles'
 import Login from '../views/login'
+import Logout from '../views/logout'
 import Index from '../views/Index'
 import Main from '../views/main/index'
 import Shop from '../views/main/shop'
@@ -43,6 +44,12 @@ export default new Router({
                     path: '/login',
                     name: 'login',
                     component: Login,
+                    meta: { showLoginMenu: false, navNumber: 0 }
+                },
+                {
+                    path: '/logout',
+                    name: 'logout',
+                    component: Logout,
                     meta: { showLoginMenu: false, navNumber: 0 }
                 },
                 {
