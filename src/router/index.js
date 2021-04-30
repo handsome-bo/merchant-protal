@@ -2,6 +2,7 @@ import Vue from 'vue';
 import Router from 'vue-router';
 import SelectRoles from '../views/SelectRoles'
 import Login from '../views/login'
+import Logout from '../views/logout'
 import Index from '../views/Index'
 import Main from '../views/main/index'
 import Shop from '../views/main/shop'
@@ -21,7 +22,16 @@ import ErrorPage from '../views/errorPage'
 
 import Forgotpassword1 from '../views/forgotPassword1'
 import Forgotpassword2 from '../views/forgotPassword2'
-
+import MIndex from '../views/mobile/Index'
+import MLogin from '../views/mobile/login'
+import MLogout from '../views/mobile/logout'
+import MErrorPage from '../views/mobile/errorPage'
+import MobileShop from '../views/mobile/main/shop'
+import MobileUpdatePassword1 from '../views/mobile/main/updatePassword1'
+import MobileUpdatePassword2 from '../views/mobile/main/updatePassword2'
+import MobileUpdatePassword3 from '../views/mobile/main/updatePassword3'
+import MobileRegister from '../views/mobile/register'
+import MobileRegisterSecond from '../views/mobile/registerSecond'
 Vue.use(Router);
 
 export default new Router({
@@ -32,15 +42,8 @@ export default new Router({
         {
             path: '/',
             name: 'default',
-            redirect: '/selectroles'
+            redirect: '/login'
         },
-        {
-            path: '/selectroles',
-            name: 'SelectRoles',
-            component: SelectRoles,
-            meta: { showLoginMenu: false, navNumber: 0 }
-        },
-
         {
             path: '/index',
             name: 'index',
@@ -53,11 +56,17 @@ export default new Router({
                     meta: { showLoginMenu: false, navNumber: 0 }
                 },
                 {
-                    path:'/errorpage',
-                    name:'ErrorPage',
-                    component:ErrorPage,
-                    meta:{showLoginMenu: false, navNumber: 0}
-        
+                    path: '/logout',
+                    name: 'logout',
+                    component: Logout,
+                    meta: { showLoginMenu: false, navNumber: 0 }
+                },
+                {
+                    path: '/errorpage',
+                    name: 'ErrorPage',
+                    component: ErrorPage,
+                    meta: { showLoginMenu: false, navNumber: 0 }
+
                 },
                 {
                     path: '/updatepassword1',
@@ -71,7 +80,7 @@ export default new Router({
                     component: UpdatePassword2,
                     meta: { showLoginMenu: false, navNumber: 0 }
                 },
-                //添加路由
+
                 {
                     path: '/updatepassword3',
                     name: 'UpdatePassword3',
@@ -114,52 +123,139 @@ export default new Router({
                     path: 'shop',
                     name: 'shop',
                     component: Shop,
-                    meta: { showLoginMenu: true, navNumber: 1 }
+                    meta: { showLoginMenu: true, navNumber: 1, requestAuth: true }
                 },
                 {
                     path: 'evoucher-record',
                     name: 'evoucherrecord',
                     component: EvoucherRecord,
-                    meta: { showLoginMenu: true, navNumber: 2 }
+                    meta: { showLoginMenu: true, navNumber: 2, requestAuth: true }
                 },
                 {
                     path: 'evoucher-refund',
                     name: 'evoucherrefund',
                     component: EvoucherRefund,
-                    meta: { showLoginMenu: true, navNumber: 2 }
+                    meta: { showLoginMenu: true, navNumber: 2, requestAuth: true }
                 },
                 {
                     path: 'evoucher-using',
                     name: 'evoucherusing',
                     component: EvoucherUsing,
-                    meta: { showLoginMenu: true, navNumber: 2 }
+                    meta: { showLoginMenu: true, navNumber: 2, requestAuth: true }
                 },
                 {
                     path: 'shopqrcode',
                     name: 'shopqrcode',
                     component: Shopqrcode,
-                    meta: { showLoginMenu: true, navNumber: 3 }
+                    meta: { showLoginMenu: true, navNumber: 3, requestAuth: true }
                 },
                 {
                     path: 'notification',
                     name: 'notification',
                     component: NotifyComponent,
-                    meta: { showLoginMenu: true, navNumber:0 }
+                    meta: { showLoginMenu: true, navNumber: 0, requestAuth: true }
                 },
                 {
                     path: 'profile',
                     name: 'profile',
                     component: Profile,
-                    meta: { showLoginMenu: true, navNumber: -1 }
+                    meta: { showLoginMenu: true, navNumber: -1, requestAuth: true }
                 },
             ]
         },
         {
-            path:'*',
-            redirect:'/errorpage',
-            name: 'notFound',
-            hidden: true
-        }
-           
+            path: '/m/index',
+            name: 'MobileIndex',
+            component: MIndex,
+            redirect:'/m/login',
+            children: [
+                {
+                    path: '/m/login',
+                    name: 'MobileLogin',
+                    component: MLogin,
+                    meta: { showLoginMenu: false, navNumber: 0 }
+                },
+                {
+                    path: '/m/logout',
+                    name: 'MboileLogout',
+                    component: MLogout,
+                    meta: { showLoginMenu: false, navNumber: 0 }
+                },
+                {
+                    path: '/m/errorpage',
+                    name: 'MoibleErrorPage',
+                    component: MErrorPage,
+                    meta: { showLoginMenu: false, navNumber: 0 }
+
+                },
+                {
+                    path: '/m/updatepassword1',
+                    name: 'MobileUpdatePassword1',
+                    component: MobileUpdatePassword1,
+                    meta: { showLoginMenu: false, navNumber: 0 }
+                },
+                {
+                    path: '/m/updatepassword2',
+                    name: 'MobileUpdatePassword2',
+                    component: MobileUpdatePassword2,
+                    meta: { showLoginMenu: false, navNumber: 0 }
+                },
+
+                {
+                    path: '/m/updatepassword3',
+                    name: 'MobileUpdatePassword3',
+                    component: MobileUpdatePassword3,
+                    meta: { showLoginMenu: false, navNumber: 0 }
+                },
+                {
+                    path: '/m/register',
+                    name: 'MobileRegister',
+                    component: MobileRegister,
+                    meta: { showLoginMenu: false, navNumber: 0 }
+                },
+                {
+                    path: '/m/registerSecond',
+                    name: 'MobileRegisterSecond',
+                    component: MobileRegisterSecond,
+                    meta: { showLoginMenu: false, navNumber: 0 }
+                },
+                // {
+                //     path: '/register',
+                //     name: 'Register',
+                //     component: Register,
+                //     meta: { showLoginMenu: false, navNumber: 0 }
+                // },
+                // {
+                //     path: '/registerSecond',
+                //     name: 'RegisterSecond',
+                //     component: RegisterSecond,
+                //     meta: { showLoginMenu: false, navNumber: 0 }
+                // },
+             
+            ]
+        },
+        {
+            path: '/m/main',
+            name: 'MobileMain',
+            component: Main,
+            redirect: { name: 'mobileshop' },
+            children: [
+                {
+                    path: 'shop',
+                    name: 'mobileshop',
+                    component: MobileShop,
+                    meta: { showLoginMenu: true, navNumber: 1, requestAuth: true }
+                },
+                
+                
+            ]
+        },
+        // {
+        //     path:'*',
+        //     redirect:'/errorpage',
+        //     name: 'notFound',
+        //     hidden: true
+        // }
+
     ]
 });

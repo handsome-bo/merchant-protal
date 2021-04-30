@@ -5,65 +5,9 @@ body {
 	color: #222222;
   font-family: "Microsoft JhengHei"
 }
-@media (max-width:768px) {
-    .btn-orange{
-        height: 50px;
-        width: 295px;
-        border-radius: 10px;
-        background-color: #C77900;
-        color: #fff;
-        font-size: 20px;
-        font-weight: bold;
-        text-align: center;
-        border: 1px solid #C77900;
-      }
-      .btn-red{
-        height: 50px;
-        width: 295px;
-        border-radius: 10px;
-        background-color: #e70048;
-        color: #ffffff;
-        font-size: 20px;
-        font-weight: bold;
-        text-align: center;
-        border: none;
-      }
-      .el-dialog{
-        border-radius: 10px;
-        height: 610px;
-        width: 345px;
-    }
+.el-dialog{
+    border-radius: 10px;
 }
-@media (min-width:768px) {
-    .btn-orange{
-        height: 50px;
-        width: 210px;
-        border-radius: 10px;
-        background-color: #C77900;
-        color: #fff;
-        font-size: 20px;
-        font-weight: bold;
-        text-align: center;
-        border: 1px solid #C77900;
-      }
-      .btn-red{
-        height: 50px;
-        width: 210px;
-        border-radius: 10px;
-        background-color: #e70048;
-        color: #ffffff;
-        font-size: 20px;
-        font-weight: bold;
-        text-align: center;
-        border: none;
-      }
-      .el-dialog{
-        border-radius: 10px;
-        height: 557px;
-        width: 345px;
-    }
-}
-
 a,
 a:hover {
 	text-decoration: none;
@@ -130,7 +74,17 @@ a:hover {
     line-height: 32px;
     text-align: center;
   }
-
+  .btn-red{
+    height: 50px;
+    width: 210px;
+    border-radius: 10px;
+    background-color: #e70048;
+    color: #ffffff;
+    font-size: 20px;
+    font-weight: bold;
+    text-align: center;
+    border: none;
+  }
   .btn-white{
     height: 50px;
     width: 210px;
@@ -142,7 +96,17 @@ a:hover {
     text-align: center;
     border: 1px solid #E70048;
   }
-
+  .btn-orange{
+    height: 50px;
+    width: 210px;
+    border-radius: 10px;
+    background-color: #C77900;
+    color: #fff;
+    font-size: 20px;
+    font-weight: bold;
+    text-align: center;
+    border: 1px solid #C77900;
+  }
   .return-button {
     font-size: 18px;
     font-weight: bold;

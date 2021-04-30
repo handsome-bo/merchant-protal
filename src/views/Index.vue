@@ -5,8 +5,8 @@
         <headercomponent></headercomponent>
       </el-header>
       <el-main>
-          <div class="main">
-        <router-view />
+        <div class="main">
+          <router-view />
         </div>
       </el-main>
       <el-footer>
@@ -21,13 +21,13 @@ import headercomponent from "../components/Header";
 import footercomponent from "../components/Footer";
 export default {
   name: "Index",
-  components: {headercomponent, footercomponent},
+  components: { headercomponent, footercomponent },
 };
 </script>
 
 <style  scoped>
-.main{
-   height: 830px;
-  background: url('../assets/images/bg2.jpg') no-repeat 0;
+.main {
+  height: 830px;
+  background: url("../assets/images/bg2.jpg") no-repeat 0;
 }
 </style>

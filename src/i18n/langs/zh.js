@@ -2,7 +2,15 @@ const cn = {
     common: {
         superaccount: "超级用户",
         merchant: "商户",
-        shop: "门店"
+        shop: "门店",
+        yes:'是',
+        no:'否',
+        actived:'生效',
+        mr:'先生',
+        mrs:'太太',
+        ms:'女士',
+        miss:'小姐',
+        other:'Other'
     },
     header: {
         title: '電子禮券商戶系統',
@@ -29,7 +37,7 @@ const cn = {
         new: '新',
         newnotification: '有新的通知',
 
-        messagetemplate: '顧客於在 {shopname}使用電子禮券 {N} 張，交易參考碼：{ReferenceNo}',
+        messagetemplate: '顧客於在 {shopname} 使用電子禮券 {N} 張，交易參考碼：{ReferenceNo}',
         transactiondetails: '交易詳情',
         transactionreferencenumber: '交易參考碼',
         minimum: '最低消費額 ',
@@ -122,8 +130,8 @@ const cn = {
         confirm: '確定',
         quantity: "數量: {N} 張",
         validtill: "有效期至: {Expirydate}",
-        totalevouchersamount: "電子禮券總值                                 HK$ {N}                       HK$ {N}                                 HK$ {N} ",
-        minimumspendingrequirement: "最低消費額                                      HK$ {N}",
+        totalevouchersamount: "電子禮券總值",
+        minimumspendingrequirement: "最低消費額",
         clear: "重設",
         submit: "提交",
         requestsenttoshop: "已提交至商戶",
@@ -142,6 +150,7 @@ const cn = {
         chooseall: "全選",
         confirm: "確定",
         scanqrviatousevoucher: "開啟 ELEMENTS 手機應用程式掃描QR碼以使用電子禮券 ",
+        preview:'預覽'
     },
     button: {
         accepted: '已接受',
@@ -178,7 +187,8 @@ const cn = {
         mobile:"手機（必填）",
         jobtilte:"職位",
         report:"以電郵接收電子禮券使用報告 ?  ",
-        save:"儲存"
+        save:"儲存",
+        update:"修改"
     },
 
     updatepassword:{

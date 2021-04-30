@@ -1,38 +1,11 @@
 <template>
-  <div class="outer">
+   <div class="outer">
     <div class="group">
-      <div class="title">{{ $t("registration.title") }}</div>
-
-      <div>
-        <input
-          class="input"
-          type="password"
-          :placeholder="$t('registration.password')"
-        />
-      </div>
-      <div>
-        <input
-          class="input"
-          type="password"
-          :placeholder="$t('registration.passwordagain')"
-        />
-      </div>
-
-      <div>
+      <div class="text">
+        {{$t("updatepassword.errormessage")}}
         <div class="text-center">
-          <el-button class="login-btn" @click="register">{{
-            $t("registration.title")
-          }}</el-button>
-        </div>
+        <el-button class="btn"  @click="clickContinue">{{$t("updatepassword.continue")}}</el-button>
       </div>
-      <div class="text-tip mgtop-15">
-        <div>密碼需要乎合至少2項條件（大寫、小寫、數字和符號）</div>
-        <ul>
-          <li>大寫：ABCDEFGHIJKLMNOPQRSTUVWXYZ</li>
-          <li>小寫：abcdefghijklmnopqrstuvwxyz</li>
-          <li>數字：0123456789</li>
-          <li>符號：~!@#$%^*()_+{}|:?-=[]\;,./‘</li>
-        </ul>
       </div>
     </div>
   </div>
@@ -40,24 +13,50 @@
 
 <script>
 export default {
-  name: "RegisterSecond",
-  methods: {
-    register() {
-      this.$router.push("/login");
-    },
+  name: "UpdatePassword3",
+  data(){
+    return{
+      oldPassword:'',
+      newPassword:'',
+      confirmNewPassword:''
+    }
   },
+  methods:{
+    clickContinue(){
+      this.$router.push("/");
+    },
+  }
 };
 </script>
 
 <style   scoped>
+.text {
+ 
+  font-size: 30px;
+  font-weight: normal;
+  letter-spacing: 0;
+  line-height: 40px;
+  text-align: center;
+  text-shadow: 0 2px 10px 0 rgba(0, 0, 0, 0.9);
+}
+.outer {
+  padding-top: 161px;
+}
 .group {
   margin: 0 auto;
-  width: 500px;
-
+  height: 181px;
+  width: 210px;
   color: #ffffff;
   font-family: "Microsoft JhengHei";
 }
-
+.return {
+  font-size: 18px;
+  font-weight: bold;
+  letter-spacing: 0;
+  line-height: 24px;
+  text-align: left;
+  text-shadow: 0 2px 10px rgba(0, 0, 0, 0.9);
+}
 .title {
   font-size: 30px;
   font-weight: bold;
@@ -65,12 +64,7 @@ export default {
   line-height: 40px;
   text-align: center;
   text-shadow: 0 2px 10px 0 rgba(0, 0, 0, 0.9);
-}
-.title1 {
-  font-size: 20px;
-  letter-spacing: 0;
-  line-height: 27px;
-  margin-top: 60px;
+  margin-top: 25px;
 }
 .input {
   box-sizing: border-box;
@@ -79,9 +73,8 @@ export default {
   border: 1px solid rgba(0, 0, 0, 0.4);
   border-radius: 10px;
   background-color: #ffffff;
-  margin-top: 15px;
+
   text-align: center;
-  font-size: 20px;
 }
 .other-text {
   margin-top: 20px;
@@ -92,7 +85,7 @@ export default {
   text-shadow: 0 2px 10px 0 rgba(0, 0, 0, 0.9);
 }
 
-.login-btn {
+.btn {
   height: 50px;
   width: 210px;
   border-radius: 10px;
@@ -114,7 +107,7 @@ export default {
   font-size: 16px;
   letter-spacing: 0;
   line-height: 21px;
- 
+  text-align: center;
   text-shadow: 0 2px 10px 0 rgba(0,0,0,0.9);
 }
 ul li{

@@ -1,21 +1,29 @@
 import axios from 'axios'
 import store from '@/store'
-
-axios.defaults.timeout = 30000;
+import global from '../util/global'
+import router from '../router'
+axios.defaults.timeout = 50000;
 axios.defaults.headers.common['Content-Type'] = 'application/json; charset=utf-8';
 if (process.env.NODE_ENV == 'development') {
-    axios.defaults.baseURL = 'https://localhost:44316';
+    axios.defaults.baseURL = global.BaseURL+'api/';
 }
 else if (process.env.NODE_ENV == 'debug') {
-    axios.defaults.baseURL = 'https://localhost:44316';
+    axios.defaults.baseURL = global.BaseURL+'api/';
 }
 else if (process.env.NODE_ENV == 'production') {
-    axios.defaults.baseURL = 'https://www.production.com';
+    axios.defaults.baseURL = global.BaseURL+'api/';
 }
 
 axios.interceptors.request.use(config => {
     const token = store.state.token;
-    token && (config.headers.Authorization = token);
+    token && (config.headers.Authorization = `Bearer ${token}`);
+    var userInfo = store.state.userInfo;
+    if (userInfo) {
+        if (!config.data.Email) {
+            config.data.Email = userInfo.email;
+        }
+        config.data.RoleType = userInfo.contacttype;
+    }
     return config;
 }, error => {
 
@@ -24,59 +32,60 @@ axios.interceptors.request.use(config => {
     return Promise.reject(error)
 })
 
-
-// 响应拦截器
 axios.interceptors.response.use(
     response => {
-
         if (response.status === 200) {
-            return Promise.resolve(response);
+            const rsdata = JSON.parse(response.data.resultObject);
+                return Promise.resolve(rsdata[Object.keys(rsdata)[0]]);
+            
         } else {
             return Promise.reject(response);
         }
     },
-
     error => {
-        if (error&&error.response&&error.response.status) {
+        if (error && error.response && error.response.status) {
             switch (error.response.status) {
-
                 case 401:
-                    // router.replace({                        
-                    //     path: '/login',                        
-                    //     query: { 
-                    //         redirect: router.currentRoute.fullPath 
-                    //     }
-                    // });
+                    window.sessionStorage.clear();
+                    router.replace({
+                        path: '/login',
+                        query: {
+                            redirect: router.currentRoute.fullPath
+                        }
+                    });
                     break;
-
-
                 case 403:
-
-                    // localStorage.removeItem('token');
-                    // store.commit('loginSuccess', null);
-
-                    // setTimeout(() => {                        
-                    //     router.replace({                            
-                    //         path: '/login',                            
-                    //         query: { 
-                    //             redirect: router.currentRoute.fullPath 
-                    //         }                        
-                    //     });                    
-                    // }, 1000);                    
+                    window.sessionStorage.clear();
+                    router.replace({
+                        path: '/login',
+                        query: {
+                            redirect: router.currentRoute.fullPath
+                        }
+                    });
                     break;
-
-
                 case 404:
-
+                    console.log(error);
+                    router.replace({
+                        path: '/errorpage'
+                    });
                     break;
 
                 default:
-                    console.log('error')
+                    console.log(error);
+                    router.replace({
+                        path: '/errorpage'
+                    });
+                    break;
             }
             return Promise.reject(error.response);
         }
+        else{
+            router.replace({
+                path: '/errorpage'
+            });
+            
+        }
     }
 );
-
 
 export default axios;

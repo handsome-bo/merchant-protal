@@ -3,7 +3,15 @@ const en = {
     common: {
         superaccount: 'Super Account',
         merchant: 'Merchant',
-        shop: 'Shop'
+        shop: 'Shop',
+        yes:'Yes',
+        no:'No',
+        actived:'actived',
+        mr:'Mr.',
+        mrs:'Mrs.',
+        ms:'Ms.',
+        miss:'Miss',
+        other:'Other'
 
     },
     header: {
@@ -106,8 +114,8 @@ const en = {
         confirm:'Confirm',
         quantity:"Quantity: {N} pcs",
         validtill:"Valid Till: {Expirydate}:",
-        totalevouchersamount:"Total e-Voucher(s) Amount                       HK$ {N}                                 HK$ {N} ",
-        minimumspendingrequirement:"Minimum Spending Requirement       HK$ {N}",
+        totalevouchersamount:"Total e-Voucher(s) Amount",
+        minimumspendingrequirement:"Minimum Spending Requirement",
         clear:"Clear",
         submit:"Submit",
         requestsenttoshop:"Request Sent to Shop",
@@ -126,6 +134,7 @@ const en = {
         chooseall:"Choose All",
         confirm:"Confirm",
         scanqrviatousevoucher:"Scan QR code via ELEMENTS App to use e-Voucher(s) ",
+        preview:'preview'
     },
     button: {
         accepted: 'Accepted',
@@ -176,7 +185,9 @@ const en = {
         mobile:"Mobile  (Mandatory)",
         jobtilte:"Job Title",
         report:"Receive Usage Report by Email ? ",
-        'save':"Save"
+        save:"Save",
+        update:"update"
+
     },
 
     registration:{

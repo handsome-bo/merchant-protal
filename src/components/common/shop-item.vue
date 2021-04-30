@@ -6,7 +6,7 @@
       class="preview middle-center pointer"
     >
       <i class="el-icon-view" />
-      預覽
+    {{$t("qrcodeandtemplatesize.preview")}}
     </div>
     <div class="shop-name middle-center" :class="{ fullwidth: !showClose }">
       {{ label }}
@@ -36,7 +36,11 @@ export default {
       this.$emit("onRemove", this.pid);
     },
     preview: function () {
-      this.$emit("onPreview", this.pid);
+      var dto={
+        storeId:this.pid,
+        storeName:this.plabel
+      }
+      this.$emit("onPreview", dto);
     },
   },
 };

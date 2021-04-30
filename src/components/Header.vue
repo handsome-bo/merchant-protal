@@ -16,6 +16,7 @@
           <li
             @click="navigateTo('notification')"
             v-bind:class="{ actived: $store.getters.getNavNumber == 0 }"
+            v-if="$store.state.userInfo.contacttype != GLOBAL.Super"
           >
             {{ $t("header.notifications") }}
           </li>
@@ -28,7 +29,9 @@
           <li v-bind:class="{ actived: $store.getters.getNavNumber == 2 }">
             {{ $t("header.evouchers") }}
             <div class="dropmenu-common">
-              <div class="title">{{ $t("header.evouchers") }}</div>
+              <div class="title" @click="navigateTo('evoucherrecord')">
+                {{ $t("header.evouchers") }}
+              </div>
               <div class="subtitle" @click="navigateTo('evoucherrecord')">
                 {{ $t("header.evoucher1") }}
               </div>
@@ -40,7 +43,7 @@
               </div>
               <div
                 class="subtitle"
-                v-if="$store.getters.getUserRole === 'superaccount'"
+                v-if="$store.state.userInfo.contacttype === GLOBAL.Super"
               >
                 <router-link to="evoucher-using">{{
                   $t("header.evoucher3")
@@ -61,7 +64,7 @@
         <img src="../assets/Images/lan-en.svg" v-if="lang == 'en'" />
       </div>
       <div class="profile pointer" v-if="$store.getters.getIsShowLoginMenu">
-        <div class="name">{{ $store.getters.getUserName }}</div>
+        <div class="name">{{ $store.state.userInfo.name }}</div>
         <div class="setting">{{ $t("header.setting") }}</div>
         <div class="dropmenu-profile">
           <div class="subtitle">
@@ -74,7 +77,9 @@
               {{ $t("header.password") }}</router-link
             >
           </div>
-          <div class="subtitle">{{ $t("header.logout") }}</div>
+          <div class="subtitle pointer" @click="logout()">
+            {{ $t("header.logout") }}
+          </div>
         </div>
       </div>
     </div>
@@ -115,6 +120,11 @@ export default {
         this.lang = "zh";
       }
     },
+    logout() {
+    
+      this.$store.dispatch("logout");
+
+    },
   },
 };
 </script>
@@ -132,7 +142,6 @@ export default {
   align-items: center;
   width: 100%;
   max-width: 1920px;
- 
 }
 a {
   color: #222222;
@@ -211,6 +220,7 @@ a {
   position: absolute;
   z-index: 9;
   top: 108px;
+  z-index: 2001;
   left: 0;
 }
 .dropmenu-common {
@@ -218,7 +228,7 @@ a {
   background-color: #f6f1eb;
   position: absolute;
   display: none;
-  z-index: 9;
+  z-index: 2001;
   top: -2px;
 }
 
