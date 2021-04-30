@@ -47,16 +47,23 @@ export default {
     };
   },
   mounted() {
-    if (this.$store.state.token) {
-      let userString = decodeURIComponent(
-        escape(window.atob(this.$store.state.token.split(".")[1]))
-      );
-      let useremail = JSON.parse(userString).emails[0];
-      this.email = "ken.lau@mtrtest.com.hk"; //useremail;
-      this.login();
-    } else {
-      this.loginfromAdb2c();
-    }
+    // if (this.$store.state.token) {
+    //   let userString = decodeURIComponent(
+    //     escape(window.atob(this.$store.state.token.split(".")[1]))
+    //   );
+    //   let useremail = JSON.parse(userString).emails[0];
+    //   this.email = "ken.lau@mtrtest.com.hk"; //useremail;
+    //   this.login();
+    // } else {
+    //   this.loginfromAdb2c();
+    // }
+ this.$store.commit("setToken", "123");
+    const userinfo = {
+            name: "123",
+           
+            contacttype: "merchant",
+          };
+          this.$store.commit("setUserInfo", userinfo);
   },
   methods: {
     loginfromAdb2c() {
