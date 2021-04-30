@@ -89,7 +89,7 @@ export default {
     };
   },
   mounted() {
-    this.loadShops();
+   // this.loadShops();
     this.isMobile = this.$store.state.isMobile;
   },
   methods: {

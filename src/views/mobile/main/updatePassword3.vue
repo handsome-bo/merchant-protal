@@ -44,8 +44,8 @@ export default {
 }
 .group {
   margin: 0 auto;
-  width: 500px;
-  padding: 50px;
+  height: 181px;
+  width: 210px;
   color: #ffffff;
   font-family: "Microsoft JhengHei";
 }

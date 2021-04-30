@@ -123,48 +123,41 @@ export default {
 </script>
 
 <style   scoped>
-@media (max-width: 768px) {
-  .input {
-    box-sizing: border-box;
-    height: 50px;
-    width: 305px;
-    border: 1px solid rgba(0, 0, 0, 0.4);
-    border-radius: 10px;
-    background-color: #ffffff;
-    margin-top: 15px;
-    text-align: center;
-    font-size: 20px;
-  }
-}
-@media (min-width: 768px) {
-  .group {
-    margin: 0 auto;
-    width: 500px;
-    font-family: "Microsoft JhengHei";
-    color: #fff;
-  }
-}
+.group {
+  margin: 0 auto;
+  width: 500px;
+  height: 341px;
+  width: 305px;
 
+  color: #ffffff;
+  font-family: "Microsoft JhengHei";
+}
 .title {
-  font-size: 30px;
+  height: 32px;
+  width: 250px;
+  font-size: 24px;
+  line-height: 32px;
   font-weight: bold;
   letter-spacing: 0;
-  line-height: 40px;
   text-align: center;
   text-shadow: 0 2px 10px 0 rgba(0, 0, 0, 0.9);
   color: #fff;
 }
 .title1 {
-  font-size: 20px;
+  height: 40px;
+  width: 250px;
+  font-size: 16px;
   letter-spacing: 0;
-  line-height: 27px;
+  line-height: 21px;
   margin-top: 60px;
   color: #fff;
+  text-align: center;
+  text-shadow: 0 2px 10px 0 rgba(0,0,0,0.8);
 }
 .input {
   box-sizing: border-box;
   height: 50px;
-  width: 500px;
+  width: 305px;
   border: 1px solid rgba(0, 0, 0, 0.4);
   border-radius: 10px;
   background-color: #ffffff;

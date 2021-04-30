@@ -44,7 +44,7 @@ export default {
       if (this.username == "" || this.password == "") {
         this.alertMessage();
       } else {
-        this.$router.push({ name: "UpdatePassword2" });
+        this.$router.push({ name: "MobileUpdatePassword2" });
       }
     },
     alertMessage() {
@@ -62,8 +62,8 @@ export default {
   padding-top: 161px;
 }
 .group {
-  margin: 0 auto;
-  width: 500px;
+  height: 307px;
+  width: 305px;
   padding: 50px;
   color: #ffffff;
   font-family: "Microsoft JhengHei";
@@ -87,7 +87,7 @@ export default {
 .input {
   box-sizing: border-box;
   height: 50px;
-  width: 500px;
+  width: 305px;
   border: 1px solid rgba(0, 0, 0, 0.4);
   border-radius: 10px;
   background-color: #ffffff;

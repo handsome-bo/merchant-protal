@@ -26,6 +26,12 @@ import MIndex from '../views/mobile/Index'
 import MLogin from '../views/mobile/login'
 import MLogout from '../views/mobile/logout'
 import MErrorPage from '../views/mobile/errorPage'
+import MobileShop from '../views/mobile/main/shop'
+import MobileUpdatePassword1 from '../views/mobile/main/updatePassword1'
+import MobileUpdatePassword2 from '../views/mobile/main/updatePassword2'
+import MobileUpdatePassword3 from '../views/mobile/main/updatePassword3'
+import MobileRegister from '../views/mobile/register'
+import MobileRegisterSecond from '../views/mobile/registerSecond'
 Vue.use(Router);
 
 export default new Router({
@@ -182,25 +188,37 @@ export default new Router({
                     meta: { showLoginMenu: false, navNumber: 0 }
 
                 },
-                // {
-                //     path: '/updatepassword1',
-                //     name: 'UpdatePassword1',
-                //     component: UpdatePassword1,
-                //     meta: { showLoginMenu: false, navNumber: 0 }
-                // },
-                // {
-                //     path: '/updatepassword2',
-                //     name: 'UpdatePassword2',
-                //     component: UpdatePassword2,
-                //     meta: { showLoginMenu: false, navNumber: 0 }
-                // },
+                {
+                    path: '/m/updatepassword1',
+                    name: 'MobileUpdatePassword1',
+                    component: MobileUpdatePassword1,
+                    meta: { showLoginMenu: false, navNumber: 0 }
+                },
+                {
+                    path: '/m/updatepassword2',
+                    name: 'MobileUpdatePassword2',
+                    component: MobileUpdatePassword2,
+                    meta: { showLoginMenu: false, navNumber: 0 }
+                },
 
-                // {
-                //     path: '/updatepassword3',
-                //     name: 'UpdatePassword3',
-                //     component: UpdatePassword3,
-                //     meta: { showLoginMenu: false, navNumber: 0 }
-                // },
+                {
+                    path: '/m/updatepassword3',
+                    name: 'MobileUpdatePassword3',
+                    component: MobileUpdatePassword3,
+                    meta: { showLoginMenu: false, navNumber: 0 }
+                },
+                {
+                    path: '/m/register',
+                    name: 'MobileRegister',
+                    component: MobileRegister,
+                    meta: { showLoginMenu: false, navNumber: 0 }
+                },
+                {
+                    path: '/m/registerSecond',
+                    name: 'MobileRegisterSecond',
+                    component: MobileRegisterSecond,
+                    meta: { showLoginMenu: false, navNumber: 0 }
+                },
                 // {
                 //     path: '/register',
                 //     name: 'Register',
@@ -214,6 +232,22 @@ export default new Router({
                 //     meta: { showLoginMenu: false, navNumber: 0 }
                 // },
              
+            ]
+        },
+        {
+            path: '/m/main',
+            name: 'MobileMain',
+            component: Main,
+            redirect: { name: 'mobileshop' },
+            children: [
+                {
+                    path: 'shop',
+                    name: 'mobileshop',
+                    component: MobileShop,
+                    meta: { showLoginMenu: true, navNumber: 1, requestAuth: true }
+                },
+                
+                
             ]
         },
         // {

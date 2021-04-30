@@ -50,7 +50,7 @@ export default {
          this.alertMessage();
        }
        else{
-           this.$router.push({ name: "UpdatePassword3" });
+           this.$router.push({ name: "MobileUpdatePassword3" });
        }
     },
       alertMessage(){
@@ -69,8 +69,8 @@ export default {
 }
 .group {
   margin: 0 auto;
-  width: 500px;
-  padding: 50px;
+  height: 424px;
+  width: 305px;
   color: #ffffff;
   font-family: "Microsoft JhengHei";
 }
@@ -94,7 +94,7 @@ export default {
 .input {
   box-sizing: border-box;
   height: 50px;
-  width: 500px;
+  width: 305px;
   border: 1px solid rgba(0, 0, 0, 0.4);
   border-radius: 10px;
   background-color: #ffffff;
