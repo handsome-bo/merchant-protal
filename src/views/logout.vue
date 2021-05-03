@@ -2,10 +2,10 @@
   <div class="outer">
     <div class="group">
       <p>
-        <i class="el-icon-warning"> </i>
+        <i class="el-icon el-icon-success"> </i>
       </p>
       <div class="text">
-     logout successfully
+        {{ $t("common.logoutmessage") }}
       </div>
     </div>
   </div>
@@ -34,7 +34,7 @@ export default {
 p {
   text-align: center;
 }
-.el-icon-warning {
+.el-icon{
   font-size: 50px;
 }
 .text {

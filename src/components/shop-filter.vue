@@ -4,13 +4,16 @@
       <div class="title-group flex space-between">
         <div
           class="title middle-center"
-          :class="{ titleFull: $store.state.userInfo.contaccontacttypettype != GLOBAL.Shop }"
+          :class="{
+            titleFull:
+              $store.state.userInfo.contaccontacttypettype != GLOBAL.Shop,
+          }"
         >
           {{ $t("evoucher.selectshop") }}
         </div>
         <div
           class="add middle-center"
-          v-if=" $store.state.userInfo.contacttype !=  GLOBAL.Shop"
+          v-if="$store.state.userInfo.contacttype != GLOBAL.Shop"
           @click="showShopFilter"
         >
           <i class="el-icon-plus"></i>
@@ -34,6 +37,7 @@
       :visible.sync="isShowShopFilter"
       :show-close="false"
       center
+      :close-on-click-modal="false"
       width="1300px"
     >
       <shop-Popup
@@ -69,7 +73,7 @@ export default {
   },
   created() {
     //   this.$store.state
-    if (this. $store.state.userInfo.contacttype == this.GLOBAL.Shop) {
+    if (this.$store.state.userInfo.contacttype == this.GLOBAL.Shop) {
       this.canClose = false;
     }
   },
@@ -102,22 +106,19 @@ export default {
 
 <style  scoped>
 @media (max-width: 768px) {
-        .outer-box{
-          height: 202px;
-           width: 335px;
-      
-           
-        }
+  .outer-box {
+    height: 202px;
+    width: 335px;
+  }
 }
 @media (min-width: 768px) {
-  .outer-box{
-     height: 202px;
-  width: 470px;
+  .outer-box {
+    height: 202px;
+    width: 470px;
   }
 }
 
 .outer-box {
- 
   border-radius: 10px;
   background-color: #d7c4a3;
 }

@@ -156,6 +156,14 @@ export default {
       _this.$axios
         .post(url, _this.parameter)
         .then((res) => {
+          if (res.errorCode != "0") {
+            this.$message({
+              showClose: true,
+              message: _this.$t("common.errormessage"),
+              type: "error",
+            });
+            return;
+          }
           if (_this.selectShop) {
             if (Array.isArray(res.EvouchersList.MP_EvoucherUsage)) {
               _this.detailData = res.EvouchersList.MP_EvoucherUsage;

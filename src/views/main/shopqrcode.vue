@@ -1,6 +1,6 @@
 <template>
   <div>
-    <div v-show="canPrint">
+    <div v-loading="loading">
       <div class="title-top">{{ $t("qrcodeandtemplatesize.shopqrcode") }}</div>
       <div class="sub-title">
         {{ $t("qrcodeandtemplatesize.shopqrcodesubtitle") }}
@@ -16,24 +16,16 @@
         </div>
       </div>
       <div class="btn-group">
-        <el-button
-          type="danger"
-          @click="download()"
-          :disabled="selectShop == null"
-          class="btn-orange"
-          >{{ $t("qrcodeandtemplatesize.saveqrcode") }}</el-button
-        >
-        <el-button
-          type="danger"
-          @click="print()"
-          :disabled="selectShop == null"
-          class="btn-red"
-          >{{ $t("qrcodeandtemplatesize.printqrcode") }}</el-button
-        >
+        <el-button type="danger" @click="download()" class="btn-orange">{{
+          $t("qrcodeandtemplatesize.saveqrcode")
+        }}</el-button>
+        <el-button type="danger" @click="print()" class="btn-red">{{
+          $t("qrcodeandtemplatesize.printqrcode")
+        }}</el-button>
       </div>
       <el-dialog
         :visible.sync="showDialog"
-        :show-close="false"
+        :show-close="true"
         center
         width="540x"
       >
@@ -41,9 +33,6 @@
           <el-image :src="src" style="width: 360px"></el-image>
         </div>
       </el-dialog>
-    </div>
-    <div id="printContent" v-show="!canPrint">
-      <el-image :src="src" style="width: 360px"></el-image>
     </div>
   </div>
 </template>
@@ -62,14 +51,15 @@ export default {
       src: "",
       selectShop: null,
       parameter: {
-        storeId: "",
-        storeName: "",
+        ShopIDs: [],
+        ShopNames: [],
       },
       canPrint: true,
+      loading: false,
     };
   },
   mounted() {
-    if (this.$store.state.userInfo.contacttype ===this.GLOBAL.Shop) {
+    if (this.$store.state.userInfo.contacttype === this.GLOBAL.Shop) {
       const shops = this.$store.state.shopList;
       this.$refs.shopcomponent.shopItems = shops;
     }
@@ -94,20 +84,78 @@ export default {
       this.showShopFilter = true;
     },
     print() {
-      this.canPrint = false;
-      setTimeout(function () {
-        window.print();
-        this.canPrint = true;
-      }, 5000);
+      const _this = this;
+      if (!_this.validate()) {
+        return;
+      }
+      _this.loading = true;
+      this.$axios
+        .post(this.GLOBAL.BaseURL + "QR/Print", _this.parameter, {
+          responseType: "blob",
+        })
+        .then(function (res) {
+          var blob = res.data;
+          var reader = new FileReader();
+          reader.readAsDataURL(blob);
+          reader.onload = function (e) {
+            var a = document.createElement("a");
+            const fileName = "ShopQRCode";
+            a.download = fileName;
+            a.href = e.target.result;
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+          };
+        })
+        .finally((res) => {
+          _this.loading = false;
+        });
     },
     download() {
       const _this = this;
-      _this.parameter.storeId = this.selectShop.storeId;
-      _this.parameter.storeName = this.selectShop.storeName;
-      let a = document.createElement("a");
-      const para = this.$QS.stringify(this.parameter);
-      a.href = this.GLOBAL.BaseURL + "QR/Download?" + para;
-      a.click();
+      if (!_this.validate()) {
+        return;
+      }
+      _this.loading = true;
+      this.$axios
+        .post(this.GLOBAL.BaseURL + "QR/Download", _this.parameter, {
+          responseType: "blob",
+        })
+        .then(function (res) {
+          var blob = res.data;
+          var reader = new FileReader();
+          reader.readAsDataURL(blob);
+          reader.onload = function (e) {
+            var a = document.createElement("a");
+            const fileName = "ShopQRCode";
+            a.download = fileName;
+            a.href = e.target.result;
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+          };
+        })
+        .finally((res) => {
+          _this.loading = false;
+        });
+    },
+    validate() {
+      const _this = this;
+      _this.parameter.ShopIDs = new Array();
+      _this.parameter.ShopNames = new Array();
+      _this.parameter.ShopIDs = new Array();
+      _this.parameter.storeName = new Array();
+      this.$refs.shopcomponent.shopItems.map((item) => {
+        _this.parameter.ShopIDs.push(item.StoreID);
+        _this.parameter.ShopNames.push(item.StoreName);
+      });
+      if (this.parameter.ShopIDs.length == 0) {
+        this.$notify.error({
+          title: " ",
+          message: "请选择商铺",
+        });
+        return false;
+      } else return true;
     },
   },
 };

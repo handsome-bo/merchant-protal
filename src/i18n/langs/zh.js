@@ -10,7 +10,9 @@ const cn = {
         mrs:'太太',
         ms:'女士',
         miss:'小姐',
-        other:'Other'
+        other:'Other',
+        logoutmessage:'成功退出系統',
+        errormessage:'系統繁忙，請稍後再試'
     },
     header: {
         title: '電子禮券商戶系統',

@@ -12,7 +12,7 @@
     </div>
     <div class="flex align-center">
       <div class="menus" v-if="$store.getters.getIsShowLoginMenu">
-        <ul class="flex align-center meunu-wrapper">
+        <ul class="flex align-center meunu-wrapper" :class="{'menu-wrapperen':lang=='en'}">
           <li
             @click="navigateTo('notification')"
             v-bind:class="{ actived: $store.getters.getNavNumber == 0 }"
@@ -130,10 +130,7 @@ export default {
 </script>
 
 <style scoped>
-@media (max-width: 768px) {
-}
-@media (min-width: 768px) {
-}
+ 
 #Header {
   height: 110px;
   background-color: #f6f1eb;
@@ -187,6 +184,9 @@ a {
   align-items: center;
   cursor: pointer;
   position: relative;
+}
+.menu-wrapperen li{
+  width:  180px !important;
 }
 .actived {
   background-color: #ffffff;

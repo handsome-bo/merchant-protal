@@ -19,7 +19,7 @@
         </el-row>
         <el-row>
           <el-col :span="12">
-            {{ member.salutation == "915240000" ? "先生" : "女士" }}
+            {{ toSalution(member.salutation) }}
           </el-col>
 
           <el-col :span="12">
@@ -110,7 +110,10 @@
               </select>
             </el-col>
             <el-col :span="8">
-              <input class="input-text-short" v-model="member.businessphonenumber" />
+              <input
+                class="input-text-short"
+                v-model="member.businessphonenumber"
+              />
             </el-col>
           </el-col>
         </el-row>
@@ -183,13 +186,22 @@ export default {
     this.getUserInfo();
   },
   methods: {
+    toSalution(id) {
+      var salutationstr = "";
+      if (id == this.GLOBAL.Mr) salutationstr = this.$t("common.mr");
+      if (id == this.GLOBAL.MS) salutationstr = this.$t("common.ms");
+      if (id == this.GLOBAL.Mrs) salutationstr = this.$t("common.mrs");
+      if (id == this.GLOBAL.Miss) salutationstr = this.$t("common.miss");
+      if (id == this.GLOBAL.Other) salutationstr = this.$t("common.other");
+      return salutationstr;
+    },
     save() {
       const _this = this;
       _this.loading = true;
       if (this.member.receivedailyevouchersummaryreport == "true")
         this.member.receivedailyevouchersummaryreport = true;
       else this.member.receivedailyevouchersummaryreport = false;
-    
+
       if (this.member.receivemonthlyevouchersummaryreport == "true")
         this.member.receivemonthlyevouchersummaryreport = true;
       else this.member.receivemonthlyevouchersummaryreport = false;
@@ -197,12 +209,14 @@ export default {
         .post("Profile/SubmitLoginUserInfoUpdate", _this.member)
         .then((res) => {
           if (res.errorCode != "0") {
-            this.$message({
-              showClose: true,
-              message: res.errorDescription,
-              type: "error",
-            });
-            return;
+            if (res.errorCode != "0") {
+              this.$message({
+                showClose: true,
+                message: _this.$t("common.errormessage"),
+                type: "error",
+              });
+              return;
+            }
           }
           this.$message({
             showClose: true,
@@ -234,6 +248,8 @@ export default {
             return;
           }
           _this.member = res;
+          _this.member["phonePrefix1"] = "1";
+          _this.member["phonePrefix2"] = "1";
           console.log(_this.member);
         })
         .finally((res) => {

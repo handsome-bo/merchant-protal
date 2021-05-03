@@ -105,10 +105,10 @@ export default {
       this.$axios
         .post("Shops/RetrieveShopList", {})
         .then((res) => {
-          if (res.errorCode != "0") {
+        if (res.errorCode != "0") {
             this.$message({
               showClose: true,
-              message: res.errorDescription,
+              message: _this.$t("common.errormessage"),
               type: "error",
             });
             return;

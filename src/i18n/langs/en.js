@@ -11,7 +11,9 @@ const en = {
         mrs:'Mrs.',
         ms:'Ms.',
         miss:'Miss',
-        other:'Other'
+        other:'Other',
+        logoutmessage:'Logout successfully',
+        errormessage:'Please try it later'
 
     },
     header: {

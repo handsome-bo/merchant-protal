@@ -126,7 +126,7 @@ export default {
         this.parameters.SearchStartDate = event[0];
         this.parameters.SearchEndDate = event[1];
       } else {
-        this.$message.error("請選擇時間");
+        this.$message.info("請選擇時間");
         return;
       }
       this.parameters.ShopIDs = new Array();
@@ -136,7 +136,7 @@ export default {
           this.parameters.ShopIDs.push(item.StoreID);
         });
         if (this.parameters.ShopIDs.length == 0) {
-          this.$message.error("請選擇商鋪");
+          this.$message.info("請選擇商鋪");
           return;
         }
       } else {
@@ -151,7 +151,7 @@ export default {
           if (res.errorCode != "0") {
             this.$message({
               showClose: true,
-              message: "please try it later",
+              message: _this.$t("common.errormessage"),
               type: "error",
             });
             return;
@@ -198,14 +198,34 @@ export default {
         this.parameters.ShopIDs.push(shopid);
       }
 
-      let a = document.createElement("a");
-      const para = qs.stringify(this.parameters);
-
-      a.href =
-        this.GLOBAL.BaseURL +
-        "EVoucher/DownloadEVoucherHistoryExcelFile?" +
-        para;
-      a.click();
+      _this.loading = true;
+      this.$axios
+        .post(
+          this.GLOBAL.BaseURL +
+            "api/MerchantEvoucher/DownloadEVoucherHistoryExcelFile",
+          _this.parameter,
+          {
+            responseType: "blob",
+          }
+        )
+        .then(function (res) {
+          var blob = res.data;
+          var reader = new FileReader();
+          reader.readAsDataURL(blob);
+          reader.onload = function (e) {
+            debugger;
+            var a = document.createElement("a");
+            const fileName = "ShopQRCode";
+            a.download = fileName;
+            a.href = e.target.result;
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+          };
+        })
+        .finally((res) => {
+          _this.loading = false;
+        });
     },
     changePage(val) {
       this.tableData = [];

@@ -8,7 +8,7 @@
         <ShopFilterCompnent
           ref="shopcomponent"
           @onChange="loadRecords()"
-          v-if="$store.state.userInfo.contacttype !=  GLOBAL.Shop"
+          v-if="$store.state.userInfo.contacttype != GLOBAL.Shop"
         />
       </div>
     </div>
@@ -16,7 +16,7 @@
     <div
       class="wrapper"
       v-loading="loading"
-      v-if="$store.state.userInfo.contacttype ==  GLOBAL.Super"
+      v-if="$store.state.userInfo.contacttype == GLOBAL.Super"
     >
       <div class="dark el-row-top middle-center">
         {{ $t("mothlyreport.downloadmothlyreimbursementreport") }}
@@ -34,7 +34,11 @@
       </div>
     </div>
     <div class="wrappershop" v-loading="loading" v-else>
-      <div v-loading="tableLoading" v-for="item in tableData" :key="item.storeID">
+      <div
+        v-loading="tableLoading"
+        v-for="item in tableData"
+        :key="item.storeID"
+      >
         <div class="shopname">{{ item.storeName }}</div>
         <div class="dark el-row-top middle-center">
           <div class="head-title multiple">
@@ -129,15 +133,18 @@ export default {
           _this.parameters
         )
         .then((res) => {
-           if (res.errorCode != "0") {
+          if (res.errorCode != "0") {
             this.$message({
               showClose: true,
-              message: "please try it later",
+              message: _this.$t("common.errormessage"),
               type: "error",
             });
             return;
           }
           _this.tableData = [];
+          if (!res.ShopReportScheduleList) {
+            return;
+          }
           const data = res.ShopReportScheduleList.MP_ShopReportSchedule;
           if (_this.parameters.ShopIDs.length > 1) {
             data.forEach((item) => {
@@ -182,8 +189,7 @@ export default {
       });
       let a = document.createElement("a");
       const para = this.$QS.stringify(this.parameters);
-      a.href =
-         this.GLOBAL.BaseURL +"EVoucher/DownloadEVoucherMonthly?" + para;
+      a.href = this.GLOBAL.BaseURL + "EVoucher/DownloadEVoucherMonthly?" + para;
       a.click();
     },
   },

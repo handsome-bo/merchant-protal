@@ -16,7 +16,7 @@
       </div>
       <div class="flag middle-center" v-else></div>
       <div class="date">{{ item.RequestDate | formatHour }}</div>
-      <div class="title">
+      <div class="title" :class="{ 'titleEn': Lang }">
         {{
           $t("notification.messagetemplate", {
             shopname: item.StoreName,
@@ -55,7 +55,7 @@
           v-for="item in evoucherDetail"
           :key="item.eVoucherID"
         >
-          <div>{{ item.eVoucherNameTC }}</div>
+          <div>{{ Lang? item.eVoucherName:item.eVoucherNameSC }}</div>
           <div>{{ item.eVoucherQuantity }}{{ $t("notification.reward") }}</div>
         </div>
 
@@ -131,16 +131,18 @@ export default {
       timer: null,
       loading: false,
       handleLoading: false,
+      canlongpooling: false,
     };
   },
   created() {},
   mounted() {
+    this.canlongpooling = false;
     this.getNotificaiton();
     this.timer = window.setInterval(() => {
       setTimeout(() => {
         this.longpooling();
       }, 5000);
-    }, 7000);
+    }, 10000);
   },
   methods: {
     viewDetail(item) {
@@ -176,9 +178,10 @@ export default {
             this.selectItem.Status = this.GLOBAL.Cancelled;
             this.showCancelledDialog = false;
           } else {
-            this.$notify.error({
-              title: "错误",
-              message: "这是一条错误的提示消息",
+            this.$message({
+              showClose: true,
+              message: _this.$t("common.errormessage"),
+              type: "error",
             });
           }
         })
@@ -213,11 +216,10 @@ export default {
       this.$axios
         .post("/Notification/RetrieveNotificationList", {})
         .then((res) => {
-          console.log(res);
           if (res.errorCode != "0") {
             this.$message({
               showClose: true,
-              message: "please try it later",
+              message: _this.$t("common.errormessage"),
               type: "error",
             });
             return;
@@ -225,6 +227,7 @@ export default {
           _this.notificationDatas =
             res.evoucherTranactionNotificationList.MP_EvoucherTranactionNotification;
           _this.isShowNewTip = false;
+          _this.canlongpooling = true;
         })
         .finally((res) => {
           _this.loading = false;
@@ -240,20 +243,21 @@ export default {
       if (!_this.$store.state.shopList) {
         return;
       }
+      if (!_this.canlongpooling) return;
+      _this.canlongpooling = false;
       this.$axios
         .post("/Notification/GetNotificationMessageWithJson", {
           timeoutSeconds: 30,
           ShopList: _this.$store.state.shopList,
         })
         .then((res) => {
+          _this.canlongpooling = true;
           var poolingData = Array();
           if (Array.isArray(res)) {
             poolingData = res;
-          }
-          else{
+          } else {
             poolingData.push(res);
           }
-
           if (poolingData) {
             poolingData.forEach((item) => {
               if (
@@ -270,6 +274,13 @@ export default {
   },
   destroyed() {
     clearTimeout(this.timer);
+  },
+  computed: {
+    Lang() {
+      var isEn = false;
+      isEn = localStorage.getItem("locale") == "en" ? true : false;
+      return isEn;
+    },
   },
 };
 </script>
@@ -334,6 +345,9 @@ export default {
   letter-spacing: 0;
   line-height: 21px;
   text-align: center;
+}
+.titleEn {
+  width: 470px;
 }
 .status {
   height: 24px;

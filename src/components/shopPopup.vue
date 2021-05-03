@@ -14,7 +14,7 @@
     </div>
     <div class="content" v-loading="loading">
       <div class="search">
-        <input class="search-input" v-model="keywords" />
+        <input class="search-input" v-model="keywords" @keyup.enter="searchAndSelected()" />
         <el-button
           type="danger"
           class="btn-orange"
@@ -123,20 +123,17 @@ export default {
       this.shopList = [];
       this.selectedItems = [];
       const shortShops = this.$store.state.shopList;
-      console.log("initaData");
-
       if (shortShops.length > 0) {
         shortShops.forEach((item) => {
           item["checked"] = false;
         });
         _this.shopList = shortShops;
-         _this.$store.commit("updateShopList", _this.shopList);
+        _this.$store.commit("updateShopList", _this.shopList);
       } else {
         _this.loading = true;
         this.$axios
           .post("Shops/RetrieveShortShopList", {})
           .then((res) => {
-            debugger;
             if (res.errorCode != "0") {
               this.$message({
                 showClose: true,
@@ -217,6 +214,7 @@ export default {
   line-height: 24px;
   border: none;
   margin-right: 15px;
+  padding: 5px;
 }
 .header {
   height: 70px;

@@ -1,12 +1,8 @@
 <template>
   <div class="shop-item">
-    <div
-      v-if="showPreview"
-      @click="preview"
-      class="preview middle-center pointer"
-    >
-      <i class="el-icon-view" />
-    {{$t("qrcodeandtemplatesize.preview")}}
+    <div v-if="showPreview" @click="preview" class="preview middle-center pointer">
+      <i class="el-icon el-icon-view"  />
+      <div>{{ $t("qrcodeandtemplatesize.preview") }}</div>
     </div>
     <div class="shop-name middle-center" :class="{ fullwidth: !showClose }">
       {{ label }}
@@ -28,7 +24,7 @@ export default {
   data() {
     return {
       label: this.plabel,
-    }
+    };
   },
   mounted() {},
   methods: {
@@ -36,10 +32,10 @@ export default {
       this.$emit("onRemove", this.pid);
     },
     preview: function () {
-      var dto={
-        storeId:this.pid,
-        storeName:this.plabel
-      }
+      var dto = {
+        storeId: this.pid,
+        storeName: this.plabel,
+      };
       this.$emit("onPreview", dto);
     },
   },
@@ -68,9 +64,13 @@ export default {
   cursor: pointer;
 }
 .preview {
-  width: 70px;
+  width: 100px;
   font-size: 16px;
   font-weight: bold;
   color: #c77900;
+  justify-content: space-around;
+}
+.el-icon{
+  margin-top: 5px;
 }
 </style>

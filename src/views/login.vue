@@ -1,25 +1,15 @@
 <template>
   <div class="outer">
-    <div class="group">
-      <div class="title">{{ $t("login.name") }}</div>
+    <div
+      class="group"
+      v-loading="loading"
+      v-loading.fullscreen.lock="true"
+      element-loading-text="Loading..."
+      element-loading-spinner="el-icon-loading"
+    >
+      <!-- <div class="title">{{ $t("login.name") }}</div>
       <div class="title1">{{ $t("login.registeredemailaddress") }}</div>
-      <div>
-        <input
-          class="input"
-          :placeholder="$t('login.emailaddress')"
-          v-model="email"
-          disabled
-        />
-      </div>
-      <div>
-        <!-- <input
-          class="input"
-          type="password"
-          :placeholder="$t('login.password')"
-          v-model="password"
-        /> -->
-      </div>
-
+     
       <div class="other-text flex align-center space-between">
         <div class="pointer" @click="forget()">
           {{ $t("login.forgotpassword") }}
@@ -32,7 +22,7 @@
         <el-button class="login-btn" v-loading="loading">{{
           $t("login.signin")
         }}</el-button>
-      </div>
+      </div> -->
     </div>
   </div>
 </template>
@@ -47,12 +37,13 @@ export default {
     };
   },
   mounted() {
+    this.loading = true;
     if (this.$store.state.token) {
       let userString = decodeURIComponent(
         escape(window.atob(this.$store.state.token.split(".")[1]))
       );
       let useremail = JSON.parse(userString).emails[0];
-      this.email = "ken.lau@mtrtest.com.hk"; //useremail;
+      this.email = "ken.lau@mtrtest.com.hk";//useremail;
       this.login();
     } else {
       this.loginfromAdb2c();
@@ -77,12 +68,25 @@ export default {
         .then((res) => {
           console.log(res);
           if (res.errorCode != "0") {
-            this.$message({
-              showClose: true,
-              message: res.errorDescription,
-              type: "error",
-            });
+            if (res.errorCode == "20100") {
+              this.$message({
+                showClose: true,
+                message: res.errorDescription,
+                type: "error",
+              });
+            } else {
+              this.$message({
+                showClose: true,
+                message: _this.$t("common.errormessage"),
+                type: "error",
+              });
+            }
+
             window.sessionStorage.clear();
+
+            setTimeout(() => {
+              _this.$store.dispatch("logout");
+            }, 5000);
             return;
           }
 
@@ -114,9 +118,6 @@ export default {
         .finally((res) => {
           _this.loading = false;
         });
-    },
-    forget() {
-      this.$router.push("/forgotpassword1");
     },
   },
 };
