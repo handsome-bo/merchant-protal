@@ -47,6 +47,7 @@ export default {
     };
   },
   mounted() {
+    signIn();
     // if (this.$store.state.token) {
     //   let userString = decodeURIComponent(
     //     escape(window.atob(this.$store.state.token.split(".")[1]))

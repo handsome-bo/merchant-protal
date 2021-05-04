@@ -156,8 +156,11 @@ export default {
             });
             return;
           }
-          if (res.eVoucherHistorylist) {
             _this.totalData = new Array();
+            _this.tableData=new Array();
+            _this.totalCount=0;
+            _this.totalPage=0;
+          if (res.eVoucherHistorylist) {
             if (Array.isArray(res.eVoucherHistorylist.MP_EVoucherHistory)) {
               _this.totalData = res.eVoucherHistorylist.MP_EVoucherHistory;
             } else {
@@ -174,12 +177,12 @@ export default {
         });
     },
     download(event) {
-      const _this = this;
+       const _this = this;
       if (event) {
-        this.parameters.searchFrom = event[0];
-        this.parameters.searchTo = event[1];
+        this.parameters.SearchStartDate = event[0];
+        this.parameters.SearchEndDate = event[1];
       } else {
-        this.$message.error("請選擇時間");
+        this.$message.info("請選擇時間");
         return;
       }
       this.parameters.ShopIDs = new Array();
@@ -203,19 +206,20 @@ export default {
         .post(
           this.GLOBAL.BaseURL +
             "api/MerchantEvoucher/DownloadEVoucherHistoryExcelFile",
-          _this.parameter,
+          _this.parameters,
           {
             responseType: "blob",
           }
         )
         .then(function (res) {
+ 
+          if(!res) return;
           var blob = res.data;
           var reader = new FileReader();
           reader.readAsDataURL(blob);
           reader.onload = function (e) {
-            debugger;
             var a = document.createElement("a");
-            const fileName = "ShopQRCode";
+            const fileName = "EVoucherHistory_"+_this.parameters.SearchStartDate+"_"+_this.parameters.SearchEndDate;
             a.download = fileName;
             a.href = e.target.result;
             document.body.appendChild(a);

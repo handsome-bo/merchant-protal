@@ -3,7 +3,7 @@
     <div
       class="group"
       v-loading="loading"
-      v-loading.fullscreen.lock="true"
+      v-loading.fullscreen.lock="loading"
       element-loading-text="Loading..."
       element-loading-spinner="el-icon-loading"
     >
@@ -37,22 +37,35 @@ export default {
     };
   },
   mounted() {
+    // if (!this.$msal.isAuthenticated()) {
+    //         // this.$msal.signIn();
+    //     //    signIn();
+    //     }
     this.loading = true;
     if (this.$store.state.token) {
       let userString = decodeURIComponent(
         escape(window.atob(this.$store.state.token.split(".")[1]))
       );
       let useremail = JSON.parse(userString).emails[0];
-      this.email = "ken.lau@mtrtest.com.hk";//useremail;
+      this.email = useremail;
       this.login();
     } else {
       this.loginfromAdb2c();
     }
   },
   methods: {
+    randomString(e) {
+      e = e || 32;
+      var t = "ABCDEFGHJKMNPQRSTWXYZabcdefhijkmnprstwxyz2345678",
+        a = t.length,
+        n = "";
+      for (var i = 0; i < e; i++) n += t.charAt(Math.floor(Math.random() * a));
+      return n;
+    },
     loginfromAdb2c() {
+
       const redirect_uri = this.GLOBAL.RedirectURL;
-      const url = `https://MerchantPortal2.b2clogin.com/MerchantPortal2.onmicrosoft.com/oauth2/v2.0/authorize?p=B2C_1_SignIn&client_id=4e3ba4f4-2d1f-45e5-b65b-7a4dab3b2d69&nonce=defaultNonce&redirect_uri=${redirect_uri}&scope=openid&response_type=id_token&prompt=login`;
+      const url = `https://${this.GLOBAL.AuthorityDomain}.b2clogin.com/${this.GLOBAL.AuthorityDomain}.onmicrosoft.com/oauth2/v2.0/authorize?p=${this.GLOBAL.SignIn_Policy}&client_id=${this.GLOBAL.ClientID}&nonce=${this.randomString(5)}&response_mode=fragment&redirect_uri=${redirect_uri}&scope=openid&response_type=id_token&prompt=login`;
       window.location.href = url;
     },
     login() {

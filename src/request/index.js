@@ -2,18 +2,10 @@ import axios from 'axios'
 import store from '@/store'
 import global from '../util/global'
 import router from '../router'
+import { Message } from 'element-ui'
 axios.defaults.timeout = 50000;
 axios.defaults.headers.common['Content-Type'] = 'application/json; charset=utf-8';
-if (process.env.NODE_ENV == 'development') {
-    axios.defaults.baseURL = global.BaseURL + 'api/';
-}
-else if (process.env.NODE_ENV == 'debug') {
-    axios.defaults.baseURL = global.BaseURL + 'api/';
-}
-else if (process.env.NODE_ENV == 'production') {
-    axios.defaults.baseURL = global.BaseURL + 'api/';
-}
-
+axios.defaults.baseURL = global.BaseURL + 'api/';
 axios.interceptors.request.use(config => {
     const token = store.state.token;
     token && (config.headers.Authorization = `Bearer ${token}`);
@@ -36,8 +28,10 @@ axios.interceptors.response.use(
     response => {
         if (response.status === 200) {
             if (response.data && response.headers["content-type"].indexOf('json') > 0) {
-                const rsdata = JSON.parse(response.data.resultObject);
-                return Promise.resolve(rsdata[Object.keys(rsdata)[0]]);
+                if (response.data.resultObject) {
+                    const rsdata = JSON.parse(response.data.resultObject);
+                    return Promise.resolve(rsdata[Object.keys(rsdata)[0]]);
+                }
             }
             return Promise.resolve(response);
 
@@ -47,6 +41,7 @@ axios.interceptors.response.use(
     },
     error => {
         if (error && error.response && error.response.status) {
+
             switch (error.response.status) {
                 case 401:
                     window.sessionStorage.clear();
@@ -74,18 +69,16 @@ axios.interceptors.response.use(
                     break;
 
                 default:
+                    Message.error("服務錯誤");
                     console.log(error);
-                    router.replace({
-                        path: '/errorpage'
-                    });
-                    break;
+
             }
+
             return Promise.reject(error.response);
         }
         else {
-            router.replace({
-                path: '/errorpage'
-            });
+            Message.error("請求超時")
+            return Promise.reject(error);
 
         }
     }

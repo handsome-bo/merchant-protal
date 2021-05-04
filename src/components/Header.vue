@@ -61,7 +61,7 @@
       </div>
       <div class="language pointer" @click="changeLanguage">
         <img src="../assets/Images/lan-tc.svg" v-if="lang == 'zh'" />
-        <img src="../assets/Images/lan-en.svg" v-if="lang == 'en'" />
+        <img src="../assets/Images/lan-en.svg" v-else />
       </div>
       <div class="profile pointer" v-if="$store.getters.getIsShowLoginMenu">
         <div class="name">{{ $store.state.userInfo.name }}</div>
@@ -114,7 +114,7 @@ export default {
         localStorage.setItem("locale", "en");
         this.$i18n.locale = localStorage.getItem("locale");
         this.lang = "en";
-      } else if (this.lang == "en") {
+      } else  {
         localStorage.setItem("locale", "zh");
         this.$i18n.locale = localStorage.getItem("locale");
         this.lang = "zh";

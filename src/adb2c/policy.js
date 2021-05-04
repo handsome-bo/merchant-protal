@@ -11,7 +11,7 @@ const b2cPolicies = {
             authority: "https://merchantPortal2.b2clogin.com/MerchantPortal2.onmicrosoft.com/B2C_1_edit_profile"
         }
     },
-    authorityDomain: "MerchantPortal2.onmicrosoft.com"
+    authorityDomain: "merchantPortal2.b2clogin.com"
 }
 
 export default b2cPolicies

@@ -1,6 +1,6 @@
 
 const GlOBAL = {
-    BaseURL: "https://localhost:44316/",
+    BaseURL: process.env.API_URL,//"https://localhost:44316/",
     New: "915240000",
     Accepted: "1",
     Cancelled: "915240001",
@@ -12,6 +12,11 @@ const GlOBAL = {
     Super: "super",
     Merchant: "merchant",
     Shop: "shop",
-    RedirectURL:"http://localhost:8080"
-}
+    RedirectURL:"https://localhost:44316/index.html",
+    AuthorityDomain: "merchantPortal2",
+    ClientID:"4e3ba4f4-2d1f-45e5-b65b-7a4dab3b2d69",
+    SignIn_Policy:"B2C_1_SignIn",
+    ResetPwd_Policy:"B2C_1_Reset"
+
+}       
 export default GlOBAL;

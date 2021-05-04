@@ -85,7 +85,6 @@ export default {
       selectShop: "",
       tableData: [],
       isOnlyOne: false,
-    
     };
   },
   mounted() {
@@ -105,10 +104,19 @@ export default {
       this.$axios
         .post("Shops/RetrieveShopList", {})
         .then((res) => {
-        if (res.errorCode != "0") {
+          console.log(res)
+          if (res.errorCode != "0") {
             this.$message({
               showClose: true,
-              message: _this.$t("common.errormessage"),
+              message:"暫無商鋪",// _this.$t("common.errormessage"),
+              type: "error",
+            });
+            return;
+          }
+          if (!res.shopDetailList || !res.shopDetailList.MP_ShopDetail) {
+            this.$message({
+              showClose: true,
+              message: "暫無商鋪",
               type: "error",
             });
             return;
@@ -149,7 +157,6 @@ export default {
       if (id == this.GLOBAL.Other) salutationstr = this.$t("common.other");
       return salutationstr;
     },
-    
   },
 };
 </script>
